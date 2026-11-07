@@ -1,0 +1,9 @@
+spec_version: v1
+kind: knowledge_base
+name: grooming_warning_signs
+description: >
+  Pattern-level grooming warning signs for the Online Safety Companion.
+  Covers early stage signals, escalation signals, and high-risk signals
+  including photo requests, in-person meetings, and sextortion leverage.
+documents:
+  - grooming_warning_signs.txt

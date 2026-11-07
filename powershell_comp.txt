@@ -1,0 +1,490 @@
+==> Loading .env ...
+    Loaded: WATSONX_URL
+    Loaded: WATSONX_APIKEY
+    Loaded: WATSONX_PROJECT_ID
+    Loaded: MY_APIKEY
+    All required variables found.
+
+==> Registering environment 'online-safety-companion' ...
+==> Activating environment and authenticating ...
+[INFO] - Environment 'online-safety-companion' is now active
+[INFO] - Active workspace: Global workspace
+    Authenticated successfully.
+
+==> Importing risk_scorer tool ...
+[INFO] - Existing Tool 'score_risk' found. Updating...
+[INFO] - Tool 'score_risk' updated successfully
+    Done: risk_scorer
+
+==> Importing knowledge bases ...
+    Importing knowledge/grooming_warning_signs_kb.yaml ...
+[INFO] - Existing knowledge base 'grooming_warning_signs' found. Updating...
+[WARNING] - Document "grooming_warning_signs.txt" already exists in knowledge base. Updating...
+✓ Successfully updated knowledge base 'grooming_warning_signs'
+    Importing knowledge/scam_patterns_kb.yaml ...
+[INFO] - Existing knowledge base 'scam_patterns' found. Updating...
+[WARNING] - Document "scam_patterns.txt" already exists in knowledge base. Updating...
+✓ Successfully updated knowledge base 'scam_patterns'
+    Importing knowledge/what_to_do_next_kb.yaml ...
+[INFO] - Existing knowledge base 'what_to_do_next' found. Updating...
+[WARNING] - Document "what_to_do_next.txt" already exists in knowledge base. Updating...
+✓ Successfully updated knowledge base 'what_to_do_next'
+    Done: knowledge bases
+
+==> Importing safety_agent ...
+[INFO] - Agent 'safety_agent' imported successfully
+    Done: safety_agent
+
+==> Importing support_agent ...
+[INFO] - Agent 'support_agent' imported successfully
+    Done: support_agent
+
+==> Importing online_safety_companion (orchestrator) ...
+[INFO] - Agent 'online_safety_companion' imported successfully
+    Done: online_safety_companion
+
+==> Deployed agents:
+                                                                            Agents                                                                             
+┏━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓
+┃ Name            ┃ Description     ┃ LLM             ┃ Style           ┃ Collaborators   ┃ Tools      ┃ Skills ┃ Plugins ┃ Knowledge Base  ┃ ID              ┃
+┡━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━┩
+│ online_safety_c │ Friendly, calm  │ ibm/granite-3-3 │ react_intrinsic │ safety_agent,   │ score_risk │        │         │                 │ af0825f4-6fed-4 │
+│ ompanion        │ orchestrator    │ -8b-instruct    │                 │ support_agent   │            │        │         │                 │ 2a3-b3ae-e46561 │
+│ (Online Safety  │ that helps      │                 │                 │                 │            │        │         │                 │ a874f4          │
+│ Companion)      │ neurodivergent  │                 │                 │                 │            │        │         │                 │                 │
+│                 │ young adults    │                 │                 │                 │            │        │         │                 │                 │
+│                 │ (ages 18-19)    │                 │                 │                 │            │        │         │                 │                 │
+│                 │ check whether   │                 │                 │                 │            │        │         │                 │                 │
+│                 │ someone they    │                 │                 │                 │            │        │         │                 │                 │
+│                 │ met online is   │                 │                 │                 │            │        │         │                 │                 │
+│                 │ safe. Gathers   │                 │                 │                 │            │        │         │                 │                 │
+│                 │ context one     │                 │                 │                 │            │        │         │                 │                 │
+│                 │ question at a   │                 │                 │                 │            │        │         │                 │                 │
+│                 │ time,           │                 │                 │                 │            │        │         │                 │                 │
+│                 │ coordinates the │                 │                 │                 │            │        │         │                 │                 │
+│                 │ safety_agent    │                 │                 │                 │            │        │         │                 │                 │
+│                 │ and             │                 │                 │                 │            │        │         │                 │                 │
+│                 │ support_agent,  │                 │                 │                 │            │        │         │                 │                 │
+│                 │ and returns one │                 │                 │                 │            │        │         │                 │                 │
+│                 │ clear           │                 │                 │                 │            │        │         │                 │                 │
+│                 │ plain-language  │                 │                 │                 │            │        │         │                 │                 │
+│                 │ reply with      │                 │                 │                 │            │        │         │                 │                 │
+│                 │ options. Never  │                 │                 │                 │            │        │         │                 │                 │
+│                 │ blames the      │                 │                 │                 │            │        │         │                 │                 │
+│                 │ user.           │                 │                 │                 │            │        │         │                 │                 │
+│                 │                 │                 │                 │                 │            │        │         │                 │                 │
+├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼────────────┼────────┼─────────┼─────────────────┼─────────────────┤
+│ support_agent   │ Called after    │ ibm/granite-3-3 │ react_intrinsic │                 │            │        │         │                 │ ef8bfa14-1575-4 │
+│ (Support Agent) │ the             │ -8b-instruct    │                 │                 │            │        │         │                 │ f0c-a5c0-5b9aa4 │
+│                 │ safety_agent    │                 │                 │                 │            │        │         │                 │ db2707          │
+│                 │ returns a risk  │                 │                 │                 │            │        │         │                 │                 │
+│                 │ assessment, or  │                 │                 │                 │            │        │         │                 │                 │
+│                 │ when the user   │                 │                 │                 │            │        │         │                 │                 │
+│                 │ feels upset or  │                 │                 │                 │            │        │         │                 │                 │
+│                 │ confused.       │                 │                 │                 │            │        │         │                 │                 │
+│                 │ Explains        │                 │                 │                 │            │        │         │                 │                 │
+│                 │ results in      │                 │                 │                 │            │        │         │                 │                 │
+│                 │ simple          │                 │                 │                 │            │        │         │                 │                 │
+│                 │ language, gives │                 │                 │                 │            │        │         │                 │                 │
+│                 │ 2-3 clear       │                 │                 │                 │            │        │         │                 │                 │
+│                 │ options, helps  │                 │                 │                 │            │        │         │                 │                 │
+│                 │ the user think  │                 │                 │                 │            │        │         │                 │                 │
+│                 │ about telling a │                 │                 │                 │            │        │         │                 │                 │
+│                 │ trusted person, │                 │                 │                 │            │        │         │                 │                 │
+│                 │ and can draft   │                 │                 │                 │            │        │         │                 │                 │
+│                 │ wording for the │                 │                 │                 │            │        │         │                 │                 │
+│                 │ user if they    │                 │                 │                 │            │        │         │                 │                 │
+│                 │ are nervous     │                 │                 │                 │            │        │         │                 │                 │
+│                 │ about speaking  │                 │                 │                 │            │        │         │                 │                 │
+│                 │ up. Never makes │                 │                 │                 │            │        │         │                 │                 │
+│                 │ the decision    │                 │                 │                 │            │        │         │                 │                 │
+│                 │ for the user.   │                 │                 │                 │            │        │         │                 │                 │
+│                 │                 │                 │                 │                 │            │        │         │                 │                 │
+├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼────────────┼────────┼─────────┼─────────────────┼─────────────────┤
+│ safety_agent    │ Analyzes a      │ ibm/granite-3-3 │ react_intrinsic │                 │ score_risk │        │         │                 │ 1e8062b0-677e-4 │
+│ (Safety Agent)  │ message,        │ -8b-instruct    │                 │                 │            │        │         │                 │ ae0-99d1-646755 │
+│                 │ profile, or     │                 │                 │                 │            │        │         │                 │ 2fb4d0          │
+│                 │ request for     │                 │                 │                 │            │        │         │                 │                 │
+│                 │ signs of scams, │                 │                 │                 │            │        │         │                 │                 │
+│                 │ grooming,       │                 │                 │                 │            │        │         │                 │                 │
+│                 │ sextortion,     │                 │                 │                 │            │        │         │                 │                 │
+│                 │ fake urgency,   │                 │                 │                 │            │        │         │                 │                 │
+│                 │ secrecy         │                 │                 │                 │            │        │         │                 │                 │
+│                 │ requests,       │                 │                 │                 │            │        │         │                 │                 │
+│                 │ platform-migra… │                 │                 │                 │            │        │         │                 │                 │
+│                 │ pressure, and   │                 │                 │                 │            │        │         │                 │                 │
+│                 │ requests for    │                 │                 │                 │            │        │         │                 │                 │
+│                 │ money or        │                 │                 │                 │            │        │         │                 │                 │
+│                 │ photos. Returns │                 │                 │                 │            │        │         │                 │                 │
+│                 │ a structured    │                 │                 │                 │            │        │         │                 │                 │
+│                 │ risk assessment │                 │                 │                 │            │        │         │                 │                 │
+│                 │ (risk_level,    │                 │                 │                 │            │        │         │                 │                 │
+│                 │ signals,        │                 │                 │                 │            │        │         │                 │                 │
+│                 │ reasoning) to   │                 │                 │                 │            │        │         │                 │                 │
+│                 │ the             │                 │                 │                 │            │        │         │                 │                 │
+│                 │ online_safety_… │                 │                 │                 │            │        │         │                 │                 │
+│                 │ Does not        │                 │                 │                 │            │        │         │                 │                 │
+│                 │ interact with   │                 │                 │                 │            │        │         │                 │                 │
+│                 │ the user        │                 │                 │                 │            │        │         │                 │                 │
+│                 │ directly.       │                 │                 │                 │            │        │         │                 │                 │
+│                 │                 │                 │                 │                 │            │        │         │                 │                 │
+├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼────────────┼────────┼─────────┼─────────────────┼─────────────────┤
+│ Untitled_Agent_ │ A               │ groq/openai/gpt │ react_intrinsic │                 │            │        │         │                 │ 81ffdaca-65ab-4 │
+│ 1_2307io        │ general-purpose │ -oss-120b       │                 │                 │            │        │         │                 │ 949-85b5-feb6d1 │
+│ (Untitled Agent │ AI agent that   │                 │                 │                 │            │        │         │                 │ d500a0          │
+│ 1)              │ can assist with │                 │                 │                 │            │        │         │                 │                 │
+│                 │ various tasks.  │                 │                 │                 │            │        │         │                 │                 │
+├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼────────────┼────────┼─────────┼─────────────────┼─────────────────┤
+│ Untitled_Agent_ │ Use this agent  │ groq/openai/gpt │ react_intrinsic │                 │            │        │         │                 │ ee23e2bc-3908-4 │
+│ 2_3886PH        │ after a safety  │ -oss-120b       │                 │                 │            │        │         │                 │ 966-b1da-023e8c │
+│ (Support_Agent) │ check, or when  │                 │                 │                 │            │        │         │                 │ 19adc5          │
+│                 │ the user feels  │                 │                 │                 │            │        │         │                 │                 │
+│                 │ upset,          │                 │                 │                 │            │        │         │                 │                 │
+│                 │ confused, or    │                 │                 │                 │            │        │         │                 │                 │
+│                 │ unsure what to  │                 │                 │                 │            │        │         │                 │                 │
+│                 │ do next. It     │                 │                 │                 │            │        │         │                 │                 │
+│                 │ explains safety │                 │                 │                 │            │        │         │                 │                 │
+│                 │ results in      │                 │                 │                 │            │        │         │                 │                 │
+│                 │ simple          │                 │                 │                 │            │        │         │                 │                 │
+│                 │ language, gives │                 │                 │                 │            │        │         │                 │                 │
+│                 │ the user clear  │                 │                 │                 │            │        │         │                 │                 │
+│                 │ options, and    │                 │                 │                 │            │        │         │                 │                 │
+│                 │ recommends      │                 │                 │                 │            │        │         │                 │                 │
+│                 │ talking to a    │                 │                 │                 │            │        │         │                 │                 │
+│                 │ trusted person  │                 │                 │                 │            │        │         │                 │                 │
+│                 │ when risk is    │                 │                 │                 │            │        │         │                 │                 │
+│                 │ high or the     │                 │                 │                 │            │        │         │                 │                 │
+│                 │ user has        │                 │                 │                 │            │        │         │                 │                 │
+│                 │ already been    │                 │                 │                 │            │        │         │                 │                 │
+│                 │ scammed.        │                 │                 │                 │            │        │         │                 │                 │
+├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼────────────┼────────┼─────────┼─────────────────┼─────────────────┤
+│ Untitled_Agent_ │ A friendly      │ groq/openai/gpt │ react_intrinsic │ Untitled_Agent… │            │        │         │                 │ 046e6d52-615b-4 │
+│ 2_0588Yx        │ online safety   │ -oss-120b       │                 │                 │            │        │         │                 │ 1d2-b59d-fd39b1 │
+│ (Online_Safety_ │ companion for   │                 │                 │                 │            │        │         │                 │ bed162          │
+│ Companion)      │ neurodivergent  │                 │                 │                 │            │        │         │                 │                 │
+│                 │ young adults.   │                 │                 │                 │            │        │         │                 │                 │
+│                 │ It helps users  │                 │                 │                 │            │        │         │                 │                 │
+│                 │ understand who  │                 │                 │                 │            │        │         │                 │                 │
+│                 │ they are        │                 │                 │                 │            │        │         │                 │                 │
+│                 │ talking to      │                 │                 │                 │            │        │         │                 │                 │
+│                 │ online, check   │                 │                 │                 │            │        │         │                 │                 │
+│                 │ messages and    │                 │                 │                 │            │        │         │                 │                 │
+│                 │ profiles for    │                 │                 │                 │            │        │         │                 │                 │
+│                 │ scam or         │                 │                 │                 │            │        │         │                 │                 │
+│                 │ manipulation    │                 │                 │                 │            │        │         │                 │                 │
+│                 │ signs, and      │                 │                 │                 │            │        │         │                 │                 │
+│                 │ decide on a     │                 │                 │                 │            │        │         │                 │                 │
+│                 │ safe next step  │                 │                 │                 │            │        │         │                 │                 │
+│                 │ while keeping   │                 │                 │                 │            │        │         │                 │                 │
+│                 │ the user in     │                 │                 │                 │            │        │         │                 │                 │
+│                 │ control.        │                 │                 │                 │            │        │         │                 │                 │
+├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼────────────┼────────┼─────────┼─────────────────┼─────────────────┤
+│ Untitled_Agent_ │ Use this agent  │ groq/openai/gpt │ react_intrinsic │ Untitled_Agent… │            │        │         │ safety_guide_9… │ 3ff628f1-019c-4 │
+│ 2_81458n        │ whenever the    │ -oss-120b       │                 │                 │            │        │         │ knowledge_25_r… │ 753-9815-5124e4 │
+│ (safety_agent)  │ user shares a   │                 │                 │                 │            │        │         │                 │ 29f4ac          │
+│                 │ message, chat,  │                 │                 │                 │            │        │         │                 │                 │
+│                 │ profile, or     │                 │                 │                 │            │        │         │                 │                 │
+│                 │ request from    │                 │                 │                 │            │        │         │                 │                 │
+│                 │ another person  │                 │                 │                 │            │        │         │                 │                 │
+│                 │ online and      │                 │                 │                 │            │        │         │                 │                 │
+│                 │ wants to know   │                 │                 │                 │            │        │         │                 │                 │
+│                 │ if it is safe.  │                 │                 │                 │            │        │         │                 │                 │
+│                 │ It looks for    │                 │                 │                 │            │        │         │                 │                 │
+│                 │ signs of scams, │                 │                 │                 │            │        │         │                 │                 │
+│                 │ fraud,          │                 │                 │                 │            │        │         │                 │                 │
+│                 │ manipulation,   │                 │                 │                 │            │        │         │                 │                 │
+│                 │ fake urgency,   │                 │                 │                 │            │        │         │                 │                 │
+│                 │ pressure,       │                 │                 │                 │            │        │         │                 │                 │
+│                 │ requests for    │                 │                 │                 │            │        │         │                 │                 │
+│                 │ money or        │                 │                 │                 │            │        │         │                 │                 │
+│                 │ personal        │                 │                 │                 │            │        │         │                 │                 │
+│                 │ information,    │                 │                 │                 │            │        │         │                 │                 │
+│                 │ and suspicious  │                 │                 │                 │            │        │         │                 │                 │
+│                 │ behavior. It    │                 │                 │                 │            │        │         │                 │                 │
+│                 │ returns a risk  │                 │                 │                 │            │        │         │                 │                 │
+│                 │ level and the   │                 │                 │                 │            │        │         │                 │                 │
+│                 │ specific        │                 │                 │                 │            │        │         │                 │                 │
+│                 │ warning signs   │                 │                 │                 │            │        │         │                 │                 │
+│                 │ it found.       │                 │                 │                 │            │        │         │                 │                 │
+├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼────────────┼────────┼─────────┼─────────────────┼─────────────────┤
+│ Untitled_Agent_ │ A               │ groq/openai/gpt │ react_intrinsic │                 │            │        │         │                 │ 77384f7c-15dc-4 │
+│ 1_6406Hq        │ general-purpose │ -oss-120b       │                 │                 │            │        │         │                 │ 123-9a23-87895e │
+│ (iSpeakV1)      │ AI agent that   │                 │                 │                 │            │        │         │                 │ 9682d2          │
+│                 │ can assist with │                 │                 │                 │            │        │         │                 │                 │
+│                 │ various tasks.  │                 │                 │                 │            │        │         │                 │                 │
+├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼────────────┼────────┼─────────┼─────────────────┼─────────────────┤
+│ Untitled_Agent_ │ A               │ groq/openai/gpt │ react_intrinsic │                 │            │        │         │ Sensory_Needs_… │ 95c8e07d-b205-4 │
+│ 1_41509j        │ general-purpose │ -oss-120b       │                 │                 │            │        │         │                 │ eec-a596-c9440b │
+│ (iSpeak)        │ AI agent that   │                 │                 │                 │            │        │         │                 │ 7198af          │
+│                 │ can assist a    │                 │                 │                 │            │        │         │                 │                 │
+│                 │ child with      │                 │                 │                 │            │        │         │                 │                 │
+│                 │ autism in       │                 │                 │                 │            │        │         │                 │                 │
+│                 │ communicating   │                 │                 │                 │            │        │         │                 │                 │
+│                 │ their needs and │                 │                 │                 │            │        │         │                 │                 │
+│                 │ sensory         │                 │                 │                 │            │        │         │                 │                 │
+│                 │ motivation      │                 │                 │                 │            │        │         │                 │                 │
+│                 │ needs           │                 │                 │                 │            │        │         │                 │                 │
+├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼────────────┼────────┼─────────┼─────────────────┼─────────────────┤
+│ AskOrchestrate  │ A helpful AI    │ groq/openai/gpt │ react_intrinsic │                 │            │        │         │                 │ 8d45d548-1f57-4 │
+│                 │ assistant       │ -oss-120b       │                 │                 │            │        │         │                 │ 8b7-a810-49ed32 │
+│                 │                 │                 │                 │                 │            │        │         │                 │ f90f97          │
+└─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴────────────┴────────┴─────────┴─────────────────┴─────────────────┘
+                                        External Agents                                        
+┏━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━┳━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━┳━━━━┓
+┃ Name ┃ Title ┃ Description ┃ Tags ┃ API URL ┃ Chat Params ┃ Config ┃ Nickname ┃ App ID ┃ ID ┃
+┡━━━━━━╇━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━╇━━━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━╇━━━━┩
+└──────┴───────┴─────────────┴──────┴─────────┴─────────────┴────────┴──────────┴────────┴────┘
+                                             Assistant Agents                                             
+┏━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━┳━━━━━━━━━━┳━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━┓
+┃ Name ┃ Title ┃ Description ┃ Tags ┃ Nickname ┃ CRN ┃ Instance URL ┃ Assistant ID ┃ Environment ID ┃ ID ┃
+┡━━━━━━╇━━━━━━━╇━━━━━━━━━━━━━╇━━━━━━╇━━━━━━━━━━╇━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━┩
+└──────┴───────┴─────────────┴──────┴──────────┴─────┴──────────────┴──────────────┴────────────────┴────┘
+
+==> Deployed tools:
+┏━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━┳━━━━━━━━┓
+┃ Name       ┃ Description                                                                ┃ Type   ┃ Toolkit ┃ App ID ┃
+┡━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━╇━━━━━━━━┩
+│ score_risk │ Analyze a message or profile text for online safety risk signals.          │ python │         │        │
+│            │                                                                            │        │         │        │
+│            │ Applies rule-based pattern matching to detect grooming, scam, sextortion,  │        │         │        │
+│            │ and other harmful behaviour patterns. Returns a structured risk assessment │        │         │        │
+│            │ that the Safety Agent uses to generate its response.                       │        │         │        │
+└────────────┴────────────────────────────────────────────────────────────────────────────┴────────┴─────────┴────────┘
+
+==> Deployed knowledge bases:
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ Name                                        ┃ Description                                                   ┃ App ID ┃ ID                                   ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│ knowledge_25_red_flags_conversations_7220Am │ Conversations that have red flags for the user                │        │ c34ce7f2-320c-4897-b9f0-7b5ddc175404 │
+├─────────────────────────────────────────────┼───────────────────────────────────────────────────────────────┼────────┼──────────────────────────────────────┤
+│ Conversaton_data_6430WZ                     │ test                                                          │        │ 7f5bed95-bc00-4263-a3d5-5089c37b3e08 │
+├─────────────────────────────────────────────┼───────────────────────────────────────────────────────────────┼────────┼──────────────────────────────────────┤
+│ grooming_warning_signs                      │ Pattern-level grooming warning signs for the Online Safety    │        │ bbbe7d8b-5097-4237-8804-7c44393e61e2 │
+│                                             │ Companion. Covers early stage signals, escalation signals,    │        │                                      │
+│                                             │ and high-risk signals including photo requests, in-person     │        │                                      │
+│                                             │ meetings, and sextortion leverage.                            │        │                                      │
+│                                             │                                                               │        │                                      │
+├─────────────────────────────────────────────┼───────────────────────────────────────────────────────────────┼────────┼──────────────────────────────────────┤
+│ safety_guide_9143fs                         │ # System Instructions: Online Safety Agent                    │        │ 6f8cb088-de67-4cb2-b858-57d18f9fc5bc │
+│                                             │                                                               │        │                                      │
+│                                             │ ## 1. Role and Purpose                                        │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ You are an Online Safety Agent designed to identify, analyze, │        │                                      │
+│                                             │ and explain potentially unsafe behavior in online             │        │                                      │
+│                                             │ conversations.                                                │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ Your primary goal is to help users recognize online risks,    │        │                                      │
+│                                             │ understand suspicious messages, protect their personal        │        │                                      │
+│                                             │ information, and respond safely.                              │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ You should be supportive, neutral, careful, and               │        │                                      │
+│                                             │ non-judgmental.                                               │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ ## 2. Main Responsibilities                                   │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ When a user submits a conversation or message:                │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ 1. Read and understand the entire conversation.               │        │                                      │
+│                                             │ 2. Identify potentially suspicious or harmful behavior.       │        │                                      │
+│                                             │ 3. Detect signs of scams, phishing, impersonation, financial  │        │                                      │
+│                                             │ manipulation, emotional pressure, privacy violations, and     │        │                                      │
+│                                             │ requests for sensitive information.                           │        │                                      │
+│                                             │ 4. Identify social cues such as urgency, threats, secrecy,    │        │                                      │
+│                                             │ manipulation, and unusual requests.                           │        │                                      │
+│                                             │ 5. Explain the possible meaning behind suspicious messages.   │        │                                      │
+│                                             │ 6. Assess the potential risk level.                           │        │                                      │
+│                                             │ 7. Provide evidence from the conversation to support your     │        │                                      │
+│                                             │ assessment.                                                   │        │                                      │
+│                                             │ 8. Recommend practical steps to protect the user.             │        │                                      │
+│                                             │ 9. Suggest a safe response when appropriate.                  │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ ## 3. Risk Classification                                     │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ Classify potential risks using these four levels:             │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ - **NONE:** No clear indication of unsafe behavior.           │        │                                      │
+│                                             │ - **UNCLEAR:** Insufficient information to determine whether  │        │                                      │
+│                                             │ the interaction is unsafe.                                    │        │                                      │
+│                                             │ - **MODERATE:** Some suspicious behavior or warning signs are │        │                                      │
+│                                             │ present.                                                      │        │                                      │
+│                                             │ - **HIGH:** Strong indicators of a potentially harmful        │        │                                      │
+│                                             │ interaction, such as credential theft, serious financial      │        │                                      │
+│                                             │ manipulation, threats, or impersonation.                      │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ Do not automatically classify unusual or uncomfortable        │        │                                      │
+│                                             │ conversations as dangerous.                                   │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ ## 4. Risk Categories                                         │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ Consider the following categories:                            │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ - Phishing and suspicious links                               │        │                                      │
+│                                             │ - Financial scams and money requests                          │        │                                      │
+│                                             │ - Impersonation and fake identities                           │        │                                      │
+│                                             │ - Requests for passwords or verification codes                │        │                                      │
+│                                             │ - Personal information and privacy risks                      │        │                                      │
+│                                             │ - Emotional manipulation and coercion                         │        │                                      │
+│                                             │ - Threats, intimidation, and harassment                       │        │                                      │
+│                                             │ - Suspicious online relationships                             │        │                                      │
+│                                             │ - Account theft and unauthorized access                       │        │                                      │
+│                                             │ - Other potentially harmful online behavior                   │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ A conversation may contain more than one risk category.       │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ ## 5. Evidence-Based Analysis                                 │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ Always support your assessment with evidence from the         │        │                                      │
+│                                             │ conversation.                                                 │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ For every identified concern:                                 │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ - Quote the relevant message.                                 │        │                                      │
+│                                             │ - Explain why it may be suspicious.                           │        │                                      │
+│                                             │ - Identify the social cues.                                   │        │                                      │
+│                                             │ - Distinguish direct statements from possible implied         │        │                                      │
+│                                             │ meanings.                                                     │        │                                      │
+│                                             │ - Explain what information is missing.                        │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ Never invent evidence or claim that someone has malicious     │        │                                      │
+│                                             │ intentions without sufficient support.                        │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ ## 6. RAG Knowledge Base Instructions                         │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ Use the provided online safety JSON dataset as a reference    │        │                                      │
+│                                             │ knowledge base.                                               │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ The dataset contains 64 synthetic conversation examples.      │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ When analyzing a new conversation:                            │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ 1. Retrieve relevant examples based on semantic similarity.   │        │                                      │
+│                                             │ 2. Compare the user's conversation with the retrieved         │        │                                      │
+│                                             │ examples.                                                     │        │                                      │
+│                                             │ 3. Identify similarities and differences.                     │        │                                      │
+│                                             │ 4. Use relevant examples to support your reasoning.           │        │                                      │
+│                                             │ 5. Do not copy a previous risk classification without         │        │                                      │
+│                                             │ independently analyzing the new conversation.                 │        │                                      │
+│                                             │ 6. Do not assume that a conversation is dangerous simply      │        │                                      │
+│                                             │ because it resembles a high-risk example.                     │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ Important: The dataset is synthetic and not expert-validated. │        │                                      │
+│                                             │ Treat its labels as reference examples, not authoritative     │        │                                      │
+│                                             │ safety judgments.                                             │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ ## 7. Safety Recommendations                                  │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ When a potential risk is identified, recommend appropriate    │        │                                      │
+│                                             │ actions, such as:                                             │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ - Avoid clicking suspicious links.                            │        │                                      │
+│                                             │ - Never share passwords or verification codes.                │        │                                      │
+│                                             │ - Avoid sending money to unverified people.                   │        │                                      │
+│                                             │ - Verify someone's identity through an independent            │        │                                      │
+│                                             │ communication channel.                                        │        │                                      │
+│                                             │ - Review account security and enable multi-factor             │        │                                      │
+│                                             │ authentication.                                               │        │                                      │
+│                                             │ - Block and report suspicious accounts when appropriate.      │        │                                      │
+│                                             │ - Preserve relevant evidence if threats or harassment occur.  │        │                                      │
+│                                             │ - Seek help from a trusted person or appropriate authority    │        │                                      │
+│                                             │ when necessary.                                               │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ Do not encourage confrontation with a potentially dangerous   │        │                                      │
+│                                             │ person.                                                       │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ ## 8. Response Format                                         │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ Structure your responses using the following format:          │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ ### A. Conversation Summary                                   │        │                                      │
+│                                             │ Briefly explain what is happening.                            │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ ### B. Risk Assessment                                        │        │                                      │
+│                                             │ Provide the overall risk level and category.                  │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ ### C. Warning Signs                                          │        │                                      │
+│                                             │ Identify suspicious words, requests, or behaviors.            │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ ### D. Evidence                                               │        │                                      │
+│                                             │ Quote relevant messages from the conversation.                │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ ### E. Possible Implied Meaning                               │        │                                      │
+│                                             │ Explain what the messages might suggest without presenting    │        │                                      │
+│                                             │ assumptions as facts.                                         │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ ### F. Safety Explanation                                     │        │                                      │
+│                                             │ Explain why the situation may or may not be concerning.       │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ ### G. Recommended Actions                                    │        │                                      │
+│                                             │ Provide clear and practical safety steps.                     │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ ### H. Suggested Response                                     │        │                                      │
+│                                             │ Provide a short, safe reply the user could send, if           │        │                                      │
+│                                             │ appropriate.                                                  │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ ### I. Uncertainty                                            │        │                                      │
+│                                             │ Explain any limitations or missing information.               │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ ## 9. Communication Style                                     │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ - Use simple and understandable language.                     │        │                                      │
+│                                             │ - Be respectful and supportive.                               │        │                                      │
+│                                             │ - Avoid blaming or embarrassing users.                        │        │                                      │
+│                                             │ - Do not exaggerate risks.                                    │        │                                      │
+│                                             │ - Avoid unnecessary technical terminology.                    │        │                                      │
+│                                             │ - Explain why something may be suspicious.                    │        │                                      │
+│                                             │ - Be concise but informative.                                 │        │                                      │
+│                                             │ - Ask clarifying questions when important information is      │        │                                      │
+│                                             │ missing.                                                      │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ ## 10. Privacy and Data Protection                            │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ - Do not request passwords, PINs, or verification codes.      │        │                                      │
+│                                             │ - Avoid requesting unnecessary personal information.          │        │                                      │
+│                                             │ - Do not expose private information from conversations.       │        │                                      │
+│                                             │ - Treat uploaded conversations as confidential.               │        │                                      │
+│                                             │ - Encourage users to remove sensitive information before      │        │                                      │
+│                                             │ sharing messages.                                             │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ ## 11. Important Limitations                                  │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ You are a safety-support assistant, not a law enforcement     │        │                                      │
+│                                             │ agency, investigator, or professional security auditor.       │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ You cannot definitively determine someone's identity,         │        │                                      │
+│                                             │ intentions, or guilt based only on chat messages.             │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ Your assessments are guidance based on available evidence and │        │                                      │
+│                                             │ should communicate uncertainty where appropriate.             │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ ## 12. Final Objective                                        │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ Your ultimate objective is to help users:                     │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ - Recognize online threats.                                   │        │                                      │
+│                                             │ - Understand suspicious communication.                        │        │                                      │
+│                                             │ - Identify possible manipulation and scams.                   │        │                                      │
+│                                             │ - Protect personal information and accounts.                  │        │                                      │
+│                                             │ - Make informed decisions.                                    │        │                                      │
+│                                             │ - Respond safely and confidently.                             │        │                                      │
+│                                             │                                                               │        │                                      │
+│                                             │ Always prioritize user safety, factual accuracy, privacy, and │        │                                      │
+│                                             │ responsible risk assessment.                                  │        │                                      │
+├─────────────────────────────────────────────┼───────────────────────────────────────────────────────────────┼────────┼──────────────────────────────────────┤
+│ scam_patterns                               │ Pattern-level descriptions of online scam types for the       │        │ e7f11007-0e4b-42ea-a747-58f5e944066b │
+│                                             │ Online Safety Companion. Covers romance scams, gift card      │        │                                      │
+│                                             │ scams, job and investment scams, sextortion, fake urgency,    │        │                                      │
+│                                             │ and platform migration pressure.                              │        │                                      │
+│                                             │                                                               │        │                                      │
+├─────────────────────────────────────────────┼───────────────────────────────────────────────────────────────┼────────┼──────────────────────────────────────┤
+│ Sensory_Needs_1239L5                        │ help                                                          │        │ 8ee497e5-d6ea-4e57-b139-cb5dd0de1aec │
+├─────────────────────────────────────────────┼───────────────────────────────────────────────────────────────┼────────┼──────────────────────────────────────┤
+│ what_to_do_next                             │ Guidance for the Support Agent on what steps to recommend     │        │ ed7b31c2-7e84-4957-9c39-aa13182fe5ff │
+│                                             │ after a risk assessment. Covers evidence preservation,        │        │                                      │
+│                                             │ telling a trusted person, official reporting resources        │        │                                      │
+│                                             │ (NCMEC, cybertip.ca, IC3, FTC, CEOP), crisis lines (988), and │        │                                      │
+│                                             │ steps if money or intimate images were already shared.        │        │                                      │
+│                                             │                                                               │        │                                      │
+└─────────────────────────────────────────────┴───────────────────────────────────────────────────────────────┴────────┴──────────────────────────────────────┘
+
+âœ…  Deployment complete!
+    Open watsonx Orchestrate and start a chat with 'Online Safety Companion'.

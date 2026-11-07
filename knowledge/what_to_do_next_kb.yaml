@@ -1,0 +1,10 @@
+spec_version: v1
+kind: knowledge_base
+name: what_to_do_next
+description: >
+  Guidance for the Support Agent on what steps to recommend after a risk
+  assessment. Covers evidence preservation, telling a trusted person, official
+  reporting resources (NCMEC, cybertip.ca, IC3, FTC, CEOP), crisis lines (988),
+  and steps if money or intimate images were already shared.
+documents:
+  - what_to_do_next.txt

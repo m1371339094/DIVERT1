@@ -1,0 +1,9 @@
+spec_version: v1
+kind: knowledge_base
+name: scam_patterns
+description: >
+  Pattern-level descriptions of online scam types for the Online Safety Companion.
+  Covers romance scams, gift card scams, job and investment scams, sextortion,
+  fake urgency, and platform migration pressure.
+documents:
+  - scam_patterns.txt
