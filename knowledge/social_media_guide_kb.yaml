@@ -1,0 +1,10 @@
+spec_version: v1
+kind: knowledge_base
+name: social_media_guide
+description: >
+  Plain-language guide for young adults on how scammers and groomers operate
+  on Instagram, TikTok, Snapchat, Discord, Roblox, and dating apps. Includes
+  the pressure playbook, normal vs. not normal patterns, and a quick-reference
+  warning sign table.
+documents:
+  - social_media_guide.txt

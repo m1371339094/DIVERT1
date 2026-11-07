@@ -1,0 +1,115 @@
+# Social Media Safety Guide for Young Adults
+# Online Safety Companion v2 Knowledge Base
+
+This document is for both the Safety Agent and the Support Agent.
+It explains how online manipulation works on the platforms young adults
+use most, in plain language.
+
+---
+
+## How Scammers and Groomers Find Young Adults Online
+
+They look for:
+- Public profiles with personal details (school, city, age, photos).
+- Posts showing loneliness, stress, or a desire for connection.
+- New accounts with few friends or followers.
+- Young people in gaming servers, Discord communities, or fan groups.
+- Profiles on dating apps where age is hard to verify.
+
+---
+
+## Red Flags by Platform
+
+### Instagram and TikTok
+- DMs from strangers who saw one post and claim to feel an instant connection.
+- Accounts with very few posts but many followers (bought followers).
+- "Collab" or "brand deal" offers from unknown accounts.
+- Messages asking to move to another app quickly.
+- Profile photos that look too perfect (may be AI-generated or stolen).
+
+### Snapchat
+- Requests for photos because "they disappear" — they do not always.
+- People who only want to communicate on Snapchat and nowhere else.
+- Friend requests from people who claim to know you through a mutual friend
+  you cannot verify.
+- Requests for intimate photos framed as "no big deal because it disappears."
+
+### Discord
+- Unsolicited DMs from strangers in a server.
+- Offers of free Nitro, game keys, or rare items in exchange for clicking a link.
+- "Staff" or "mod" accounts asking for your login or verification code.
+- Requests to move to a private server or DM immediately.
+- People who claim to be peers but whose story details keep changing.
+
+### Roblox
+- Offers of free Robux in exchange for your login details.
+- Players who trade items generously early then ask for something in return.
+- Requests to move to Discord, WhatsApp, or Snapchat.
+- Players who ask where you live, go to school, or whether you are home alone.
+
+### Dating Apps
+- Profiles where the person claims to be young but writes like an adult.
+- Someone who declares strong romantic feelings within the first few messages.
+- Someone who always has an excuse not to video-call.
+- Requests to send money to help with an "emergency."
+- Pressure to move the conversation to Telegram or WhatsApp immediately.
+
+---
+
+## The Pressure Playbook — How They Escalate
+
+Scammers and groomers follow a pattern:
+
+1. **Find** — they search for someone who seems lonely, kind, or trusting.
+2. **Build** — they give attention, compliments, gifts, and emotional support.
+3. **Isolate** — they suggest keeping the relationship secret from family.
+4. **Test** — they make a small request (a photo, a gift card, a secret).
+5. **Push** — if the person complies, requests grow larger and more threatening.
+
+Recognising the early steps makes it easier to stop the pattern before it escalates.
+
+---
+
+## Normal vs. Not Normal
+
+### Normal in a new online friendship
+- Talking about shared interests.
+- Playing games together.
+- Asking general questions about your life.
+- Suggesting a video call to get to know each other better.
+
+### Not normal — worth paying attention to
+- Saying "I love you" within the first week.
+- Asking you to keep the friendship secret.
+- Asking you to move to a different, more private app.
+- Asking for personal photos.
+- Asking for money, gift cards, or your bank details.
+- Saying your family "wouldn't understand" your friendship.
+- Refusing to video-call or having the camera always broken.
+
+---
+
+## What Healthy Online Friendships Look Like
+
+- Both people feel comfortable saying no.
+- Neither person pressures the other to share more than they want to.
+- The friendship is not kept secret from family or friends.
+- Both people are comfortable with the pace of the relationship.
+- Meeting in person (if it happens) is in a public place with other people present.
+- Neither person has threatened the other.
+
+---
+
+## Quick Reference — Warning Signs
+
+| Warning sign | What it usually means |
+|---|---|
+| "Don't tell your parents" | Secrecy request — a consistent grooming pattern |
+| "Move to Telegram/Snapchat" | Platform migration — to avoid moderation |
+| "I love you already" | Love-bombing — building artificial closeness fast |
+| "Send me a photo" | May escalate to intimate image requests |
+| "Send gift cards / Bitcoin" | Almost always a scam |
+| "My camera is broken" | Avoids verification — may be hiding their identity |
+| "You won a prize — click here" | Phishing or credential theft |
+| Emergency story + money request | Romance or emergency scam |
+| "Keep this between us" | Isolation and secrecy — a grooming pattern |
