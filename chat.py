@@ -1,59 +1,51 @@
 """
-chat.py — Talk to the Online Safety Companion agent
-====================================================
-Starts an interactive terminal conversation with the deployed
-online_safety_companion agent on watsonx Orchestrate.
+chat.py — Talk to the Online Safety Companion
+==============================================
+Uses the watsonx Orchestrate SDK directly (RunClient + ThreadsClient)
+instead of the 'orchestrate chat ask' CLI command, which only works on
+local Developer Edition servers and times out on SaaS instances.
 
 Usage:
     python chat.py
-
-Requirements:
-    - ibm-watsonx-orchestrate installed
-    - .env file with WATSONX_URL and WATSONX_APIKEY
 """
 
-import subprocess
 import sys
 import os
-import re
+import subprocess
 from pathlib import Path
 
-# Force UTF-8 on Windows so any unicode in agent replies prints correctly.
+# ── Windows UTF-8 fix ────────────────────────────────────────────────────────
 if sys.platform == "win32":
     import io, ctypes
     ctypes.windll.kernel32.SetConsoleOutputCP(65001)
     ctypes.windll.kernel32.SetConsoleCP(65001)
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
     sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8", errors="replace")
-    # Re-open stdin in UTF-8 so input() doesn't raise EOFError from encoding mismatch
-    sys.stdin = io.TextIOWrapper(sys.stdin.buffer, encoding="utf-8", errors="replace")
+    sys.stdin  = io.TextIOWrapper(sys.stdin.buffer,  encoding="utf-8", errors="replace")
+
+AGENT_NAME = "online_safety_companion"
 
 
-# ---------------------------------------------------------------------------
-# Load .env into the current process environment
-# ---------------------------------------------------------------------------
+# ── Load .env ────────────────────────────────────────────────────────────────
 def load_env() -> None:
     env_path = Path(__file__).parent / ".env"
     if not env_path.exists():
-        print("ERROR: .env file not found. Run .\\run.ps1 first.")
+        print("ERROR: .env file not found.")
         sys.exit(1)
     for line in env_path.read_text(encoding="utf-8").splitlines():
         line = line.strip()
         if line and not line.startswith("#") and "=" in line:
             key, _, value = line.partition("=")
-            value = value.strip().strip('"').strip("'")
-            os.environ.setdefault(key.strip(), value)
+            os.environ.setdefault(key.strip(), value.strip().strip('"').strip("'"))
 
 
-# ---------------------------------------------------------------------------
-# Re-activate the environment (token refresh)
-# ---------------------------------------------------------------------------
+# ── Activate the Orchestrate environment (token refresh) ─────────────────────
 def activate_env() -> None:
     api_key = os.environ.get("WATSONX_APIKEY", "")
     if not api_key:
         print("ERROR: WATSONX_APIKEY not found in .env")
         sys.exit(1)
-    print("Connecting to watsonx Orchestrate ...", end=" ", flush=True)
+    print("Connecting ...", end=" ", flush=True)
     result = subprocess.run(
         ["orchestrate", "env", "activate", "online-safety-companion",
          "--api-key", api_key],
@@ -63,108 +55,133 @@ def activate_env() -> None:
         print("\nERROR: Could not authenticate.")
         print(result.stderr.strip() or result.stdout.strip())
         sys.exit(1)
-    print("Connected\n")
+    print("Connected.\n")
 
 
-# ---------------------------------------------------------------------------
-# Send one message; return the server-assigned thread_id for this session.
-# On the first call pass thread_id=None so the server creates a new thread.
-# On subsequent calls pass the thread_id returned by the first call.
-# ---------------------------------------------------------------------------
-def ask(message: str, thread_id: str | None, show_reasoning: bool = False) -> str | None:
-    """Send message, print reply, return thread_id (from first call or existing)."""
-    cmd = [
-        "orchestrate", "chat", "ask",
-        "--agent-name", "online_safety_companion",
-    ]
-    # Only attach thread-id after the first message (when we have one)
-    if thread_id:
-        cmd += ["--thread-id", thread_id]
-    if show_reasoning:
-        cmd.append("--include-reasoning")
-    cmd.append(message)
+# ── Build SDK clients and resolve agent ID ────────────────────────────────────
+def build_clients():
+    """Return (run_client, threads_client, agent_id)."""
+    from ibm_watsonx_orchestrate.client.utils import instantiate_client
+    from ibm_watsonx_orchestrate_clients.agents.agent_client import AgentClient
+    from ibm_watsonx_orchestrate_clients.chat.run_client import RunClient
+    from ibm_watsonx_orchestrate_clients.threads.threads_client import ThreadsClient
 
-    print("  (Thinking...)", flush=True)
+    run_client     = instantiate_client(RunClient)
+    threads_client = instantiate_client(ThreadsClient)
+    agent_client   = instantiate_client(AgentClient)
 
-    result = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace")
-
-    # Capture thread ID from output (appears as "[INFO] - Thread ID: <uuid>")
-    new_thread_id = thread_id
-    for line in (result.stdout + result.stderr).splitlines():
-        m = re.search(r"thread.?id[:\s]+([0-9a-f\-]{36})", line, re.IGNORECASE)
-        if m:
-            new_thread_id = m.group(1)
+    # Resolve agent name → ID
+    all_agents = agent_client.get()
+    agent_list = all_agents if isinstance(all_agents, list) else all_agents.get("data", [])
+    agent_id = None
+    for a in agent_list:
+        if a.get("name") == AGENT_NAME:
+            agent_id = a.get("id")
             break
 
-    # Hard error — nothing came back at all
-    if result.returncode != 0 and not result.stdout.strip():
-        err = result.stderr.strip() or "No output received."
-        first_error = next((l for l in err.splitlines() if l.strip()), err)
-        print(f"\n[Could not get a reply: {first_error}]\n")
-        return new_thread_id
+    if not agent_id:
+        names = [a.get("name") for a in agent_list]
+        print(f"ERROR: Agent '{AGENT_NAME}' not found.")
+        print(f"Available agents: {names}")
+        sys.exit(1)
 
-    # The ADK wraps the reply in a Rich box:
-    #   ╭─ robot agent_name ──╮
-    #   │  <reply text>       │
-    #   ╰─────────────────────╯
-    # Extract the text inside the box borders.
-    reply = _extract_box_reply(result.stdout)
-
-    if not reply:
-        # Fallback: strip log lines and show whatever is left
-        lines = result.stdout.splitlines()
-        reply_lines = [l for l in lines
-                       if not l.startswith("[INFO]")
-                       and not l.startswith("[DEBUG]")
-                       and not l.startswith("[WARNING]")
-                       and not l.startswith("[ERROR]")
-                       and not l.startswith("╭") and not l.startswith("╰")]
-        reply = "\n".join(reply_lines).strip()
-
-    if not reply:
-        reply = "(No reply received — check agent configuration in Orchestrate UI)"
-
-    safe_reply = reply.encode("utf-8", errors="replace").decode("utf-8")
-    print(f"\nCompanion: {safe_reply}\n")
-    return new_thread_id
+    return run_client, threads_client, agent_id
 
 
-def _extract_box_reply(stdout: str) -> str:
-    """Extract agent reply text from inside the Rich box borders the ADK uses."""
-    inside = False
-    reply_lines = []
-    for line in stdout.splitlines():
-        # Box starts at the agent name header line
-        if line.startswith("╭") or line.startswith("\u256d"):
-            inside = True
-            continue
-        # Box ends at the bottom border
-        if line.startswith("╰") or line.startswith("\u2570"):
-            inside = False
-            continue
-        if inside:
-            # Strip the leading "│ " border character and trailing spaces
-            clean = re.sub(r"^[│\u2502]\s?", "", line).rstrip()
-            # Skip pure log lines inside the box
-            if clean.startswith("[INFO]") or clean.startswith("[DEBUG]"):
-                continue
-            reply_lines.append(clean)
-    return "\n".join(reply_lines).strip()
+# ── Send a message and return (reply_text, thread_id) ────────────────────────
+def send_message(run_client, threads_client, message: str,
+                 agent_id: str, thread_id: str | None) -> tuple[str, str | None]:
+
+    # Count current messages so we can detect the new reply
+    initial_count = 0
+    if thread_id:
+        try:
+            msgs = threads_client.get_thread_messages(thread_id)
+            msg_list = msgs if isinstance(msgs, list) else msgs.get("data", [])
+            initial_count = len(msg_list)
+        except Exception:
+            pass
+
+    # Send the message
+    run_resp = run_client.create_run(
+        message=message,
+        agent_id=agent_id,
+        thread_id=thread_id
+    )
+    thread_id = run_resp.get("thread_id") or thread_id
+    run_id    = run_resp.get("run_id")
+
+    # Wait for run to finish
+    run_status = run_client.wait_for_run_completion(
+        run_id, poll_interval=2, max_retries=90
+    )
+    if run_status.get("status") in ("failed", "error"):
+        return f"[Agent error. Status: {run_status.get('status')}]", thread_id
+
+    # Get the new assistant reply
+    try:
+        msg = threads_client.poll_for_flow_completion(
+            thread_id=thread_id,
+            initial_message_count=initial_count,
+            poll_interval=1,
+            max_retries=30
+        )
+        if msg:
+            return _extract_text(msg), thread_id
+    except Exception:
+        pass
+
+    # Fallback: grab the last assistant message
+    try:
+        msgs = threads_client.get_thread_messages(thread_id)
+        msg_list = msgs if isinstance(msgs, list) else msgs.get("data", [])
+        for m in reversed(msg_list):
+            if isinstance(m, dict) and m.get("role") == "assistant":
+                text = _extract_text(m)
+                if text:
+                    return text, thread_id
+    except Exception:
+        pass
+
+    return "[No reply received.]", thread_id
 
 
-# ---------------------------------------------------------------------------
-# Main interactive loop
-# ---------------------------------------------------------------------------
+def _extract_text(msg: dict) -> str:
+    """Extract plain text from an assistant message dict."""
+    content = msg.get("content", "")
+    if isinstance(content, str):
+        return content.strip()
+    if isinstance(content, list):
+        parts = []
+        for item in content:
+            if isinstance(item, dict):
+                if item.get("response_type") == "text":
+                    parts.append(item.get("text", ""))
+                elif "text" in item:
+                    parts.append(item["text"])
+        return "\n".join(parts).strip()
+    return str(content).strip()
+
+
+# ── Main interactive loop ─────────────────────────────────────────────────────
 def main() -> None:
     load_env()
     activate_env()
+
+    try:
+        run_client, threads_client, agent_id = build_clients()
+    except SystemExit:
+        raise
+    except Exception as e:
+        print(f"\nERROR: {e}")
+        sys.exit(1)
 
     print("=" * 60)
     print("  Online Safety Companion")
     print("  Powered by IBM watsonx Orchestrate")
     print("=" * 60)
     print("  Type your message and press Enter.")
-    print("  Commands:  /quit  exit   /reason  toggle reasoning")
+    print("  Type 'quit' to stop.")
     print("=" * 60 + "\n")
 
     print("Companion: Hi! I'm your Online Safety Companion.\n")
@@ -172,36 +189,40 @@ def main() -> None:
     print("  You decide what to do. I only give information and options.\n")
     print("  What would you like help with today?\n")
 
-    thread_id: str | None = None   # will be set after first message
-    show_reasoning = False
+    thread_id: str | None = None
 
     while True:
-        # Flush prompt explicitly — needed when stdout is wrapped
         sys.stdout.write("You: ")
         sys.stdout.flush()
         try:
             user_input = sys.stdin.readline()
-            if not user_input:          # readline returns "" on true EOF (Ctrl+Z)
-                print("\n\nGoodbye. Stay safe online.")
+            if not user_input:
+                print("\nGoodbye. Stay safe online.")
                 break
             user_input = user_input.strip()
         except (KeyboardInterrupt, EOFError):
-            print("\n\nGoodbye. Stay safe online.")
+            print("\nGoodbye. Stay safe online.")
             break
 
         if not user_input:
             continue
 
-        if user_input.lower() in ("/quit", "quit", "exit", "/exit"):
+        if user_input.lower() in ("quit", "exit", "/quit", "/exit"):
             print("\nGoodbye. Stay safe online.")
             break
 
-        if user_input.lower() == "/reason":
-            show_reasoning = not show_reasoning
-            print(f"[Reasoning trace: {'ON' if show_reasoning else 'OFF'}]\n")
-            continue
-
-        thread_id = ask(user_input, thread_id, show_reasoning)
+        print("  (Thinking...)", flush=True)
+        try:
+            reply, thread_id = send_message(
+                run_client, threads_client, user_input, agent_id, thread_id
+            )
+            safe = reply.encode("utf-8", errors="replace").decode("utf-8")
+            print(f"\nCompanion: {safe}\n")
+        except KeyboardInterrupt:
+            print("\nGoodbye. Stay safe online.")
+            break
+        except Exception as e:
+            print(f"\n[Error: {e}]\n")
 
 
 if __name__ == "__main__":
