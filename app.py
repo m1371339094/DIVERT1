@@ -1,9 +1,9 @@
 """
 app.py — DIVERT1 | Online Safety Companion
 ===========================================
-Streamlit frontend — "Warm Reassuring Sanctuary" design system
-  • Chat  — talk to the companion
-  • About — project story, team, design principles
+Streamlit frontend — design 100% from stitch_divert1_online_safety_companion.
+  • Chat  — divert1_safety_companion_chat_wcag_2.1_accessible/code.html
+  • About — divert1_about_architecture/code.html
 
 Run with:
     streamlit run app.py
@@ -37,12 +37,13 @@ def img(filename: str) -> str | None:
 
 
 def placeholder(label: str, h: int = 220) -> str:
+    """Warm placeholder matching surface-container-low background."""
     return (
         f'<div style="background:#fff1e7;border:2px dashed #dcc1b6;'
-        f'border-radius:16px;height:{h}px;display:flex;flex-direction:column;'
+        f'border-radius:12px;height:{h}px;display:flex;flex-direction:column;'
         f'align-items:center;justify-content:center;color:#55433a;'
-        f'font-size:0.85rem;gap:8px;">'
-        f'<span style="font-size:2.2rem;">🖼️</span>'
+        f'font-family:Inter,sans-serif;font-size:0.85rem;gap:8px;">'
+        f'<span style="font-size:2rem;">🖼️</span>'
         f'<span style="font-weight:600;">{label}</span>'
         f'<span style="color:#897269;font-size:0.75rem;">Place in images/{label}</span>'
         f'</div>'
@@ -50,452 +51,913 @@ def placeholder(label: str, h: int = 220) -> str:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Design system — "Warm Reassuring Sanctuary"
-# Token source: stitch_divert1_online_safety_companion/warm_reassuring_sanctuary/DESIGN.md
+# Design system — copied verbatim from stitch HTML tailwind-config tokens
+#
+# Colour tokens (tailwind → CSS var):
+#   background / surface:          #fff8f4
+#   surface-container-lowest:      #ffffff
+#   surface-container-low:         #fff1e7
+#   surface-container:             #ffead9
+#   surface-container-high:        #ffe3cb
+#   surface-container-highest:     #fadec4
+#   surface-dim:                   #f1d5bc
+#   surface-variant:               #fadec4
+#   on-surface:                    #271909
+#   on-surface-variant:            #55433a
+#   inverse-surface:               #3e2d1c
+#   inverse-on-surface:            #ffeee0
+#   outline:                       #897269
+#   outline-variant:               #dcc1b6
+#   primary:                       #974311
+#   on-primary:                    #ffffff
+#   primary-container:             #b65b28
+#   primary-fixed:                 #ffdbcc
+#   primary-fixed-dim:             #ffb693
+#   on-primary-fixed:              #351000
+#   on-primary-fixed-variant:      #7a3000
+#   secondary:                     #266b40
+#   on-secondary:                  #ffffff
+#   secondary-container:           #abf3bc
+#   secondary-fixed:               #abf3bc
+#   secondary-fixed-dim:           #90d6a2
+#   on-secondary-fixed:            #00210d
+#   on-secondary-container:        #2d7145
+#   tertiary:                      #8d4b00
+#   on-tertiary:                   #ffffff
+#   tertiary-container:            #b15f00
+#   tertiary-fixed:                #ffdcc3
+#   tertiary-fixed-dim:            #ffb77d
+#   on-tertiary-fixed:             #2f1500
+#   error:                         #ba1a1a
+#   on-error:                      #ffffff
+#   error-container:               #ffdad6
+#   on-error-container:            #93000a
+#
+# Typography (stitch):
+#   display:   Newsreader 500  40px/48px  -0.01em
+#   headline-lg: Newsreader 500  32px/40px
+#   headline-sm: Newsreader 600  20px/28px
+#   body-lg:   Inter 400  18px/28px
+#   body-md:   Inter 400  16px/24px
+#   body-sm:   Inter 400  14px/20px
+#   label-lg:  Inter 600  15px/20px  0.01em
+#   label-md:  Inter 600  13px/18px  0.02em
+#   label-sm:  Inter 600  11px/16px  0.04em
+#
+# Border-radius: DEFAULT 0.25rem, lg 0.5rem, xl 0.75rem, full 9999px
+# (stitch uses rounded-xl = 0.75rem, rounded-2xl = 1rem, rounded-[20px] etc.)
 # ─────────────────────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
-/* ── Fonts ───────────────────────────────────────────────────────────────── */
+/* ── Fonts ── from stitch <link> tags ─────────────────────────────────────── */
 @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600;700&display=swap');
 
-/* ── Design tokens ───────────────────────────────────────────────────────── */
+/* ── Colour tokens (from tailwind-config in stitch HTML) ─────────────────── */
 :root {
-    --surface:               #fff8f4;
-    --surface-dim:           #f1d5bc;
-    --surface-bright:        #fff8f4;
-    --surface-lowest:        #ffffff;
-    --surface-low:           #fff1e7;
-    --surface-container:     #ffead9;
-    --surface-high:          #ffe3cb;
-    --surface-highest:       #fadec4;
-    --on-surface:            #271909;
-    --on-surface-variant:    #55433a;
-    --inverse-surface:       #3e2d1c;
-    --inverse-on-surface:    #ffeee0;
-    --outline:               #897269;
-    --outline-variant:       #dcc1b6;
-    --primary:               #974311;
-    --on-primary:            #ffffff;
-    --primary-container:     #b65b28;
-    --primary-fixed:         #ffdbcc;
-    --primary-fixed-dim:     #ffb693;
-    --secondary:             #266b40;
-    --on-secondary:          #ffffff;
-    --secondary-container:   #abf3bc;
-    --on-secondary-container:#2d7145;
-    --tertiary:              #8d4b00;
-    --on-tertiary:           #ffffff;
-    --tertiary-container:    #b15f00;
-    --error:                 #ba1a1a;
-    --error-container:       #ffdad6;
-    --on-error-container:    #93000a;
-    --surface-tint:          #9a4514;
+    --surface:                  #fff8f4;
+    --surface-lowest:           #ffffff;
+    --surface-low:              #fff1e7;
+    --surface-container:        #ffead9;
+    --surface-high:             #ffe3cb;
+    --surface-highest:          #fadec4;
+    --surface-dim:              #f1d5bc;
+    --surface-variant:          #fadec4;
+    --on-surface:               #271909;
+    --on-surface-variant:       #55433a;
+    --inverse-surface:          #3e2d1c;
+    --inverse-on-surface:       #ffeee0;
+    --outline:                  #897269;
+    --outline-variant:          #dcc1b6;
+    --primary:                  #974311;
+    --on-primary:               #ffffff;
+    --primary-container:        #b65b28;
+    --primary-fixed:            #ffdbcc;
+    --primary-fixed-dim:        #ffb693;
+    --on-primary-fixed:         #351000;
+    --secondary:                #266b40;
+    --on-secondary:             #ffffff;
+    --secondary-container:      #abf3bc;
+    --secondary-fixed:          #abf3bc;
+    --secondary-fixed-dim:      #90d6a2;
+    --on-secondary-fixed:       #00210d;
+    --on-secondary-container:   #2d7145;
+    --tertiary:                 #8d4b00;
+    --on-tertiary:              #ffffff;
+    --tertiary-fixed:           #ffdcc3;
+    --tertiary-fixed-dim:       #ffb77d;
+    --on-tertiary-fixed:        #2f1500;
+    --error:                    #ba1a1a;
+    --on-error:                 #ffffff;
+    --error-container:          #ffdad6;
+    --on-error-container:       #93000a;
 }
 
 /* ── Base ────────────────────────────────────────────────────────────────── */
 html, body, [class*="css"] {
-    font-family: 'Inter', -apple-system, "Segoe UI", sans-serif;
-    color: #271909;
+    font-family: 'Inter', -apple-system, "Segoe UI", sans-serif !important;
+    color: var(--on-surface);
 }
 html, body { background-color: var(--surface) !important; }
 [data-testid="stAppViewContainer"],
 [data-testid="stMain"],
 .main .block-container {
     background-color: var(--surface) !important;
+    padding-top: 0 !important;
 }
 section[data-testid="stMain"] > div { background-color: var(--surface) !important; }
+div.block-container { padding-top: 1rem !important; }
 
-/* ── Hide Streamlit chrome ───────────────────────────────────────────────── */
+/* ── Hide Streamlit chrome ─────────────────────────────────────────────── */
 #MainMenu, footer, header { visibility: hidden; }
+::-webkit-scrollbar { display: none; }
 
-/* ── Sidebar — deep coffee #3e2d1c (inverse-surface token) ─────────────── */
+/* ══ SIDEBAR — inverse-surface #3e2d1c (from stitch aside bg-inverse-surface) */
 [data-testid="stSidebar"] {
     background: var(--inverse-surface) !important;
-    border-right: 1px solid #4a3524;
+    border-right: none;
+    box-shadow: 4px 0 24px rgba(46,31,15,0.12);
 }
 [data-testid="stSidebar"] > div { background: var(--inverse-surface) !important; }
 [data-testid="stSidebar"] * { color: var(--inverse-on-surface) !important; }
-[data-testid="stSidebar"] hr { border-color: #4a3524 !important; }
+[data-testid="stSidebar"] hr { border-color: rgba(255,255,255,0.08) !important; }
 
-/* Primary nav button */
+/* Sidebar — primary button (bg-primary text-on-primary, stitch "New Chat" btn) */
 [data-testid="stSidebar"] .stButton button[kind="primary"] {
     background: var(--primary) !important;
-    border-color: var(--primary) !important;
-    color: #fff !important;
+    border: none !important;
+    color: var(--on-primary) !important;
     border-radius: 12px !important;
     min-height: 44px !important;
     font-family: 'Inter', sans-serif !important;
     font-weight: 600 !important;
-    font-size: 0.875rem !important;
+    font-size: 0.8125rem !important;
+    letter-spacing: 0.02em !important;
+    box-shadow: 0 1px 4px rgba(46,31,15,0.15) !important;
 }
+[data-testid="stSidebar"] .stButton button[kind="primary"]:hover {
+    background: var(--primary-container) !important;
+}
+/* Sidebar — secondary/ghost nav buttons */
 [data-testid="stSidebar"] .stButton button[kind="secondary"] {
-    background: rgba(255,255,255,0.06) !important;
-    border: 1px solid rgba(255,255,255,0.12) !important;
-    color: var(--inverse-on-surface) !important;
-    border-radius: 12px !important;
+    background: transparent !important;
+    border: none !important;
+    color: var(--outline-variant) !important;
+    border-radius: 8px !important;
     min-height: 44px !important;
     font-family: 'Inter', sans-serif !important;
-    font-size: 0.875rem !important;
+    font-size: 0.8125rem !important;
+    text-align: left !important;
+    justify-content: flex-start !important;
 }
-[data-testid="stSidebar"] .stButton button:hover {
-    background: rgba(151,67,17,0.4) !important;
+[data-testid="stSidebar"] .stButton button[kind="secondary"]:hover {
+    background: rgba(250,222,196,0.12) !important;
+    color: var(--surface) !important;
+}
+/* Focus ring (WCAG) on sidebar buttons — ring-[#ffdbcc] */
+[data-testid="stSidebar"] .stButton button:focus-visible {
+    outline: 2px solid #ffdbcc !important;
+    outline-offset: 2px !important;
 }
 
-/* ── Send & general buttons ──────────────────────────────────────────────── */
-.stFormSubmitButton button {
-    background: var(--primary) !important;
-    border-color: var(--primary) !important;
-    color: #fff !important;
-    border-radius: 50% !important;
-    width: 44px !important; height: 44px !important;
-    font-size: 1.1rem !important;
-    padding: 0 !important;
-    min-height: 44px !important;
-}
-.stFormSubmitButton button:hover { background: var(--primary-container) !important; }
-
+/* ══ MAIN AREA BUTTONS ─────────────────────────────────────────────────── */
+/* General secondary buttons */
 .stButton > button {
     background: var(--surface-lowest) !important;
     border: 1.5px solid var(--outline-variant) !important;
     color: var(--on-surface) !important;
     border-radius: 12px !important;
     font-family: 'Inter', sans-serif !important;
+    font-size: 0.8125rem !important;
+    min-height: 44px !important;
 }
 .stButton > button:hover {
     background: var(--surface-low) !important;
-    border-color: var(--primary) !important;
+    border-color: rgba(151,67,17,0.4) !important;
     color: var(--primary) !important;
 }
+/* Send button — rounded-xl bg-primary (stitch companionSendBtn) */
+.stFormSubmitButton button {
+    background: var(--primary) !important;
+    border: none !important;
+    color: var(--on-primary) !important;
+    border-radius: 12px !important;
+    width: 44px !important;
+    height: 44px !important;
+    min-height: 44px !important;
+    font-size: 1.1rem !important;
+    padding: 0 !important;
+    box-shadow: 0 1px 4px rgba(46,31,15,0.15) !important;
+}
+.stFormSubmitButton button:hover { background: var(--primary-container) !important; }
 
-/* ── Input field ─────────────────────────────────────────────────────────── */
+/* ══ TEXT INPUT — from stitch input field ──────────────────────────────── */
 .stTextInput > div > div > input {
     border-radius: 12px !important;
-    border: 1.5px solid var(--outline-variant) !important;
+    border: 1px solid var(--outline-variant) !important;
     background: var(--surface-lowest) !important;
-    padding: 11px 18px !important;
-    font-size: 0.95rem !important;
+    padding: 10px 16px !important;
+    font-size: 0.9375rem !important;
     color: var(--on-surface) !important;
     font-family: 'Inter', sans-serif !important;
+    min-height: 44px !important;
 }
-.stTextInput > div > div > input::placeholder { color: var(--outline) !important; }
+.stTextInput > div > div > input::placeholder {
+    color: var(--outline) !important;
+    font-family: 'Inter', sans-serif !important;
+}
 .stTextInput > div > div > input:focus {
     border-color: var(--primary) !important;
-    box-shadow: 0 0 0 3px rgba(151,67,17,0.14) !important;
+    box-shadow: 0 0 0 2px rgba(151,67,17,0.2) !important;
     outline: none !important;
 }
 
-/* ── Spinner ─────────────────────────────────────────────────────────────── */
+/* ══ SPINNER ───────────────────────────────────────────────────────────── */
 .stSpinner > div { border-top-color: var(--primary) !important; }
 
-/* ── Error / info boxes ──────────────────────────────────────────────────── */
-[data-testid="stAlert"] { border-radius: 14px !important; }
+/* ══ ALERT ─────────────────────────────────────────────────────────────── */
+[data-testid="stAlert"] { border-radius: 12px !important; }
 
-/* ── Scrollbar (hide) ────────────────────────────────────────────────────── */
-::-webkit-scrollbar { display: none; }
+/* ══════════════════════════════════════════════════════════════════════════
+   CHAT PAGE  —  divert1_safety_companion_chat_wcag_2.1_accessible/code.html
+   ════════════════════════════════════════════════════════════════════════ */
 
-/* ══════════════════════════════════════════════════════════════════════════ */
-/*  CHAT PAGE STYLES                                                          */
-/* ══════════════════════════════════════════════════════════════════════════ */
-
-/* Chat wrapper */
-.chat-wrapper {
-    max-width: 760px;
+/* Outer constraint — max-w-4xl from stitch main workspace */
+.chat-workspace {
+    max-width: 56rem;   /* 896px ~ max-w-4xl */
     margin: 0 auto;
+    padding: 0 1.5rem;
 }
 
-/* Welcome header */
-.welcome-icon {
-    width: 72px; height: 72px;
+/* Conversation context header — border-b border-outline-variant/30 */
+.chat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(220,193,182,0.3);
+    margin-bottom: 24px;
+}
+.chat-header-title {
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--on-surface);
+    margin: 0;
+    letter-spacing: -0.01em;
+}
+.session-badge {
+    padding: 2px 10px;
+    border-radius: 9999px;
     background: rgba(151,67,17,0.1);
-    border-radius: 20px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 2.2rem;
-    ring: 2px solid rgba(151,67,17,0.2);
-    margin: 0 auto 20px;
+    color: var(--primary);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.04em;
+}
+
+/* Welcome splash — from divert1_safety_companion_chat/code.html centre block */
+.welcome-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
+    gap: 24px;
+    padding: 32px 0 8px;
+}
+.welcome-icon-wrap {
+    width: 64px; height: 64px;
+    border-radius: 16px;    /* rounded-2xl */
+    background: rgba(151,67,17,0.1);
+    display: flex; align-items: center; justify-content: center;
+    outline: 2px solid rgba(151,67,17,0.2);
+    font-size: 2rem;
 }
 .welcome-title {
     font-family: 'Newsreader', Georgia, serif;
-    font-size: 2rem; font-weight: 500;
+    font-size: 2rem;
+    font-weight: 500;
     color: var(--on-surface);
-    text-align: center; line-height: 1.25;
-    margin: 0 0 10px;
+    line-height: 1.25;
     letter-spacing: -0.01em;
+    max-width: 32rem;
+    margin: 0;
 }
-.welcome-title span { color: var(--primary); }
+.welcome-title .accent { color: var(--primary); }
 .welcome-sub {
-    font-size: 1rem; color: var(--on-surface-variant);
-    text-align: center; line-height: 1.65;
-    max-width: 540px; margin: 0 auto 24px;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    color: var(--on-surface-variant);
+    line-height: 1.65;
+    max-width: 34rem;
+    margin: 0;
 }
 
-/* Prompt chips grid */
-.chips-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    max-width: 600px;
-    margin: 0 auto 32px;
+/* Prompt chip — stitch: rounded-xl bg-surface-container-low border-outline-variant/30 */
+/* Streamlit buttons are used; we style .stButton inside col to look like chips */
+.chip-col .stButton > button {
+    background: var(--surface-low) !important;
+    border: 1px solid rgba(220,193,182,0.35) !important;
+    border-radius: 12px !important;
+    padding: 14px 16px !important;
+    text-align: left !important;
+    justify-content: flex-start !important;
+    min-height: 72px !important;
+    color: var(--on-surface) !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.875rem !important;
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+    box-shadow: 0 1px 4px rgba(46,31,15,0.04) !important;
+    white-space: pre-wrap !important;
 }
-.prompt-chip {
-    display: flex; align-items: flex-start; gap: 12px;
-    padding: 14px 16px;
-    background: var(--surface-low);
-    border: 1px solid rgba(220,193,182,0.4);
-    border-radius: 14px;
-    cursor: pointer;
-    transition: background 0.15s, border-color 0.15s;
-    text-align: left;
+.chip-col .stButton > button:hover {
+    background: var(--surface-container) !important;
+    border-color: rgba(151,67,17,0.3) !important;
+    color: var(--on-surface) !important;
 }
-.prompt-chip:hover {
-    background: var(--surface-container);
-    border-color: rgba(151,67,17,0.3);
+
+/* Dialogue log — role="log" aria-live="polite" */
+.dialogue-log {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 8px 0 20px;
 }
-.chip-icon {
-    width: 36px; height: 36px; min-width: 36px;
+
+/* ── User message ── stitch: rounded-[20px] rounded-br-sm bg #c0622f ────── */
+.msg-user-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    gap: 14px;
+    padding-left: 4rem;
+}
+.msg-user-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    max-width: 32rem;
+}
+.msg-user-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 4px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--on-surface);
+}
+.msg-user-bubble {
+    padding: 20px;
+    border-radius: 20px;
+    border-bottom-right-radius: 4px;
+    background: #c0622f;   /* exact stitch value: rgb(192,98,47) */
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    white-space: pre-wrap;
+    box-shadow: 0 2px 8px rgba(46,31,15,0.15);
+}
+.msg-user-avatar {
+    width: 40px; height: 40px; min-width: 40px;
+    border-radius: 9999px;
     background: var(--surface-highest);
-    border-radius: 10px;
     display: flex; align-items: center; justify-content: center;
     font-size: 1.1rem;
-}
-.chip-title {
-    font-size: 0.875rem; font-weight: 600;
-    color: var(--on-surface);
-    margin: 0 0 2px;
-    line-height: 1.3;
-}
-.chip-sub {
-    font-size: 0.75rem;
-    color: var(--outline);
-    margin: 0;
-    line-height: 1.4;
+    margin-top: 24px;
+    outline: 2px solid rgba(151,67,17,0.2);
 }
 
-/* Chat stream */
-.chat-stream {
-    display: flex; flex-direction: column; gap: 20px;
-    min-height: 300px;
-    padding: 8px 0 16px;
+/* ── Companion message ── stitch: rounded-[20px] rounded-tl-sm ─────────── */
+.msg-bot-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding-right: 1rem;
 }
-
-/* User bubble */
-.bubble-row-user {
-    display: flex; justify-content: flex-end;
-    gap: 12px; align-items: flex-end;
-}
-.bubble-user {
-    background: var(--primary);
-    color: #fff;
-    border-radius: 20px 20px 4px 20px;
-    padding: 14px 18px;
-    max-width: 72%;
-    font-size: 0.9375rem; line-height: 1.6;
-    white-space: pre-wrap;
-    box-shadow: 0 2px 8px rgba(46,31,15,0.15);
-}
-.user-meta {
-    font-size: 0.75rem; color: var(--on-surface);
-    text-align: right; margin-bottom: 5px;
-    font-weight: 500;
-}
-
-/* Companion avatar */
+/* Companion avatar — rounded-xl bg-primary (stitch: health_and_safety icon) */
 .companion-avatar {
     width: 40px; height: 40px; min-width: 40px;
+    border-radius: 12px;   /* rounded-xl */
     background: var(--primary);
-    color: #fff;
-    border-radius: 12px;
+    color: var(--on-primary);
     display: flex; align-items: center; justify-content: center;
-    font-size: 1.3rem;
-    box-shadow: 0 2px 8px rgba(46,31,15,0.15);
-    ring: 2px solid rgba(151,67,17,0.2);
-    align-self: flex-start;
-    margin-top: 20px;
+    font-size: 1.25rem;
+    margin-top: 24px;
+    box-shadow: 0 1px 4px rgba(46,31,15,0.15);
+    outline: 2px solid rgba(151,67,17,0.2);
+    flex-shrink: 0;
 }
-
-/* Companion bubble row */
-.bubble-row-bot { display: flex; gap: 12px; align-items: flex-start; }
-
-/* Sanctuary card — companion response */
-.sanctuary-card {
-    background: var(--surface-lowest);
-    border: 1px solid #e8d5bc;
-    border-radius: 20px 20px 20px 4px;
-    padding: 20px 22px;
-    max-width: 76%;
+.msg-bot-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
     flex: 1;
-    box-shadow: 0 2px 10px rgba(46,31,15,0.06);
+    max-width: 32rem;
 }
-.bot-label {
-    font-size: 0.8rem; font-weight: 600;
+.msg-bot-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 600;
     color: var(--primary);
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-    display: block;
+    padding: 0 4px;
 }
-.bot-text {
-    font-size: 0.9375rem; line-height: 1.65;
+/* Sanctuary card — exact stitch: #fff9f2 bg, #e8d5bc border, rounded-[20px] rounded-tl-sm */
+.sanctuary-card {
+    background: #fff9f2;
+    border: 1px solid #e8d5bc;
+    border-radius: 20px;
+    border-top-left-radius: 4px;
+    padding: 24px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-shadow: 0 2px 8px rgba(46,31,15,0.07);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9375rem;
+    line-height: 1.65;
     color: var(--on-surface);
     white-space: pre-wrap;
 }
 
-/* Chat input bar */
-.chat-input-bar {
-    background: var(--surface-low);
-    border-radius: 20px;
+/* ── Input bar ── stitch: rounded-2xl bg-surface-container-low p-4 ──────── */
+.input-bar-wrap {
+    background: var(--surface-low);    /* bg-surface-container-low */
+    border-radius: 16px;               /* rounded-2xl */
     padding: 14px 16px;
-    box-shadow: 0 2px 10px rgba(46,31,15,0.07);
-    margin-top: 12px;
+    box-shadow: 0 2px 8px rgba(46,31,15,0.07);
+    margin-top: 16px;
 }
-.input-privacy {
-    display: flex; align-items: center; gap: 7px;
-    font-size: 0.75rem; color: var(--on-surface-variant);
-    margin-top: 10px; padding: 0 2px;
+.input-privacy-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6875rem;
+    color: var(--on-surface-variant);
+    padding: 8px 2px 0;
+    letter-spacing: 0.02em;
 }
 
-/* ══════════════════════════════════════════════════════════════════════════ */
-/*  ABOUT PAGE STYLES                                                          */
-/* ══════════════════════════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════════════════════════
+   ABOUT PAGE  —  divert1_about_architecture/code.html
+   ════════════════════════════════════════════════════════════════════════ */
 
-/* Hero */
-.hero {
-    background: linear-gradient(135deg, #5c2f10 0%, #974311 60%, #c0622f 100%);
-    border-radius: 22px;
-    padding: 56px 48px;
-    color: #fff;
-    margin-bottom: 32px;
+/* Breadcrumb bar — bg-surface-container-low border-b border-outline/30 */
+.breadcrumb-bar {
+    width: 100%;
+    background: var(--surface-low);
+    border-bottom: 1px solid rgba(137,114,105,0.3);
+    padding: 10px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8125rem;
+    color: var(--on-surface-variant);
+    margin-bottom: 0;
+}
+.breadcrumb-bar .crumb-active {
+    font-weight: 600;
+    color: var(--on-surface);
+}
+.breadcrumb-ver {
+    padding: 2px 10px;
+    border-radius: 9999px;
+    background: var(--surface-high);
+    color: var(--on-surface-variant);
+    font-size: 0.6875rem;
+    font-weight: 600;
+}
+
+/* Hero — bg-gradient from-inverse-surface via-primary to-primary-container */
+.about-hero {
+    width: 100%;
+    background: linear-gradient(135deg, #3e2d1c 0%, #974311 55%, #b65b28 100%);
+    color: var(--inverse-on-surface);
+    padding: 56px 64px;
     position: relative;
     overflow: hidden;
 }
-.hero::after {
+.about-hero::before {
     content: '';
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse at 80% 50%, rgba(255,210,160,0.1) 0%, transparent 65%);
+    position: absolute;
+    right: -6rem; top: -6rem;
+    width: 24rem; height: 24rem;
+    border-radius: 9999px;
+    background: rgba(171,243,188,0.1);   /* secondary-container/15 */
+    filter: blur(48px);
     pointer-events: none;
 }
-.hero-tag {
-    display: inline-block;
-    background: rgba(255,235,210,0.18);
-    border: 1px solid rgba(255,220,180,0.4);
-    color: var(--primary-fixed-dim);
-    border-radius: 20px;
-    padding: 5px 16px;
-    font-size: 0.72rem;
-    letter-spacing: .08em;
-    text-transform: uppercase;
+.about-hero::after {
+    content: '';
+    position: absolute;
+    left: 33%; bottom: -5rem;
+    width: 20rem; height: 20rem;
+    border-radius: 9999px;
+    background: rgba(255,220,195,0.14);   /* tertiary-fixed/20 */
+    filter: blur(48px);
+    pointer-events: none;
+}
+.about-hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    border-radius: 9999px;
+    background: rgba(255,255,255,0.1);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6875rem;
     font-weight: 600;
-    margin-bottom: 18px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--primary-fixed);
+    margin-bottom: 20px;
 }
-.hero h1 {
+.about-hero-badge .pulse {
+    width: 8px; height: 8px;
+    border-radius: 9999px;
+    background: var(--secondary-fixed-dim);
+}
+.about-hero h1 {
     font-family: 'Newsreader', Georgia, serif;
-    font-size: 2.75rem; font-weight: 500;
-    margin: 0 0 14px; letter-spacing: -0.01em; line-height: 1.18;
+    font-size: 2.75rem;
+    font-weight: 400;
+    line-height: 1.18;
+    letter-spacing: -0.01em;
+    margin: 0 0 16px;
+    max-width: 48rem;
 }
-.hero h1 span { color: var(--primary-fixed-dim); }
-.hero p { font-size: 1rem; color: #faebd8; margin: 0; max-width: 560px; line-height: 1.7; }
+.about-hero h1 .italic-accent {
+    font-style: italic;
+    color: var(--tertiary-fixed);
+    text-decoration: underline wavy rgba(255,220,195,0.4);
+    text-underline-offset: 8px;
+}
+.about-hero h1 .alpha-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    margin-left: 10px;
+    border-radius: 6px;
+    background: var(--secondary-container);
+    color: var(--on-secondary-fixed);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    vertical-align: middle;
+    font-style: normal;
+    text-decoration: none;
+}
+.about-hero p {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.125rem;
+    font-weight: 300;
+    color: var(--surface-high);
+    line-height: 1.65;
+    max-width: 40rem;
+    margin: 0 0 20px;
+}
+.hero-pill-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.hero-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 9999px;
+    background: rgba(255,255,255,0.08);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8125rem;
+    color: var(--inverse-on-surface);
+    font-weight: 500;
+}
 
-/* Section header */
-.section-label {
-    font-size: 0.69rem; letter-spacing: .12em; text-transform: uppercase;
-    color: var(--primary); font-weight: 700; margin-bottom: 5px;
+/* Stat grid — bg-inverse-surface rounded-xl */
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: -24px;
+    position: relative;
+    z-index: 10;
+    padding: 0;
 }
+.stat-card {
+    background: var(--inverse-surface);
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 110px;
+    overflow: hidden;
+    position: relative;
+}
+.stat-num {
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 2.75rem;
+    font-weight: 400;
+    line-height: 1;
+    margin-bottom: 10px;
+}
+.stat-num.tertiary-fixed { color: var(--tertiary-fixed-dim); }
+.stat-num.primary-fixed  { color: var(--primary-fixed-dim); }
+.stat-num.secondary-fixed{ color: var(--secondary-fixed-dim); }
+.stat-num.surface        { color: var(--inverse-on-surface); }
+.stat-lbl {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    color: var(--surface-high);
+    line-height: 1.4;
+}
+
+/* Section headers — from stitch section labels */
+.section-eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+.section-eyebrow.primary  { color: var(--primary); }
+.section-eyebrow.secondary{ color: var(--secondary); }
 .section-title {
     font-family: 'Newsreader', Georgia, serif;
-    font-size: 1.55rem; font-weight: 500;
-    color: var(--on-surface);
-    margin: 0 0 22px; line-height: 1.3; letter-spacing: -0.01em;
-}
-
-/* Cards */
-.card {
-    background: var(--surface-lowest);
-    border: 1px solid #e8d5bc;
-    border-radius: 16px;
-    padding: 24px 22px;
-    height: 100%;
-    transition: box-shadow .2s, border-color .2s;
-}
-.card:hover {
-    box-shadow: 0 8px 24px rgba(46,31,15,0.08);
-    border-color: #d9c2a3;
-}
-.card-icon { font-size: 1.75rem; margin-bottom: 12px; }
-.card h3   { font-size: 0.9375rem; font-weight: 700; color: var(--on-surface); margin: 0 0 7px; }
-.card p    { font-size: 0.85rem; color: var(--on-surface-variant); line-height: 1.65; margin: 0; }
-
-/* Status pill */
-.pill {
-    display: inline-block;
-    background: var(--surface-container);
-    color: #7a3000;
-    border: 1px solid #f0c898;
-    border-radius: 20px;
-    padding: 4px 14px;
-    font-size: 0.775rem;
+    font-size: 2rem;
     font-weight: 500;
+    color: var(--on-surface);
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+    margin: 0 0 10px;
+}
+.section-body {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    color: var(--on-surface-variant);
+    line-height: 1.65;
+    max-width: 40rem;
+}
+
+/* Problem infographic card — surface-container-low rounded-xl */
+.problem-infographic {
+    background: var(--surface-low);
+    border-radius: 12px;
+    padding: 28px;
+}
+
+/* Problem / Differentiator cards — surface-container-lowest rounded-xl */
+.about-card {
+    background: var(--surface-lowest);
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 0 1px 4px rgba(46,31,15,0.04);
+    transition: box-shadow 0.2s;
+    height: 100%;
+}
+.about-card:hover { box-shadow: 0 4px 12px rgba(46,31,15,0.08); }
+.about-card-icon-wrap {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 1.5rem;
+}
+.about-card-icon-wrap.primary   { background: rgba(151,67,17,0.1); }
+.about-card-icon-wrap.tertiary  { background: rgba(141,75,0,0.12); }
+.about-card-icon-wrap.secondary { background: rgba(38,107,64,0.12); }
+.about-card h4 {
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--on-surface);
+    margin: 0;
+    line-height: 1.3;
+}
+.about-card p {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    color: var(--on-surface-variant);
+    line-height: 1.65;
+    margin: 0;
+}
+
+/* User cohort section — bg-surface-container-low full-width */
+.cohort-section {
+    background: var(--surface-low);
+    padding: 64px 0;
+    margin-left: -2rem;
+    margin-right: -2rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+/* Cohort card bottom tag */
+.cohort-tag {
+    margin-top: 20px;
+    padding: 10px 12px;
+    background: rgba(255,227,203,0.4);  /* surface-container-high/40 */
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 600;
+}
+.cohort-tag.primary  { color: var(--primary); }
+.cohort-tag.tertiary { color: var(--tertiary); }
+.cohort-tag.secondary{ color: var(--secondary); }
+
+/* Agent architecture cards — bg-surface rounded-xl (inside surface-lowest container) */
+.agent-arch-wrap {
+    background: var(--surface-lowest);
+    border-radius: 16px;
+    padding: 32px 40px;
+    box-shadow: 0 1px 4px rgba(46,31,15,0.04);
+}
+.agent-card {
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    height: 100%;
+}
+.agent-num-badge {
+    width: 32px; height: 32px;
+    border-radius: 9999px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--on-primary);
+}
+.agent-num-badge.primary   { background: var(--primary); }
+.agent-num-badge.tertiary  { background: var(--tertiary); color: var(--on-tertiary); }
+.agent-num-badge.secondary { background: var(--secondary); color: var(--on-secondary); }
+.agent-type-badge {
+    padding: 4px 10px;
+    border-radius: 9999px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 600;
+}
+.agent-type-badge.primary   { background: var(--primary-fixed); color: var(--on-primary-fixed); }
+.agent-type-badge.tertiary  { background: var(--tertiary-fixed); color: var(--on-tertiary-fixed); }
+.agent-type-badge.secondary { background: var(--secondary-fixed); color: var(--on-secondary-fixed); }
+.agent-card h3 {
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--on-surface);
+    margin: 0;
+}
+.agent-card p {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    color: var(--on-surface-variant);
+    line-height: 1.65;
+    margin: 0;
+}
+.agent-card-note {
+    margin-top: 4px;
+    background: var(--surface-low);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    color: var(--on-surface-variant);
+}
+.agent-card-note strong { color: var(--on-surface); }
+/* Auditable handshake bar */
+.arch-audit-bar {
+    margin-top: 28px;
+    padding: 20px;
+    background: var(--surface-low);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.arch-audit-bar p {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    color: var(--on-surface-variant);
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* Responsible design principles — bg-surface-container-low rounded-xl */
+.principle-card {
+    background: var(--surface-low);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    height: 100%;
+}
+.principle-card h4 {
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--on-surface);
+    margin: 0;
+}
+.principle-card p {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    color: var(--on-surface-variant);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* MVP scope cards */
+.scope-card {
+    background: var(--surface-lowest);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 1px 4px rgba(46,31,15,0.04);
+}
+.scope-card h3 {
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--on-surface);
+    margin: 0 0 14px;
+}
+.scope-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    color: var(--on-surface-variant);
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+.scope-dot {
+    width: 6px; height: 6px;
+    border-radius: 9999px;
+    flex-shrink: 0;
+}
+.scope-dot.secondary { background: var(--secondary); }
+.scope-dot.tertiary  { background: var(--tertiary); }
+
+/* Tech chip — surface-container-high */
+.tech-chip {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 9999px;
+    background: var(--surface-high);
+    color: var(--on-surface);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
     margin: 3px 3px;
 }
 
-/* Agent flow boxes */
-.agent-box {
+/* About footer */
+.about-footer {
     background: var(--surface-lowest);
-    border-left: 5px solid var(--primary);
-    border-radius: 0 16px 16px 0;
-    padding: 18px 22px;
-    margin-bottom: 14px;
+    padding: 48px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 40px;
 }
-.agent-box h4 { font-size: 0.9375rem; font-weight: 700; color: var(--on-surface); margin: 0 0 5px; }
-.agent-box p  { font-size: 0.84rem; color: var(--on-surface-variant); margin: 0; line-height: 1.6; }
-.agent-box.safety  { border-color: var(--tertiary); background: #fffcf5; }
-.agent-box.support { border-color: var(--secondary); background: #f4fdf6; }
-
-/* Responsible design principles */
-.principle {
-    display: flex; gap: 14px; align-items: flex-start;
-    margin-bottom: 16px;
-}
-.principle-icon {
-    flex-shrink: 0; width: 38px; height: 38px;
-    background: var(--surface-container);
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.1rem;
-}
-.principle-body h4 { font-size: 0.875rem; font-weight: 700; color: var(--on-surface); margin: 0 0 2px; }
-.principle-body p  { font-size: 0.82rem; color: var(--on-surface-variant); margin: 0; line-height: 1.55; }
-
-/* Stat blocks */
-.stat-block {
-    background: var(--inverse-surface);
-    border-radius: 16px;
-    padding: 26px 20px;
-    text-align: center; color: #fff;
-}
-.stat-block .num {
+.about-footer-title {
     font-family: 'Newsreader', Georgia, serif;
-    font-size: 2.4rem; font-weight: 500;
-    color: var(--primary-fixed-dim);
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: var(--on-surface);
 }
-.stat-block .lbl { font-size: 0.78rem; color: #d4b89a; margin-top: 5px; line-height: 1.45; }
-
-/* MVP list */
-.limit-item {
-    display: flex; align-items: flex-start; gap: 10px;
-    margin-bottom: 12px; font-size: 0.875rem;
-    color: var(--on-surface); line-height: 1.6;
-}
-.limit-dot {
-    flex-shrink: 0; margin-top: 7px;
-    width: 8px; height: 8px; border-radius: 50%;
-    background: var(--tertiary);
+.about-footer-sub {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    color: var(--on-surface-variant);
+    margin-top: 4px;
 }
 
-/* Footer */
-.site-footer {
-    text-align: center; color: var(--outline);
-    font-size: 0.775rem; padding: 32px 0 10px;
-    border-top: 1px solid #e8d5bc; margin-top: 56px;
+/* Differentiators section alt bg */
+.diff-section-bg {
+    background: rgba(255,227,203,0.3);
+    margin-left: -2rem;
+    margin-right: -2rem;
+    padding: 64px 2rem;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -504,13 +966,6 @@ section[data-testid="stMain"] > div { background-color: var(--surface) !importan
 # ─────────────────────────────────────────────────────────────────────────────
 # Session state
 # ─────────────────────────────────────────────────────────────────────────────
-WELCOME = (
-    "Hi! I'm your Online Safety Companion.\n\n"
-    "I help you check people, messages, and requests online. "
-    "You decide what to do — I only give information and options.\n\n"
-    "What would you like help with today?"
-)
-
 for key, default in [
     ("page",           "chat"),
     ("ready",          False),
@@ -526,47 +981,73 @@ for key, default in [
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Sidebar — dark coffee rail
+# Sidebar — exact stitch structure: aside bg-inverse-surface
 # ─────────────────────────────────────────────────────────────────────────────
 with st.sidebar:
+    # Logo + wordmark
     st.markdown("""
-    <div style="padding:16px 0 28px;">
-        <div style="display:flex;align-items:center;gap:10px;">
-            <div style="width:36px;height:36px;background:#974311;border-radius:10px;
-                        display:flex;align-items:center;justify-content:center;font-size:1.3rem;">
-                🛡️
+    <div style="padding:28px 20px 20px;">
+        <div style="display:flex;align-items:center;gap:12px;">
+            <div style="width:32px;height:32px;flex-shrink:0;">
+                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:32px;height:32px;">
+                    <path d="M16 2L4 7v9c0 7.18 5.16 13.9 12 15.93C22.84 29.9 28 23.18 28 16V7L16 2z"
+                          fill="#974311" opacity="0.9"/>
+                    <path d="M16 2L4 7v9c0 7.18 5.16 13.9 12 15.93C22.84 29.9 28 23.18 28 16V7L16 2z"
+                          fill="none" stroke="#ffb693" stroke-width="1.5"/>
+                    <path d="M11 16l3.5 3.5L21 12" stroke="#ffffff" stroke-width="2"
+                          stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
             </div>
-            <div>
-                <div style="font-family:'Newsreader',Georgia,serif;font-size:1.25rem;
-                            font-weight:500;color:#ffeee0;line-height:1.1;letter-spacing:-0.01em;">
-                    DIVERT<span style="color:#ffb693;">1</span>
-                </div>
-                <div style="font-size:0.7rem;color:#897269;margin-top:2px;letter-spacing:.02em;">
+            <div style="display:flex;flex-direction:column;">
+                <span style="font-family:'Newsreader',Georgia,serif;font-size:1.1rem;
+                             font-weight:500;color:#ffeee0;line-height:1.1;letter-spacing:-0.01em;">
+                    DIVERT1
+                </span>
+                <span style="font-family:'Inter',sans-serif;font-size:0.6875rem;
+                             font-weight:500;color:#897269;letter-spacing:0.02em;">
                     Online Safety Companion
-                </div>
+                </span>
             </div>
         </div>
     </div>
     """, unsafe_allow_html=True)
 
-    if st.button("💬  Chat", use_container_width=True,
-                 type="primary" if st.session_state.page == "chat" else "secondary"):
-        st.session_state.page = "chat"
+    # + New Chat button
+    if st.button("New Chat", use_container_width=True, type="primary",
+                 key="new_chat"):
+        st.session_state.thread_id = None
+        st.session_state.messages  = []
+        st.session_state.page      = "chat"
         st.rerun()
 
-    if st.button("ℹ️  About DIVERT1", use_container_width=True,
-                 type="primary" if st.session_state.page == "about" else "secondary"):
+    st.markdown("<div style='height:12px;'></div>", unsafe_allow_html=True)
+
+    # Nav links
+    if st.button("ℹ️  About & Architecture", use_container_width=True,
+                 type="primary" if st.session_state.page == "about" else "secondary",
+                 key="nav_about"):
         st.session_state.page = "about"
         st.rerun()
 
-    st.markdown("<hr style='border-color:#4a3524;margin:20px 0;'>", unsafe_allow_html=True)
+    if st.button("💬  Safety Companion Chat", use_container_width=True,
+                 type="primary" if st.session_state.page == "chat" else "secondary",
+                 key="nav_chat"):
+        st.session_state.page = "chat"
+        st.rerun()
+
+    # Footer info
     st.markdown("""
-    <div style="font-size:0.75rem;color:#897269;line-height:1.75;padding:0 2px;">
-        <span style="color:#dcc1b6;font-weight:600;">Powered by</span><br>
-        IBM watsonx Orchestrate<br><br>
-        <span style="color:#dcc1b6;font-weight:600;">Built for</span><br>
-        Neurodivergent young adults<br>
-        navigating life online.
+    <div style="position:absolute;bottom:32px;left:0;right:0;padding:0 20px;">
+        <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:16px;">
+            <div style="font-family:'Inter',sans-serif;font-size:0.6875rem;
+                        color:#897269;line-height:1.75;letter-spacing:0.02em;">
+                <span style="color:#dcc1b6;font-weight:600;">Powered by</span><br>
+                IBM watsonx Orchestrate<br><br>
+                <span style="color:#dcc1b6;font-weight:600;">Built for</span><br>
+                Neurodivergent young adults<br>
+                navigating life online.
+            </div>
+        </div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -591,7 +1072,7 @@ if not st.session_state.ready and st.session_state.init_error is None:
 
 
 # ═════════════════════════════════════════════════════════════════════════════
-# PAGE: CHAT
+# PAGE: CHAT  —  divert1_safety_companion_chat_wcag_2.1_accessible/code.html
 # ═════════════════════════════════════════════════════════════════════════════
 if st.session_state.page == "chat":
 
@@ -599,37 +1080,30 @@ if st.session_state.page == "chat":
         st.error(f"Could not connect to the agent:\n\n{st.session_state.init_error}")
         st.stop()
 
-    # Page header
+    st.markdown('<div class="chat-workspace">', unsafe_allow_html=True)
+
+    # Active conversation context header
     st.markdown("""
-    <div style="display:flex;align-items:center;justify-content:space-between;
-                border-bottom:1px solid rgba(220,193,182,0.35);
-                padding-bottom:14px;margin-bottom:24px;">
+    <div class="chat-header">
         <div style="display:flex;align-items:center;gap:10px;">
-            <span style="font-family:'Newsreader',Georgia,serif;font-size:1.1rem;
-                         font-weight:600;color:#271909;letter-spacing:-0.01em;">
-                Online Safety Companion
-            </span>
-            <span style="padding:3px 10px;border-radius:20px;
-                         background:rgba(151,67,17,0.1);color:#974311;
-                         font-size:0.7rem;font-weight:600;">Active Session</span>
+            <span style="font-size:1.1rem;">💬</span>
+            <span class="chat-header-title">Safety Companion</span>
+            <span class="session-badge">Active Session</span>
         </div>
-        <div style="font-size:0.75rem;color:#897269;">
+        <div style="font-family:'Inter',sans-serif;font-size:0.75rem;color:#897269;">
             DIVERT1 · IBM watsonx Orchestrate
         </div>
     </div>
     """, unsafe_allow_html=True)
 
-    # ── Welcome screen (shown when no messages yet) ───────────────────────────
+    # ── Welcome screen — shown when no messages yet ──────────────────────────
     if not st.session_state.messages:
         st.markdown("""
-        <div class="chat-wrapper" style="text-align:center;padding:32px 0 16px;">
-            <div style="width:72px;height:72px;background:rgba(151,67,17,0.1);
-                        border-radius:20px;display:flex;align-items:center;
-                        justify-content:center;font-size:2.2rem;margin:0 auto 20px;
-                        outline:2px solid rgba(151,67,17,0.18);">🛡️</div>
+        <div class="welcome-block">
+            <div class="welcome-icon-wrap">🛡️</div>
             <h1 class="welcome-title">
                 Hi! I'm your Online Safety Companion.<br>
-                <span>How can I help you today?</span>
+                <span class="accent">How can I help you today?</span>
             </h1>
             <p class="welcome-sub">
                 I help you check people, messages, and requests online.
@@ -638,26 +1112,29 @@ if st.session_state.page == "chat":
         </div>
         """, unsafe_allow_html=True)
 
-        # Prompt chips
+        # Prompt chips — grid grid-cols-2 gap-3.5 max-w-2xl (stitch)
         CHIPS = [
-            ("📧", "Check a suspicious message or DM",   "Screenshots, links, or awkward chats"),
-            ("👤", "Check a person I met online",         "New friends, gaming contacts, dates"),
-            ("💸", "Someone asked me for money",          "Gift cards, crypto, urgent requests"),
-            ("😟", "I think I was already scammed",       "What to do next and who to tell"),
+            ("mark_email_unread", "Check a suspicious message or DM",
+             "Screenshots, links, or awkward chats"),
+            ("person_search",     "Check a person I met online",
+             "New friends, gaming contacts, dates"),
+            ("credit_card_off",   "Someone asked me for money",
+             "Gift cards, crypto, urgent requests"),
+            ("sentiment_worried", "I think I was already scammed",
+             "What to do next and who to tell"),
         ]
 
-        col_left, col_right = st.columns(2, gap="small")
-        chip_cols = [col_left, col_left, col_right, col_right]
+        col_a, col_b = st.columns(2, gap="small")
+        chip_col_map = [col_a, col_b, col_a, col_b]
 
         clicked_chip = None
-        for (icon, title, sub), col in zip(CHIPS, chip_cols):
+        for (icon, title, sub), col in zip(CHIPS, chip_col_map):
             with col:
-                if st.button(
-                    f"{icon}  **{title}**\n\n{sub}",
-                    use_container_width=True,
-                    key=f"chip_{title}",
-                ):
+                st.markdown('<div class="chip-col">', unsafe_allow_html=True)
+                label = f"**{title}**\n\n{sub}"
+                if st.button(label, use_container_width=True, key=f"chip_{title}"):
                     clicked_chip = title
+                st.markdown('</div>', unsafe_allow_html=True)
 
         if clicked_chip:
             st.session_state.messages.append({"role": "user", "text": clicked_chip})
@@ -678,74 +1155,60 @@ if st.session_state.page == "chat":
                     )
             st.rerun()
 
-    # ── Chat stream (shown once messages exist) ───────────────────────────────
+    # ── Dialogue log — role="log" aria-live="polite" ─────────────────────────
     else:
-        st.markdown('<div class="chat-wrapper">', unsafe_allow_html=True)
-        st.markdown('<div class="chat-stream">', unsafe_allow_html=True)
+        st.markdown('<div class="dialogue-log" role="log" aria-live="polite">', unsafe_allow_html=True)
 
         for msg in st.session_state.messages:
             if msg["role"] == "user":
                 st.markdown(
-                    f'<div class="bubble-row-user">'
-                    f'<div>'
-                    f'<div class="user-meta">You</div>'
-                    f'<div class="bubble-user">{msg["text"]}</div>'
-                    f'</div>'
-                    f'<div style="width:40px;height:40px;min-width:40px;'
-                    f'background:var(--surface-highest);border-radius:50%;'
-                    f'display:flex;align-items:center;justify-content:center;'
-                    f'font-size:1.1rem;margin-top:20px;ring:2px solid rgba(151,67,17,0.2);">👤</div>'
+                    f'<div class="msg-user-row">'
+                    f'  <div class="msg-user-inner">'
+                    f'    <div class="msg-user-meta"><span>You</span></div>'
+                    f'    <div class="msg-user-bubble">{msg["text"]}</div>'
+                    f'  </div>'
+                    f'  <div class="msg-user-avatar">👤</div>'
                     f'</div>',
                     unsafe_allow_html=True,
                 )
             else:
                 st.markdown(
-                    f'<div class="bubble-row-bot">'
-                    f'<div class="companion-avatar">🛡️</div>'
-                    f'<div>'
-                    f'<div class="bot-label">DIVERT1 Companion</div>'
-                    f'<div class="sanctuary-card">'
-                    f'<div class="bot-text">{msg["text"]}</div>'
-                    f'</div>'
-                    f'</div>'
+                    f'<div class="msg-bot-row">'
+                    f'  <div class="companion-avatar">🛡️</div>'
+                    f'  <div class="msg-bot-inner">'
+                    f'    <div class="msg-bot-label">DIVERT1 Companion</div>'
+                    f'    <div class="sanctuary-card">{msg["text"]}</div>'
+                    f'  </div>'
                     f'</div>',
                     unsafe_allow_html=True,
                 )
 
-        st.markdown('</div>', unsafe_allow_html=True)  # close chat-stream
-        st.markdown('</div>', unsafe_allow_html=True)  # close chat-wrapper
+        st.markdown('</div>', unsafe_allow_html=True)  # close dialogue-log
 
-    # ── Input bar ─────────────────────────────────────────────────────────────
-    st.markdown('<div style="max-width:760px;margin:0 auto;">', unsafe_allow_html=True)
-    st.markdown('<div class="chat-input-bar">', unsafe_allow_html=True)
+    # ── Input bar — rounded-2xl bg-surface-container-low ────────────────────
+    st.markdown('<div class="input-bar-wrap">', unsafe_allow_html=True)
 
     with st.form(key="chat_form", clear_on_submit=True):
         cols = st.columns([9, 1])
         user_input = cols[0].text_input(
-            label="msg",
-            placeholder="Paste a message or describe a situation…",
+            label="companion_input",
+            placeholder="How can I help you?",
             label_visibility="collapsed",
         )
         submitted = cols[1].form_submit_button("➤")
 
     st.markdown("""
-    <div class="input-privacy">
-        🔒 &nbsp;DIVERT1 evaluates context respectfully.
+    <div class="input-privacy-row">
+        🔒&nbsp; DIVERT1 evaluates context respectfully.
         We never ask for passwords or private data.
+        &nbsp;·&nbsp; <kbd style="padding:2px 6px;border-radius:4px;
+        background:#ffe3cb;border:1px solid #dcc1b6;font-family:monospace;
+        font-size:10px;">Esc</kbd> clears context
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown('</div>', unsafe_allow_html=True)  # close chat-input-bar
-
-    # New conversation button
-    _, right_col = st.columns([3, 1])
-    with right_col:
-        if st.button("🔄 New conversation", use_container_width=True):
-            st.session_state.thread_id = None
-            st.session_state.messages  = []
-            st.rerun()
-
-    st.markdown('</div>', unsafe_allow_html=True)  # close max-width wrapper
+    st.markdown('</div>', unsafe_allow_html=True)  # close input-bar-wrap
+    st.markdown('</div>', unsafe_allow_html=True)  # close chat-workspace
 
     if submitted and user_input.strip():
         text = user_input.strip()
@@ -769,303 +1232,432 @@ if st.session_state.page == "chat":
 
 
 # ═════════════════════════════════════════════════════════════════════════════
-# PAGE: ABOUT
+# PAGE: ABOUT  —  divert1_about_architecture/code.html
 # ═════════════════════════════════════════════════════════════════════════════
 elif st.session_state.page == "about":
 
-    # ── HERO ──────────────────────────────────────────────────────────────────
+    # ── Breadcrumb bar ────────────────────────────────────────────────────────
     st.markdown("""
-    <div class="hero">
-        <div class="hero-tag">Project DIVERT1</div>
-        <h1>Online Safety<br><span>Companion</span></h1>
+    <div class="breadcrumb-bar">
+        <div style="display:flex;align-items:center;gap:6px;">
+            <span>Safety Companion</span>
+            <span style="font-size:0.9rem;">›</span>
+            <span class="crumb-active">About &amp; Architecture</span>
+        </div>
+        <span class="breadcrumb-ver">v1.0 Architecture</span>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # ── Immersive hero ────────────────────────────────────────────────────────
+    st.markdown("""
+    <div class="about-hero">
+        <div class="about-hero-badge">
+            <span class="pulse"></span>
+            Project DIVERT1
+        </div>
+        <h1>
+            Online Safety
+            <span class="italic-accent">Companion</span>
+            <span class="alpha-badge">ALPHA</span>
+        </h1>
         <p>
             A multi-agent AI that explains online risks in plain, calm language —
-            designed from the ground up for neurodivergent young adults
-            navigating scams, fraud, and social pressure online.
+            designed from the ground up for neurodivergent young adults navigating
+            scams, fraud, and social pressure online.
+        </p>
+        <div class="hero-pill-row">
+            <span class="hero-pill">🔒 Zero Credential Capture</span>
+            <span class="hero-pill">🧠 Calm Executive Support</span>
+            <span class="hero-pill">⚙️ watsonx Orchestration</span>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # ── Impact stat grid ──────────────────────────────────────────────────────
+    c1, c2, c3, c4 = st.columns(4, gap="small")
+    for col, num, cls, lbl in [
+        (c1, "3×",    "tertiary-fixed", "more likely to be targeted by online scams and coercive tactics"),
+        (c2, "3",     "primary-fixed",  "specialized AI agents coordinating seamlessly in real time"),
+        (c3, "100%",  "secondary-fixed","rule-based risk scoring — deterministic and fully auditable"),
+        (c4, "0",     "surface",        "passwords, payment numbers, or state IDs ever requested"),
+    ]:
+        col.markdown(
+            f'<div class="stat-card">'
+            f'<div class="stat-num {cls}">{num}</div>'
+            f'<div class="stat-lbl">{lbl}</div>'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
+
+    st.markdown("<br><br>", unsafe_allow_html=True)
+
+    # ── The Problem ───────────────────────────────────────────────────────────
+    st.markdown("""
+    <div class="section-eyebrow primary">The Context &amp; Gap</div>
+    <div class="section-title">Why existing protective tools aren't enough</div>
+    <p class="section-body">
+        Conventional cyber security focuses on technical perimeters rather than subtle human
+        persuasion, leaving critical blind spots for vulnerable users.
+    </p>
+    """, unsafe_allow_html=True)
+
+    prob_l, prob_r = st.columns([5, 7], gap="large")
+    with prob_l:
+        st.markdown("""
+        <div class="problem-infographic">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+                <span style="font-family:'Inter',sans-serif;font-size:0.8125rem;font-weight:600;
+                             color:#974311;">Social Engineering Trap</span>
+                <span style="padding:4px 10px;border-radius:9999px;background:#ffdad6;
+                             color:#93000a;font-family:'Inter',sans-serif;font-size:0.6875rem;
+                             font-weight:600;">High Friction</span>
+            </div>
+            <h3 style="font-family:'Newsreader',Georgia,serif;font-size:1.25rem;font-weight:600;
+                       color:#271909;margin:0 0 10px;">The Silence in the Grey Areas</h3>
+            <p style="font-family:'Inter',sans-serif;font-size:0.875rem;color:#55433a;
+                      line-height:1.65;margin:0 0 20px;">
+                Technical filters successfully block known malicious links, but they cannot
+                interpret social manipulation, artificial urgency, or friendship mimicry.
+            </p>
+            <div style="background:#fff8f4;border-radius:8px;padding:20px;">
+                <div style="display:flex;justify-content:space-between;font-family:'Inter',sans-serif;
+                            font-size:0.75rem;color:#55433a;margin-bottom:6px;">
+                    <span>Automated Antivirus</span>
+                    <span style="color:#266b40;font-weight:600;">Clean (Pass)</span>
+                </div>
+                <div style="background:#ffe3cb;border-radius:9999px;height:8px;overflow:hidden;margin-bottom:16px;">
+                    <div style="background:#266b40;height:100%;width:100%;"></div>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-family:'Inter',sans-serif;
+                            font-size:0.75rem;color:#55433a;margin-bottom:6px;">
+                    <span>Coercive Emotional Pressure</span>
+                    <span style="color:#8d4b00;font-weight:600;">Undetected (Danger)</span>
+                </div>
+                <div style="background:#ffe3cb;border-radius:9999px;height:8px;overflow:hidden;margin-bottom:14px;">
+                    <div style="background:#8d4b00;height:100%;width:85%;"></div>
+                </div>
+                <p style="font-family:'Inter',sans-serif;font-size:0.75rem;color:#55433a;
+                          text-align:center;font-style:italic;margin:0;">
+                    "Technical protection says it is safe. Context proves otherwise."
+                </p>
+            </div>
+            <div style="margin-top:16px;background:#ffead9;border-radius:8px;padding:14px 16px;
+                        display:flex;align-items:center;gap:10px;">
+                <span style="font-size:1.3rem;">💡</span>
+                <span style="font-family:'Inter',sans-serif;font-size:0.875rem;color:#271909;">
+                    DIVERT1 bridges the gap between binary firewall rules and human nuance.
+                </span>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    with prob_r:
+        for icon, title, body, variant in [
+            ("🎯", "Higher targeting risk",
+             "Neurodivergent individuals are statistically more likely to be deliberately targeted "
+             "by fraudsters using rapid emotional pacing, specialized interest hijacking, and social isolation.",
+             "primary"),
+            ("🚫", "Tools only block — they don't explain",
+             "Spam flags, browser red-screens, and generic block lists rarely state <strong>why</strong> "
+             "an interaction is alarming or guide the user through constructive, calm next actions.",
+             "tertiary"),
+            ("📖", "Safety lessons are hard to follow",
+             "Traditional safety materials often rely on ambiguous idioms, sarcastic examples, or "
+             "presumed neurotypical social instincts, creating secondary confusion in high-anxiety moments.",
+             "secondary"),
+        ]:
+            st.markdown(
+                f'<div class="about-card" style="margin-bottom:16px;">'
+                f'<div style="display:flex;align-items:flex-start;gap:16px;">'
+                f'<div class="about-card-icon-wrap {variant}">{icon}</div>'
+                f'<div>'
+                f'<h4 style="font-family:\'Newsreader\',Georgia,serif;font-size:1.0625rem;'
+                f'font-weight:600;color:#271909;margin:0 0 6px;">{title}</h4>'
+                f'<p style="font-family:\'Inter\',sans-serif;font-size:0.9375rem;'
+                f'color:#55433a;line-height:1.65;margin:0;">{body}</p>'
+                f'</div></div></div>',
+                unsafe_allow_html=True,
+            )
+
+    st.markdown("<br><br>", unsafe_allow_html=True)
+
+    # ── Who It Is For ─────────────────────────────────────────────────────────
+    st.markdown("""
+    <div style="text-align:center;">
+        <div class="section-eyebrow secondary">User Experience Focus</div>
+        <div class="section-title" style="text-align:center;">Who it is built for</div>
+        <p class="section-body" style="margin:0 auto 32px;">
+            Crafted to preserve independence and self-advocacy without patronizing language.
         </p>
     </div>
     """, unsafe_allow_html=True)
 
-    hero_img = img("hero_banner.png")
-    if hero_img:
-        st.image(hero_img, use_container_width=True)
-    else:
-        st.markdown(placeholder("hero_banner.png", 280), unsafe_allow_html=True)
+    u1, u2, u3 = st.columns(3, gap="medium")
+    for col, icon_bg, icon, title, body, tag_cls, tag_text in [
+        (u1, "primary-fixed", "🧠", "Neurodivergent Young Adults",
+         "Autistic people and people with ADHD who are navigating independent living, "
+         "digital employment, or university life. Highly articulate, authentic, and naturally "
+         "comfortable communicating via online spaces.",
+         "primary", "Core Asset: Clear, literal processing"),
+        (u2, "tertiary-fixed", "⚖️", "New to Adult Risks",
+         "Encountering ambiguous demands for the first time: urgent peer payments, gift-card "
+         "requests, romance escalation, or manipulative \"if you really trust me\" ultimatums "
+         "from virtual acquaintances.",
+         "tertiary", "Need: Step-by-step decision validation"),
+        (u3, "secondary-fixed", "👥", "Support Network Often Absent",
+         "Family members, student mentors, and support specialists cannot be present at 2:00 AM "
+         "on a chat platform. Young adults need an immediate, non-judgmental soundboard right "
+         "when situations unfold.",
+         "secondary", "Outcome: Real-time autonomous triage"),
+    ]:
+        with col:
+            st.markdown(
+                f'<div class="about-card">'
+                f'<div style="width:40px;height:40px;border-radius:9999px;'
+                f'background:var(--{icon_bg});display:flex;align-items:center;'
+                f'justify-content:center;font-size:1.2rem;margin-bottom:6px;">{icon}</div>'
+                f'<h4 style="font-family:\'Newsreader\',Georgia,serif;font-size:1.0625rem;'
+                f'font-weight:600;color:#271909;margin:0 0 8px;">{title}</h4>'
+                f'<p style="font-family:\'Inter\',sans-serif;font-size:0.875rem;'
+                f'color:#55433a;line-height:1.65;margin:0;">{body}</p>'
+                f'<div class="cohort-tag {tag_cls}" style="margin-top:16px;">{tag_text}</div>'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
+
+    st.markdown("<br><br>", unsafe_allow_html=True)
+
+    # ── Multi-Agent Architecture ───────────────────────────────────────────────
+    st.markdown("""
+    <div class="section-eyebrow primary">Technical Blueprint</div>
+    <div class="section-title">Our Solution — Multi-Agent Architecture</div>
+    <p class="section-body">
+        Three specialized actors coordinated under IBM watsonx Orchestrate to separate
+        conversation handling, objective risk analysis, and trauma-informed supportive guidance.
+    </p>
+    <br>
+    """, unsafe_allow_html=True)
+
+    st.markdown('<div class="agent-arch-wrap">', unsafe_allow_html=True)
+
+    a1, a2, a3 = st.columns(3, gap="medium")
+    for col, num, variant, label, icon, title, body, note_key, note_val in [
+        (a1, "1", "primary",   "Interface",     "🤖",
+         "Main Chatbot Agent",
+         "Welcomes the user into a low-sensory environment. Asks exactly one short question "
+         "at a time to prevent cognitive overload, gently collecting conversation context.",
+         "Pacing control:", "Max 1 inquiry per conversational turn"),
+        (a2, "2", "tertiary",  "Scoring Engine","🔍",
+         "Safety Agent",
+         "Deterministic rule-based risk scoring. Evaluates patterns across 4 dimensions: "
+         "urgency, financial redirection, isolation cues, and tone shifts over time.",
+         "Yields:", "Risk level + Exact phrases of concern"),
+        (a3, "3", "secondary", "Advocacy",      "🤝",
+         "Support Agent",
+         "Synthesizes raw risk findings into a calm, grounding summary with 2–3 actionable, "
+         "non-pressured pathways. Offers pre-drafted neutral replies.",
+         "Empowerment:", "Scripted neutral deferrals & verification"),
+    ]:
+        with col:
+            st.markdown(
+                f'<div class="agent-card">'
+                f'<div style="display:flex;align-items:center;justify-content:space-between;">'
+                f'<span class="agent-num-badge {variant}">{num}</span>'
+                f'<span class="agent-type-badge {variant}">{label}</span>'
+                f'</div>'
+                f'<div style="display:flex;align-items:center;gap:12px;">'
+                f'<span style="font-size:1.5rem;">{icon}</span>'
+                f'<h3 style="font-family:\'Newsreader\',Georgia,serif;font-size:1.0625rem;'
+                f'font-weight:600;color:#271909;margin:0;">{title}</h3>'
+                f'</div>'
+                f'<p style="font-family:\'Inter\',sans-serif;font-size:0.875rem;'
+                f'color:#55433a;line-height:1.65;margin:0;">{body}</p>'
+                f'<div class="agent-card-note">'
+                f'<strong>{note_key}</strong> {note_val}'
+                f'</div>'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
+
+    st.markdown("""
+    <div class="arch-audit-bar">
+        <span style="font-size:1.3rem;flex-shrink:0;">✅</span>
+        <div>
+            <div style="font-family:'Inter',sans-serif;font-size:0.875rem;font-weight:600;
+                        color:#271909;margin-bottom:4px;">Auditable Data Handshake</div>
+            <p class="arch-audit-bar" style="box-shadow:none;padding:0;background:none;margin:0;">
+                No external model weights decide risk scores. The Safety Agent outputs transparent
+                criteria before the Support Agent renders human text.
+            </p>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown('</div>', unsafe_allow_html=True)  # close agent-arch-wrap
+    st.markdown("<br><br>", unsafe_allow_html=True)
+
+    # ── Core Differentiators ──────────────────────────────────────────────────
+    st.markdown("""
+    <div class="section-eyebrow primary">Distinct Value</div>
+    <div class="section-title">Key Differentiators</div>
+    <br>
+    """, unsafe_allow_html=True)
+
+    d1, d2 = st.columns(2, gap="medium")
+    d3, d4 = st.columns(2, gap="medium")
+    for col, icon, title, body in [
+        (d1, "🔎", "Whole-conversation analysis",
+         "Rather than isolated keyword matching that flags benign sentences, DIVERT1 monitors "
+         "behavioral arcs, shifting dynamics, and relationship pacing across entire chat logs."),
+        (d2, "💬", "Explains the why",
+         "Replaces vague red alert banners with clear, pedagogical logic. It details why a message "
+         "creates artificial pressure, strengthening individual cyber discernment."),
+        (d3, "🫂", "Respects friendships",
+         "Recognizes that genuine friends sometimes need emergency help. It flags account compromise "
+         "possibilities and recommends out-of-band checks without accusing the friend."),
+        (d4, "😌", "Avoids over-warning",
+         "Sensory fatigue occurs when safety tools cry wolf. DIVERT1 validates safe, genuine "
+         "conversations with positive reassurance rather than nervous warnings."),
+    ]:
+        with col:
+            st.markdown(
+                f'<div class="about-card" style="display:flex;flex-direction:row;'
+                f'align-items:flex-start;gap:16px;margin-bottom:16px;">'
+                f'<div style="padding:10px;border-radius:8px;background:#ffead9;'
+                f'flex-shrink:0;font-size:1.3rem;">{icon}</div>'
+                f'<div>'
+                f'<h3 style="font-family:\'Newsreader\',Georgia,serif;font-size:1.0625rem;'
+                f'font-weight:600;color:#271909;margin:0 0 6px;">{title}</h3>'
+                f'<p style="font-family:\'Inter\',sans-serif;font-size:0.9375rem;'
+                f'color:#55433a;line-height:1.65;margin:0;">{body}</p>'
+                f'</div></div>',
+                unsafe_allow_html=True,
+            )
+
+    st.markdown("<br><br>", unsafe_allow_html=True)
+
+    # ── Responsible Design & MVP Scope ────────────────────────────────────────
+    st.markdown("""
+    <div class="section-eyebrow secondary">Governance &amp; Boundaries</div>
+    <div class="section-title">Responsible Design &amp; MVP Scope</div>
+    <br>
+    """, unsafe_allow_html=True)
+
+    # 5 principle cards
+    p1, p2, p3, p4, p5 = st.columns(5, gap="small")
+    for col, icon, title, body in [
+        (p1, "🚫", "Never labels",
+         "Never calls someone a \u2018scammer\u2019. Focuses entirely on observable message behaviors."),
+        (p2, "✋", "User decides",
+         "Never locks the screen or imposes mandatory blocks. Agency remains with the user."),
+        (p3, "🔑", "No secrets",
+         "Will never accept or store credentials, passkeys, financial PINs, or ID uploads."),
+        (p4, "📋", "Fully auditable",
+         "Rule heuristics are plain text rules, not inaccessible black-box probabilities."),
+        (p5, "🌐", "Clear language",
+         "Zero metaphors, idioms, or ambiguous sarcasm in safety assessments."),
+    ]:
+        with col:
+            st.markdown(
+                f'<div class="principle-card">'
+                f'<span style="font-size:1.3rem;">{icon}</span>'
+                f'<h4>{title}</h4>'
+                f'<p>{body}</p>'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # ── STATS ─────────────────────────────────────────────────────────────────
-    for col, num, lbl in zip(
-        st.columns(4),
-        ["3×", "3", "100%", "0"],
-        ["more likely to be targeted\nby online scams",
-         "AI agents working\ntogether in real time",
-         "rule-based risk scoring\n— fully auditable",
-         "passwords, card numbers\nor IDs ever asked"],
-    ):
-        col.markdown(
-            f'<div class="stat-block"><div class="num">{num}</div>'
-            f'<div class="lbl">{lbl}</div></div>',
-            unsafe_allow_html=True,
-        )
-
-    st.markdown("<br><br>", unsafe_allow_html=True)
-
-    # ── THE PROBLEM ───────────────────────────────────────────────────────────
-    left, right = st.columns([1, 1], gap="large")
-    with left:
+    # MVP scope
+    s1, s2 = st.columns(2, gap="large")
+    with s1:
         st.markdown("""
-        <div class="section-label">The Problem</div>
-        <div class="section-title">Why existing tools<br>aren't enough</div>
+        <div class="scope-card">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+                <span style="font-size:1.2rem;">✅</span>
+                <h3 style="margin:0;">Included in Current Scope (MVP)</h3>
+            </div>
         """, unsafe_allow_html=True)
-        p_img = img("problem_illustration.png")
-        if p_img:
-            st.image(p_img, use_container_width=True)
-        else:
-            st.markdown(placeholder("problem_illustration.png", 240), unsafe_allow_html=True)
-
-    with right:
-        st.markdown("<br><br>", unsafe_allow_html=True)
-        for icon, title, body in [
-            ("🎯", "Higher targeting risk",
-             "Neurodivergent people are statistically more likely to be targeted by scams, "
-             "fraud, and manipulation online."),
-            ("🚫", "Tools only block — they don't explain",
-             "Spam filters, browser warnings, and block buttons rarely say why something "
-             "is risky or help the user decide what to do."),
-            ("📖", "Safety lessons are hard to follow",
-             "Most online safety content is not written for how neurodivergent people "
-             "process information — full of metaphors, sarcasm, and assumed social cues."),
+        for item in [
+            "Real-time chat log copy-paste analysis",
+            "Deterministic rule-based risk classification",
+            "Low-sensory, high-contrast, calm interface mode",
+            "Template response generation for respectful boundaries",
+            "Plain-English safety concept library & glossaries",
         ]:
             st.markdown(
-                f'<div class="card" style="margin-bottom:12px;">'
-                f'<div class="card-icon">{icon}</div>'
-                f'<h3>{title}</h3><p>{body}</p></div>',
-                unsafe_allow_html=True,
-            )
-
-    st.markdown("<br><br>", unsafe_allow_html=True)
-
-    # ── WHO IT IS FOR ─────────────────────────────────────────────────────────
-    st.markdown("""
-    <div class="section-label">Who it's for</div>
-    <div class="section-title">Our Users</div>
-    """, unsafe_allow_html=True)
-
-    u1, u2, u3 = st.columns(3, gap="medium")
-    for col, fname, icon, title, body in [
-        (u1, "user_persona.png", "🧠", "Neurodivergent Young Adults",
-         "Autistic people and people with ADHD who are starting to live more "
-         "independently. Thoughtful, honest, and most comfortable communicating online."),
-        (u2, "risk_scenario.png", "⚠️", "New to Adult Risks",
-         "They may be new to risks like money requests, romance scams, and "
-         '"prove you trust me" pressure from people they met online.'),
-        (u3, "support_network.png", "👥", "Support Network Often Absent",
-         "Parents, campus advisors, and support workers are rarely present in the "
-         "moment when these situations unfold online."),
-    ]:
-        u_img = img(fname)
-        with col:
-            if u_img:
-                st.image(u_img, use_container_width=True)
-            else:
-                st.markdown(placeholder(fname, 190), unsafe_allow_html=True)
-            st.markdown(
-                f'<div class="card" style="margin-top:10px;">'
-                f'<div class="card-icon">{icon}</div>'
-                f'<h3>{title}</h3><p>{body}</p></div>',
-                unsafe_allow_html=True,
-            )
-
-    st.markdown("<br><br>", unsafe_allow_html=True)
-
-    # ── OUR SOLUTION ──────────────────────────────────────────────────────────
-    st.markdown("""
-    <div class="section-label">Our Solution</div>
-    <div class="section-title">How the multi-agent system works</div>
-    """, unsafe_allow_html=True)
-
-    sol_l, sol_r = st.columns([1, 1], gap="large")
-    with sol_l:
-        a_img = img("agent_architecture.png")
-        if a_img:
-            st.image(a_img, use_container_width=True)
-        else:
-            st.markdown(placeholder("agent_architecture.png", 320), unsafe_allow_html=True)
-    with sol_r:
-        st.markdown("""
-        <div class="agent-box">
-            <h4>🤖 Main Chatbot Agent</h4>
-            <p>Welcomes the user, asks one short question at a time, and gathers
-            the messages and background needed for analysis.</p>
-        </div>
-        <div class="agent-box safety">
-            <h4>🔍 Safety Agent</h4>
-            <p>Checks content with a transparent, rule-based risk-scoring tool.
-            Returns a risk level (low / medium / high), exact words of concern,
-            how the conversation changed over time, and one follow-up question.</p>
-        </div>
-        <div class="agent-box support">
-            <h4>🤝 Support Agent</h4>
-            <p>Turns the risk result into a short, calm reply with 2–3 clear options.
-            When risk is high or the user was already scammed, it strongly recommends
-            a trusted person and provides practical next steps.</p>
-        </div>
-        """, unsafe_allow_html=True)
-
-    st.markdown("<br><br>", unsafe_allow_html=True)
-
-    # ── DIFFERENTIATORS ───────────────────────────────────────────────────────
-    st.markdown("""
-    <div class="section-label">Differentiators</div>
-    <div class="section-title">What makes DIVERT1 different</div>
-    """, unsafe_allow_html=True)
-
-    for col, icon, title, body in zip(
-        st.columns(4, gap="medium"),
-        ["🔎", "💬", "🫂", "✅"],
-        ["Whole-conversation analysis", "Explains the why",
-         "Respects friendships", "Avoids over-warning"],
-        ["Looks at behaviour patterns across the entire conversation, not just single keywords.",
-         "Gives reasons instead of only warnings — so users can learn and decide.",
-         "A long-time friend who asks for money gets a careful check, not an accusation.",
-         "Recognises normal, safe conversations and does not flag them unnecessarily."],
-    ):
-        col.markdown(
-            f'<div class="card"><div class="card-icon">{icon}</div>'
-            f'<h3>{title}</h3><p>{body}</p></div>',
-            unsafe_allow_html=True,
-        )
-
-    st.markdown("<br><br>", unsafe_allow_html=True)
-
-    # ── RESPONSIBLE DESIGN ────────────────────────────────────────────────────
-    rd_l, rd_r = st.columns([1, 1], gap="large")
-    with rd_l:
-        st.markdown("""
-        <div class="section-label">Responsible Design</div>
-        <div class="section-title">Built with care<br>at every step</div>
-        """, unsafe_allow_html=True)
-        for icon, title, body in [
-            ("🚫", "Never labels anyone a scammer",
-             "The companion never claims someone is definitely a scammer — it only shares what raised concern."),
-            ("🙋", "User always decides",
-             "The system never makes decisions for the user. It gives information and options — nothing more."),
-            ("🔒", "No sensitive data, ever",
-             "It never asks for passwords, card numbers, or ID."),
-            ("📋", "Fully auditable",
-             "Risk scoring is rule-based, so every decision can be traced and checked."),
-            ("📝", "Clear, literal language",
-             "Replies use short sentences with no sarcasm, idioms, or hidden meaning."),
-        ]:
-            st.markdown(
-                f'<div class="principle">'
-                f'<div class="principle-icon">{icon}</div>'
-                f'<div class="principle-body"><h4>{title}</h4><p>{body}</p></div>'
+                f'<div class="scope-row">'
+                f'<div class="scope-dot secondary"></div>{item}'
                 f'</div>',
                 unsafe_allow_html=True,
             )
-    with rd_r:
-        d_img = img("responsible_design.png")
-        if d_img:
-            st.image(d_img, use_container_width=True)
-        else:
-            st.markdown(placeholder("responsible_design.png", 400), unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True)
 
-    st.markdown("<br><br>", unsafe_allow_html=True)
-
-    # ── MVP SCOPE ─────────────────────────────────────────────────────────────
-    st.markdown("""
-    <div class="section-label">MVP Scope &amp; Limits</div>
-    <div class="section-title">What the current version does</div>
-    """, unsafe_allow_html=True)
-
-    mv1, mv2 = st.columns(2, gap="large")
-    with mv1:
-        st.markdown(
-            "<b style='color:#266b40;font-size:0.875rem;'>✔ Included in MVP</b>",
-            unsafe_allow_html=True,
-        )
-        for item in ["Checks pasted messages and explains risk",
-                     "Supports users who have already been scammed",
-                     "Recommends trusted people to contact",
-                     "AI agent reviews every rule-based result"]:
+    with s2:
+        st.markdown("""
+        <div class="scope-card">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+                <span style="font-size:1.2rem;">⏳</span>
+                <h3 style="margin:0;">Planned for Future Cycles (Out of Scope)</h3>
+            </div>
+        """, unsafe_allow_html=True)
+        for item in [
+            "Direct OS screen recording or silent background monitoring",
+            "Automated contact blocking or account suspension actions",
+            "Financial account or banking API integrations",
+            "Automated parent or supervisor notification alerts",
+            "Automated law enforcement incident dispatching",
+        ]:
             st.markdown(
-                f'<div class="limit-item">'
-                f'<div class="limit-dot" style="background:#266b40;"></div>'
-                f'{item}</div>',
-                unsafe_allow_html=True,
-            )
-    with mv2:
-        st.markdown(
-            "<b style='color:#8d4b00;font-size:0.875rem;'>⚠ Not in MVP</b>",
-            unsafe_allow_html=True,
-        )
-        for item in ["Real-time chat monitoring",
-                     "Direct connection to social platforms",
-                     "Detection of very subtle or novel wording"]:
-            st.markdown(
-                f'<div class="limit-item"><div class="limit-dot"></div>{item}</div>',
-                unsafe_allow_html=True,
-            )
-
-    st.markdown("<br><br>", unsafe_allow_html=True)
-
-    # ── TECH STACK ────────────────────────────────────────────────────────────
-    st.markdown("""
-    <div class="section-label">Technology</div>
-    <div class="section-title">Built on IBM watsonx Orchestrate</div>
-    """, unsafe_allow_html=True)
-
-    t_img = img("tech_stack.png")
-    if t_img:
-        st.image(t_img, use_container_width=True)
-    else:
-        st.markdown(placeholder("tech_stack.png", 180), unsafe_allow_html=True)
-
-    pills = ["IBM watsonx Orchestrate", "Multi-agent orchestration",
-             "Rule-based risk scoring", "Python", "Streamlit",
-             "Transparent AI", "Neurodivergent-inclusive design"]
-    st.markdown(
-        '<div style="margin-top:16px;">'
-        + "".join(f'<span class="pill">{p}</span>' for p in pills)
-        + "</div>",
-        unsafe_allow_html=True,
-    )
-
-    st.markdown("<br><br>", unsafe_allow_html=True)
-
-    # ── TEAM ──────────────────────────────────────────────────────────────────
-    st.markdown("""
-    <div class="section-label">The Team</div>
-    <div class="section-title">People behind DIVERT1</div>
-    """, unsafe_allow_html=True)
-
-    t1, t2, t3 = st.columns(3, gap="medium")
-    for col, fname, name, role in [
-        (t1, "team_member_1.png", "Team Member", "Role · Organisation"),
-        (t2, "team_member_2.png", "Team Member", "Role · Organisation"),
-        (t3, "team_member_3.png", "Team Member", "Role · Organisation"),
-    ]:
-        tm_img = img(fname)
-        with col:
-            if tm_img:
-                st.image(tm_img, use_container_width=True)
-            else:
-                st.markdown(placeholder(fname, 160), unsafe_allow_html=True)
-            st.markdown(
-                f'<div style="text-align:center;margin-top:10px;">'
-                f'<b style="color:var(--on-surface);font-size:0.9375rem;">{name}</b><br>'
-                f'<span style="font-size:0.8rem;color:var(--on-surface-variant);">{role}</span>'
+                f'<div class="scope-row">'
+                f'<div class="scope-dot tertiary"></div>{item}'
                 f'</div>',
                 unsafe_allow_html=True,
             )
+        st.markdown('</div>', unsafe_allow_html=True)
 
-    # ── FOOTER ────────────────────────────────────────────────────────────────
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    # Tech chips
     st.markdown("""
-    <div class="site-footer">
-        DIVERT1 &nbsp;·&nbsp; Online Safety Companion &nbsp;·&nbsp;
-        Powered by IBM watsonx Orchestrate<br>
-        Built with care for neurodivergent young adults navigating life online.
+    <div style="font-family:'Inter',sans-serif;font-size:0.6875rem;font-weight:600;
+                letter-spacing:0.08em;text-transform:uppercase;color:#897269;margin-bottom:10px;">
+        Engineered With
+    </div>
+    <div>
+    """, unsafe_allow_html=True)
+    for chip in ["IBM watsonx Orchestrate", "Multi-Agent Orchestration",
+                 "Rule-Based Risk Scoring", "Python 3.11",
+                 "Transparent Heuristics", "Neuro-Inclusive UX"]:
+        st.markdown(f'<span class="tech-chip">{chip}</span>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    # ── Footer ────────────────────────────────────────────────────────────────
+    st.markdown("""
+    <div class="about-footer">
+        <div>
+            <div class="about-footer-title">DIVERT1
+                <span style="font-family:'Inter',sans-serif;font-size:0.875rem;
+                             font-weight:500;color:#974311;margin-left:8px;">
+                    Safe Space Companion
+                </span>
+            </div>
+            <div class="about-footer-sub">
+                Dedicated to unconditional psychological safety and autonomous online confidence.
+            </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:20px;">
+            <div style="text-align:right;">
+                <div style="font-family:'Inter',sans-serif;font-size:0.6875rem;
+                            color:#897269;">Powered by</div>
+                <div style="font-family:'Inter',sans-serif;font-size:0.875rem;
+                            font-weight:600;color:#271909;">IBM watsonx</div>
+            </div>
+            <div style="width:40px;height:40px;border-radius:9999px;background:#fff1e7;
+                        display:flex;align-items:center;justify-content:center;font-size:1.2rem;">
+                🌿
+            </div>
+        </div>
     </div>
     """, unsafe_allow_html=True)
