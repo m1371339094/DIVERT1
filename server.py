@@ -52,11 +52,11 @@ def _ensure_ready():
         _state["agent_id"]       = aid
         _state["ready"]          = True
     except SystemExit as e:
-        _state["init_error"] = str(e)
-        raise RuntimeError(str(e))
+        _state["init_error"] = f"Startup failed (exit {e})"
+        raise RuntimeError(_state["init_error"])
     except Exception as e:
         _state["init_error"] = str(e)
-        raise
+        raise RuntimeError(_state["init_error"])
 
 
 # ── Routes ────────────────────────────────────────────────────────────────────
@@ -126,9 +126,14 @@ def api_status():
 
 
 if __name__ == "__main__":
+    # Ensure stdout can handle any characters on Windows
+    if sys.platform == "win32":
+        import io
+        sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
+        sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8", errors="replace")
     port = int(os.environ.get("PORT", 5000))
     print(f"\n  DIVERT1 Online Safety Companion")
-    print(f"  ─────────────────────────────────")
+    print(f"  ---------------------------------")
     print(f"  Chat : http://localhost:{port}/")
     print(f"  About: http://localhost:{port}/about")
     print(f"  API  : http://localhost:{port}/api/chat\n")

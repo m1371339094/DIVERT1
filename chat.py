@@ -14,14 +14,20 @@ import os
 import subprocess
 from pathlib import Path
 
-# ── Windows UTF-8 fix ────────────────────────────────────────────────────────
-if sys.platform == "win32":
+# ── Windows UTF-8 fix (only when running as a terminal script) ───────────────
+def _fix_windows_utf8() -> None:
+    """Call only from main() — not safe to run at import time under Flask/WSGI."""
+    if sys.platform != "win32":
+        return
     import io, ctypes
     ctypes.windll.kernel32.SetConsoleOutputCP(65001)
     ctypes.windll.kernel32.SetConsoleCP(65001)
-    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
-    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8", errors="replace")
-    sys.stdin  = io.TextIOWrapper(sys.stdin.buffer,  encoding="utf-8", errors="replace")
+    if hasattr(sys.stdout, "buffer"):
+        sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
+    if hasattr(sys.stderr, "buffer"):
+        sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8", errors="replace")
+    if hasattr(sys.stdin, "buffer"):
+        sys.stdin  = io.TextIOWrapper(sys.stdin.buffer,  encoding="utf-8", errors="replace")
 
 AGENT_NAME = "online_safety_companion"
 
@@ -40,21 +46,45 @@ def load_env() -> None:
 
 
 # ── Activate the Orchestrate environment (token refresh) ─────────────────────
+def _find_orchestrate() -> str:
+    """Return the full path to orchestrate(.exe), searching common locations."""
+    import shutil
+    # 1. Already on PATH
+    found = shutil.which("orchestrate")
+    if found:
+        return found
+    # 2. Alongside this Python interpreter (Scripts/ on Windows, bin/ on Unix)
+    candidates = [
+        Path(sys.executable).parent / "Scripts" / "orchestrate.exe",
+        Path(sys.executable).parent / "Scripts" / "orchestrate",
+        Path(sys.executable).parent / "bin"     / "orchestrate",
+        Path(sys.executable).parent / "orchestrate.exe",
+        Path(sys.executable).parent / "orchestrate",
+    ]
+    for c in candidates:
+        if c.exists():
+            return str(c)
+    return "orchestrate"   # fall back and let subprocess raise a clear error
+
+
 def activate_env() -> None:
     api_key = os.environ.get("WATSONX_APIKEY", "")
     if not api_key:
-        print("ERROR: WATSONX_APIKEY not found in .env")
+        msg = "WATSONX_APIKEY not found in .env"
+        print("ERROR:", msg)
         sys.exit(1)
     print("Connecting ...", end=" ", flush=True)
+    orchestrate_bin = _find_orchestrate()
     result = subprocess.run(
-        ["orchestrate", "env", "activate", "online-safety-companion",
+        [orchestrate_bin, "env", "activate", "online-safety-companion",
          "--api-key", api_key],
-        capture_output=True, text=True
+        capture_output=True, text=True,
     )
     if result.returncode != 0:
-        print("\nERROR: Could not authenticate.")
-        print(result.stderr.strip() or result.stdout.strip())
-        sys.exit(1)
+        detail = (result.stderr.strip() or result.stdout.strip() or
+                  f"orchestrate exited with code {result.returncode}")
+        print(f"\nERROR: Could not authenticate. {detail}")
+        raise RuntimeError(f"Could not authenticate with watsonx Orchestrate: {detail}")
     print("Connected.\n")
 
 
@@ -81,9 +111,9 @@ def build_clients():
 
     if not agent_id:
         names = [a.get("name") for a in agent_list]
-        print(f"ERROR: Agent '{AGENT_NAME}' not found.")
-        print(f"Available agents: {names}")
-        sys.exit(1)
+        msg = f"Agent '{AGENT_NAME}' not found. Available: {names}"
+        print(f"ERROR: {msg}")
+        raise RuntimeError(msg)
 
     return run_client, threads_client, agent_id
 
@@ -165,6 +195,7 @@ def _extract_text(msg: dict) -> str:
 
 # ── Main interactive loop ─────────────────────────────────────────────────────
 def main() -> None:
+    _fix_windows_utf8()
     load_env()
     activate_env()
 
