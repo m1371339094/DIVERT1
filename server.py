@@ -17,9 +17,10 @@ from flask import Flask, request, jsonify, send_from_directory, abort
 
 # ── Path setup ────────────────────────────────────────────────────────────────
 ROOT = Path(__file__).parent
-FRONTEND_DIR = ROOT / "stitch_divert1_online_safety_companion"
-CHAT_HTML    = FRONTEND_DIR / "divert1_safety_companion_chat_wcag_2.1_accessible" / "code.html"
-ABOUT_HTML   = FRONTEND_DIR / "divert1_about_architecture" / "code.html"
+FRONTEND_DIR       = ROOT / "stitch_divert1_online_safety_companion"
+CHAT_HTML          = FRONTEND_DIR / "divert1_safety_companion_chat_wcag_2.1_accessible" / "code.html"
+ABOUT_HTML         = FRONTEND_DIR / "divert1_about_architecture" / "code.html"
+CONTRIBUTORS_HTML  = FRONTEND_DIR / "divert1_contributors" / "code.html"
 
 # ── Import backend helpers ────────────────────────────────────────────────────
 from chat import load_env, activate_env, build_clients, send_message
@@ -73,6 +74,14 @@ def about_page():
     """Redirect to main chat page — About is now an in-page modal."""
     from flask import redirect
     return redirect("/")
+
+
+@app.route("/contributors")
+def contributors_page():
+    """Serve the Contributors page."""
+    if not CONTRIBUTORS_HTML.exists():
+        abort(404, description=f"Contributors HTML not found at {CONTRIBUTORS_HTML}")
+    return CONTRIBUTORS_HTML.read_text(encoding="utf-8")
 
 
 
@@ -129,7 +138,8 @@ if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     print(f"\n  DIVERT1 Online Safety Companion")
     print(f"  ─────────────────────────────────")
-    print(f"  Chat : http://localhost:{port}/")
-    print(f"  About: http://localhost:{port}/about")
-    print(f"  API  : http://localhost:{port}/api/chat\n")
+    print(f"  Chat         : http://localhost:{port}/")
+    print(f"  About        : http://localhost:{port}/about")
+    print(f"  Contributors : http://localhost:{port}/contributors")
+    print(f"  API          : http://localhost:{port}/api/chat\n")
     app.run(host="0.0.0.0", port=port, debug=False)
