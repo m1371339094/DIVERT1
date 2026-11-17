@@ -18,7 +18,7 @@ from flask import Flask, request, jsonify, send_from_directory, abort
 # ── Path setup ────────────────────────────────────────────────────────────────
 ROOT = Path(__file__).parent
 FRONTEND_DIR       = ROOT / "stitch_divert1_online_safety_companion"
-CHAT_HTML          = FRONTEND_DIR / "divert1_safety_companion_chat_wcag_2.1_accessible" / "code.html"
+CHAT_HTML          = FRONTEND_DIR / "divert1_safety_companion_chat" / "code.html"
 ABOUT_HTML         = FRONTEND_DIR / "divert1_about_architecture" / "code.html"
 CONTRIBUTORS_HTML  = FRONTEND_DIR / "divert1_contributors" / "code.html"
 
