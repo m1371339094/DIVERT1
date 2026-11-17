@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_dashboard" name="shell-type"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<title>DIVERT1 — Online Safety Companion</title>
+<style>
+@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}
+::-webkit-scrollbar{display:none;}
+.custom-scrollbar::-webkit-scrollbar{display:block;width:6px;}
+.custom-scrollbar::-webkit-scrollbar-track{background:transparent;}
+.custom-scrollbar::-webkit-scrollbar-thumb{background:#dcc1b6;border-radius:9999px;}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover{background:#897269;}
+</style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+tailwind.config={darkMode:"class",theme:{extend:{"colors":{"surface-container":"#ffead9","on-primary-fixed-variant":"#7a3000","on-secondary":"#ffffff","secondary":"#266b40","primary-container":"#b65b28","outline":"#897269","on-surface":"#271909","secondary-container":"#abf3bc","surface-tint":"#9a4514","inverse-on-surface":"#ffeee0","error-container":"#ffdad6","on-background":"#271909","on-tertiary-fixed":"#2f1500","error":"#ba1a1a","surface":"#fff8f4","outline-variant":"#dcc1b6","on-surface-variant":"#55433a","on-tertiary-fixed-variant":"#6e3900","surface-container-lowest":"#ffffff","tertiary-container":"#b15f00","background":"#fff8f4","on-secondary-container":"#2d7145","on-tertiary":"#ffffff","secondary-fixed-dim":"#90d6a2","surface-container-low":"#fff1e7","on-secondary-fixed":"#00210d","on-tertiary-container":"#fffbff","primary-fixed-dim":"#ffb693","on-error":"#ffffff","tertiary-fixed":"#ffdcc3","surface-container-highest":"#fadec4","on-primary":"#ffffff","on-error-container":"#93000a","surface-bright":"#fff8f4","inverse-primary":"#ffb693","secondary-fixed":"#abf3bc","tertiary":"#8d4b00","inverse-surface":"#3e2d1c","surface-variant":"#fadec4","surface-container-high":"#ffe3cb","primary-fixed":"#ffdbcc","on-primary-fixed":"#351000","on-primary-container":"#fffbff","on-secondary-fixed-variant":"#03522a","surface-dim":"#f1d5bc","primary":"#974311","tertiary-fixed-dim":"#ffb77d"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"gutter-desktop":"2rem","gutter":"1.25rem","space-lg":"1.5rem","margin-desktop":"3rem","space-xs":"0.25rem","space-sm":"0.5rem","space-md":"1rem","space-xl":"2.5rem"},"fontFamily":{"display":["Newsreader","Georgia","serif"],"headline":["Newsreader","Georgia","serif"],"body":["Inter","-apple-system","sans-serif"],"label":["Inter","-apple-system","sans-serif"]},"fontSize":{"display":["2.5rem",{"lineHeight":"3rem","letterSpacing":"-0.01em"}],"headline-lg":["2rem",{"lineHeight":"2.5rem","letterSpacing":"-0.01em"}],"headline-sm":["1.25rem",{"lineHeight":"1.75rem"}],"body-lg":["1.125rem",{"lineHeight":"1.75rem"}],"body-md":["1rem",{"lineHeight":"1.5rem"}],"body-sm":["0.875rem",{"lineHeight":"1.25rem"}],"label-lg":["0.9375rem",{"lineHeight":"1.25rem","letterSpacing":"0.01em"}],"label-md":["0.8125rem",{"lineHeight":"1.125rem","letterSpacing":"0.02em"}],"label-sm":["0.6875rem",{"lineHeight":"1rem","letterSpacing":"0.04em"}]},"fontWeight":{"display":"500","headline":"500","headline-sm":"600"}}}}
+</script>
+</head>
+<body class="bg-background text-on-background flex min-h-screen">
+
+<!-- Skip link (WCAG) -->
+<a class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:px-4 focus:py-2.5 focus:bg-[#6b3a1f] focus:text-white focus:font-semibold focus:rounded-lg focus:shadow-xl focus:outline-none focus:ring-4 focus:ring-[#f1d5bc]" href="#main-content">Skip to chat messages and input</a>
+
+<!-- Live announcer for screen readers -->
+<div aria-atomic="true" aria-live="assertive" class="sr-only" id="a11y-announcer" role="status"></div>
+
+<!-- ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+     SIDEBAR — fixed left rail
+     ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════ -->
+<aside aria-label="Sidebar navigation" class="fixed left-0 top-0 h-full w-80 bg-inverse-surface text-inverse-on-surface z-50 flex flex-col justify-between shadow-[0_4px_24px_rgba(46,31,15,0.12)]">
+  <div class="flex flex-col flex-1 overflow-y-auto custom-scrollbar min-h-0">
+    <!-- Logo -->
+    <div class="px-6 pt-8 pb-6 flex items-center gap-3">
+      <div class="w-8 h-8 flex items-center justify-center">
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-8 h-8">
+          <path d="M16 2L4 7v9c0 7.18 5.16 13.9 12 15.93C22.84 29.9 28 23.18 28 16V7L16 2z" fill="#974311" opacity="0.9"/>
+          <path d="M16 2L4 7v9c0 7.18 5.16 13.9 12 15.93C22.84 29.9 28 23.18 28 16V7L16 2z" fill="none" stroke="#ffb693" stroke-width="1.5"/>
+          <path d="M11 16l3.5 3.5L21 12" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="flex flex-col">
+        <span class="font-headline text-headline-sm text-surface tracking-tight leading-tight">DIVERT1</span>
+        <span class="font-label text-label-sm text-outline-variant font-medium">Online Safety Companion</span>
+      </div>
+    </div>
+
+    <!-- New Chat button -->
+    <div class="px-5 mb-4">
+      <button id="newChatBtn" aria-label="Start new chat"
+        class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-primary text-on-primary hover:bg-primary-container font-medium text-label-md transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ffdbcc] focus-visible:ring-offset-2 focus-visible:ring-offset-[#3e2d1c] min-h-[44px]">
+        <span aria-hidden="true" class="material-symbols-outlined text-[18px]">add</span>
+        <span>New Chat</span>
+      </button>
+    </div>
+
+    <!-- Nav -->
+    <div class="px-4 py-2 flex flex-col gap-6">
+      <nav aria-label="Main navigation" class="flex flex-col gap-1">
+        <a href="/" aria-label="Go to Chat"
+          class="flex items-center gap-3 px-4 py-3 rounded-lg text-outline-variant hover:bg-surface-variant/20 hover:text-surface transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ffdbcc] focus-visible:ring-offset-2 focus-visible:ring-offset-[#3e2d1c] min-h-[44px]">
+          <span aria-hidden="true" class="material-symbols-outlined text-[20px]">forum</span>
+          <span class="font-label text-label-md">Chat</span>
+        </a>
+        <button aria-expanded="false" aria-haspopup="dialog"
+          class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-outline-variant hover:bg-surface-variant/20 hover:text-surface transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ffdbcc] focus-visible:ring-offset-2 focus-visible:ring-offset-[#3e2d1c] min-h-[44px] text-left"
+          id="openAboutUsBtn" type="button">
+          <span aria-hidden="true" class="material-symbols-outlined text-[20px]">info</span>
+          <span class="font-label text-label-md">About &amp; Architecture</span>
+        </button>
+        <button aria-expanded="false" aria-haspopup="dialog"
+          class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-outline-variant hover:bg-surface-variant/20 hover:text-surface transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ffdbcc] focus-visible:ring-offset-2 focus-visible:ring-offset-[#3e2d1c] min-h-[44px] text-left"
+          id="openContributorsBtn" type="button">
+          <span aria-hidden="true" class="material-symbols-outlined text-[20px]">group</span>
+          <span class="font-label text-label-md">Contributors</span>
+        </button>
+      </nav>
+
+      <!-- Chat History -->
+      <div id="chatHistorySection" class="flex flex-col gap-1">
+        <p class="px-4 pt-2 font-label text-label-sm text-outline font-semibold uppercase tracking-widest opacity-60">Recent</p>
+        <ul id="chatHistoryList" class="flex flex-col gap-0.5" role="list" aria-label="Chat history"></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar footer -->
+  <div class="px-6 pb-8">
+    <div class="border-t border-white/10 pt-4 font-label text-label-sm text-outline leading-relaxed">
+      <span class="text-outline-variant font-semibold">Powered by</span><br>
+      IBM watsonx Orchestrate<br><br>
+      <span class="text-outline-variant font-semibold">Built for</span><br>
+      Neurodivergent young adults<br>navigating life online.
+    </div>
+  </div>
+</aside>
+
+<!-- ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+     MAIN CONTENT — offset for sidebar
+     ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════ -->
+<div class="flex-1 flex flex-col pl-80 min-h-screen bg-background" id="main-content">
+  <main class="flex-1 flex flex-col">
+    <div class="w-full mx-auto px-6 lg:px-8 py-8 flex flex-col gap-8 items-start max-w-4xl">
+
+      <!-- Active Conversation Context Header -->
+      <div class="flex items-center justify-between w-full px-2 pb-1 border-b border-outline-variant/30">
+        <div class="flex items-center gap-2.5">
+          <span aria-hidden="true" class="material-symbols-outlined text-primary text-[20px]">forum</span>
+          <h1 id="chatTitle" class="font-headline text-headline-sm text-[18px] text-on-surface font-semibold m-0">Safety Companion</h1>
+          <span class="px-2 py-0.5 rounded-full bg-primary/10 text-primary font-label text-label-sm text-[11px] font-semibold">Active Session</span>
+        </div>
+      </div>
+
+      <!-- Chat stream -->
+      <div class="flex-1 w-full flex flex-col gap-6">
+
+        <!-- Dialogue log -->
+        <div aria-label="Safety Companion conversation history" aria-live="polite"
+             class="flex flex-col gap-6" id="dialogueContainer" role="log">
+
+          <!-- Welcome splash (shown when empty) -->
+          <div id="welcomeBlock" class="flex flex-col items-center text-center gap-6 py-6">
+            <div class="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center ring-2 ring-primary/20 shadow-sm">
+              <span class="material-symbols-outlined text-[36px] text-primary">health_and_safety</span>
+            </div>
+            <div class="flex flex-col gap-3 max-w-2xl">
+              <h2 class="text-[32px] md:text-[38px] font-display font-medium text-on-surface leading-tight tracking-tight">
+                Hi! I'm your Online Safety Companion.<br>
+                <span class="text-primary">How can I help you today?</span>
+              </h2>
+              <p class="text-on-surface-variant font-body text-body-md text-[16px] leading-relaxed max-w-xl mx-auto">
+                I help you check people, messages, and requests online. You decide what to do — I only give information and options.
+              </p>
+            </div>
+
+            <!-- Prompt chips -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 w-full max-w-2xl mx-auto pt-2">
+              <button class="prompt-chip flex items-start gap-3.5 p-4 rounded-xl bg-surface-container-low hover:bg-surface-container border border-outline-variant/30 text-left transition-all group shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
+                <div class="w-9 h-9 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-colors">
+                  <span class="material-symbols-outlined text-[20px] text-primary group-hover:text-white">mark_email_unread</span>
+                </div>
+                <div class="flex flex-col gap-0.5">
+                  <span class="font-label text-label-md text-on-surface font-semibold group-hover:text-primary transition-colors">Check a suspicious message or DM</span>
+                  <span class="font-label text-label-sm text-outline-variant">Screenshots, links, or awkward chats</span>
+                </div>
+              </button>
+              <button class="prompt-chip flex items-start gap-3.5 p-4 rounded-xl bg-surface-container-low hover:bg-surface-container border border-outline-variant/30 text-left transition-all group shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
+                <div class="w-9 h-9 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-colors">
+                  <span class="material-symbols-outlined text-[20px] text-primary group-hover:text-white">person_search</span>
+                </div>
+                <div class="flex flex-col gap-0.5">
+                  <span class="font-label text-label-md text-on-surface font-semibold group-hover:text-primary transition-colors">Check a person I met online</span>
+                  <span class="font-label text-label-sm text-outline-variant">New friends, gaming contacts, dates</span>
+                </div>
+              </button>
+              <button class="prompt-chip flex items-start gap-3.5 p-4 rounded-xl bg-surface-container-low hover:bg-surface-container border border-outline-variant/30 text-left transition-all group shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
+                <div class="w-9 h-9 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-colors">
+                  <span class="material-symbols-outlined text-[20px] text-primary group-hover:text-white">credit_card_off</span>
+                </div>
+                <div class="flex flex-col gap-0.5">
+                  <span class="font-label text-label-md text-on-surface font-semibold group-hover:text-primary transition-colors">Someone asked me for money</span>
+                  <span class="font-label text-label-sm text-outline-variant">Gift cards, crypto, urgent requests</span>
+                </div>
+              </button>
+              <button class="prompt-chip flex items-start gap-3.5 p-4 rounded-xl bg-surface-container-low hover:bg-surface-container border border-outline-variant/30 text-left transition-all group shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
+                <div class="w-9 h-9 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-colors">
+                  <span class="material-symbols-outlined text-[20px] text-primary group-hover:text-white">sentiment_worried</span>
+                </div>
+                <div class="flex flex-col gap-0.5">
+                  <span class="font-label text-label-md text-on-surface font-semibold group-hover:text-primary transition-colors">I think I was already scammed</span>
+                  <span class="font-label text-label-sm text-outline-variant">What to do next and who to tell</span>
+                </div>
+              </button>
+            </div>
+          </div>
+          <!-- end welcomeBlock -->
+
+        </div><!-- end dialogueContainer -->
+
+        <!-- Input bar -->
+        <div class="rounded-2xl bg-surface-container-low p-4 shadow-md flex flex-col gap-3 w-full mt-4">
+          <form id="chatForm" class="flex items-center gap-3 bg-surface-container-lowest rounded-xl p-2 shadow-sm border border-outline-variant/30 focus-within:ring-2 focus-within:ring-[#974311] focus-within:border-transparent">
+            <label class="sr-only" for="companionInput">How can I help you?</label>
+            <input autocomplete="off"
+              class="flex-1 bg-transparent py-2.5 px-2 text-on-surface placeholder:text-outline font-body text-body-md focus-visible:outline-none"
+              id="companionInput"
+              placeholder="How can I help you?"
+              type="text"/>
+            <button aria-label="Send message to Safety Companion"
+              class="w-11 h-11 rounded-xl bg-primary text-on-primary hover:bg-primary-container transition-all flex items-center justify-center shrink-0 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#974311] focus-visible:ring-offset-2"
+              id="companionSendBtn"
+              type="submit">
+              <span aria-hidden="true" class="material-symbols-outlined text-[20px]">send</span>
+            </button>
+          </form>
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 px-2">
+            <div class="flex items-center gap-2 text-on-surface-variant font-label text-label-sm">
+              <span aria-hidden="true" class="material-symbols-outlined text-[16px] text-secondary">lock</span>
+              <span>DIVERT1 evaluates context respectfully. We never ask for passwords or private data.</span>
+            </div>
+            <div aria-label="Keyboard shortcuts" class="flex items-center gap-1.5 text-xs text-on-surface-variant font-medium shrink-0">
+              <kbd class="px-1.5 py-0.5 rounded bg-surface-container-high border border-outline-variant font-mono text-[10px]">Enter</kbd> to send,
+              <kbd class="px-1.5 py-0.5 rounded bg-surface-container-high border border-outline-variant font-mono text-[10px]">Esc</kbd> to clear
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end chat stream -->
+    </div><!-- end max-w-4xl -->
+  </main>
+</div><!-- end main content -->
+
+<!-- ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+     ABOUT US MODAL — aria-modal dialog, focus-trapped
+     ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════ -->
+<div aria-describedby="aboutUsModalDesc" aria-labelledby="aboutUsModalTitle" aria-modal="true"
+     class="fixed inset-0 z-[100] hidden items-center justify-center p-4 sm:p-6 lg:p-8"
+     id="aboutUsModal" role="dialog">
+  <!-- Backdrop -->
+  <div class="fixed inset-0 bg-inverse-surface/60 backdrop-blur-sm transition-opacity" id="aboutUsBackdrop"></div>
+  <!-- Modal card -->
+  <div class="relative w-full max-w-4xl max-h-[90vh] bg-surface rounded-2xl shadow-2xl border border-outline-variant/40 flex flex-col z-10 overflow-hidden">
+    <!-- Sticky header -->
+    <header class="flex items-center justify-between px-6 py-4 border-b border-outline-variant/30 bg-surface-container-low shrink-0">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-primary text-on-primary flex items-center justify-center shadow-sm">
+          <span aria-hidden="true" class="material-symbols-outlined text-[20px]">info</span>
+        </div>
+        <div>
+          <h2 class="font-headline-sm text-[18px] sm:text-[20px] font-semibold text-on-surface m-0" id="aboutUsModalTitle">About DIVERT1 &amp; Architecture</h2>
+          <p class="font-label-sm text-[11px] text-on-surface-variant" id="aboutUsModalDesc">Autonomous online safety companion for neurodivergent young adults</p>
+        </div>
+      </div>
+      <button aria-label="Close About Us modal"
+        class="w-10 h-10 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-on-surface-variant hover:text-on-surface flex items-center justify-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+        id="closeAboutUsBtn" type="button">
+        <span aria-hidden="true" class="material-symbols-outlined text-[22px]">close</span>
+      </button>
+    </header>
+    <!-- Scrollable body -->
+    <div class="max-h-[75vh] overflow-y-auto p-6 sm:p-8 flex flex-col gap-8 custom-scrollbar">
+      <!-- Hero banner -->
+      <section class="flex flex-col gap-4 bg-surface-container-low rounded-2xl p-6 sm:p-7 border border-outline-variant/30">
+        <div class="flex items-center gap-2">
+          <span class="px-2.5 py-1 rounded-full bg-primary/15 text-primary font-label-sm text-[11px] font-bold tracking-wider uppercase">Project DIVERT1</span>
+          <span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-[11px] font-semibold uppercase">Alpha</span>
+        </div>
+        <h3 class="font-headline-md text-headline-md text-on-surface font-semibold m-0">Online Safety Companion</h3>
+        <p class="font-body-lg text-body-lg text-on-surface leading-relaxed">
+          A multi-agent AI that explains online risks in plain, calm language — designed from the ground up for neurodivergent young adults navigating scams, fraud, and social pressure online.
+        </p>
+      </section>
+      <!-- Key metrics -->
+      <section aria-label="Key project metrics" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="flex flex-col p-4 rounded-xl bg-surface-container-lowest border border-outline-variant/30 shadow-sm">
+          <span class="font-headline-md text-[28px] text-primary font-bold">3x</span>
+          <span class="font-label-md text-on-surface font-semibold mt-1">Targeting Risk</span>
+          <span class="font-body-sm text-xs text-on-surface-variant mt-0.5">Neurodivergent adults faced 3x higher fraud attempts</span>
+        </div>
+        <div class="flex flex-col p-4 rounded-xl bg-surface-container-lowest border border-outline-variant/30 shadow-sm">
+          <span class="font-headline-md text-[28px] text-secondary font-bold">3</span>
+          <span class="font-label-md text-on-surface font-semibold mt-1">Specialized AI Agents</span>
+          <span class="font-body-sm text-xs text-on-surface-variant mt-0.5">Orchestrated with distinct safety roles</span>
+        </div>
+        <div class="flex flex-col p-4 rounded-xl bg-surface-container-lowest border border-outline-variant/30 shadow-sm">
+          <span class="font-headline-md text-[28px] text-tertiary font-bold">100%</span>
+          <span class="font-label-md text-on-surface font-semibold mt-1">Deterministic Scoring</span>
+          <span class="font-body-sm text-xs text-on-surface-variant mt-0.5">Rule-based threat scoring for zero hallucination</span>
+        </div>
+        <div class="flex flex-col p-4 rounded-xl bg-surface-container-lowest border border-outline-variant/30 shadow-sm">
+          <span class="font-headline-md text-[28px] text-primary font-bold">0</span>
+          <span class="font-label-md text-on-surface font-semibold mt-1">Stored Credentials</span>
+          <span class="font-body-sm text-xs text-on-surface-variant mt-0.5">No passwords, OTPs, or payment numbers retained</span>
+        </div>
+      </section>
+      <!-- The Context & Gap -->
+      <section class="flex flex-col gap-4">
+        <div class="flex items-center gap-2">
+          <span aria-hidden="true" class="material-symbols-outlined text-primary text-[22px]">visibility_off</span>
+          <h4 class="font-headline-sm text-headline-sm text-on-surface font-semibold m-0">The Context &amp; Gap: Why existing protective tools aren't enough</h4>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="p-5 rounded-xl bg-surface-container-lowest border border-outline-variant/30 flex flex-col gap-2">
+            <span class="font-label-md text-error font-semibold flex items-center gap-1.5">
+              <span aria-hidden="true" class="material-symbols-outlined text-[18px]">sms_failed</span>
+              Silence in Grey Areas
+            </span>
+            <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              Standard ad blockers and antivirus tools only detect known malicious URLs and malware binaries. They are completely blind to relational coercion, social engineering, guilt trips, and urgent peer pressure.
+            </p>
+          </div>
+          <div class="p-5 rounded-xl bg-surface-container-lowest border border-outline-variant/30 flex flex-col gap-2">
+            <span class="font-label-md text-tertiary font-semibold flex items-center gap-1.5">
+              <span aria-hidden="true" class="material-symbols-outlined text-[18px]">notifications_active</span>
+              Alarm Fatigue &amp; Shame
+            </span>
+            <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              Traditional warning popups trigger overwhelming alarm bells and judgment, leaving users feeling ashamed or anxious. DIVERT1 replaces panic with gentle, neuro-inclusive, low-sensory explanations.
+            </p>
+          </div>
+        </div>
+      </section>
+      <!-- Who It Is Built For -->
+      <section class="flex flex-col gap-4">
+        <div class="flex items-center gap-2">
+          <span aria-hidden="true" class="material-symbols-outlined text-secondary text-[22px]">groups</span>
+          <h4 class="font-headline-sm text-headline-sm text-on-surface font-semibold m-0">Who It Is Built For</h4>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="p-4 rounded-xl bg-secondary-container/20 border border-secondary/20 flex flex-col gap-1.5">
+            <span class="font-label-md text-on-surface font-semibold">Neurodivergent Young Adults</span>
+            <p class="font-body-sm text-xs text-on-surface-variant">Individuals on the autism spectrum or with ADHD navigating subtle nuance, sarcasm, and disguised malicious intent.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-secondary-container/20 border border-secondary/20 flex flex-col gap-1.5">
+            <span class="font-label-md text-on-surface font-semibold">New to Adult Digital Risks</span>
+            <p class="font-body-sm text-xs text-on-surface-variant">First-time bank account holders, college students, and remote freelancers making independent financial decisions.</p>
+          </div>
+          <div class="p-4 rounded-xl bg-secondary-container/20 border border-secondary/20 flex flex-col gap-1.5">
+            <span class="font-label-md text-on-surface font-semibold">Support Network Often Absent</span>
+            <p class="font-body-sm text-xs text-on-surface-variant">A 24/7 non-judgmental companion when parents, mentors, or counselors are not immediately available to review a chat.</p>
+          </div>
+        </div>
+      </section>
+      <!-- Multi-Agent Architecture -->
+      <section class="flex flex-col gap-4">
+        <div class="flex items-center gap-2">
+          <span aria-hidden="true" class="material-symbols-outlined text-primary text-[22px]">schema</span>
+          <h4 class="font-headline-sm text-headline-sm text-on-surface font-semibold m-0">Our Solution — Multi-Agent Architecture</h4>
+        </div>
+        <div class="flex flex-col gap-3">
+          <div class="p-4 rounded-xl bg-surface-container-lowest border border-outline-variant/30 flex items-start gap-3.5">
+            <div class="w-8 h-8 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0 mt-0.5">
+              <span aria-hidden="true" class="material-symbols-outlined text-[18px]">chat</span>
+            </div>
+            <div class="flex flex-col gap-1">
+              <span class="font-label-md text-on-surface font-semibold">1. Main Chatbot Agent (watsonx Orchestrate)</span>
+              <p class="font-body-sm text-xs text-on-surface-variant">Manages active multi-turn context, parses uploaded screenshots and messages, and provides conversational pacing.</p>
+            </div>
+          </div>
+          <div class="p-4 rounded-xl bg-surface-container-lowest border border-outline-variant/30 flex items-start gap-3.5">
+            <div class="w-8 h-8 rounded-lg bg-error-container text-on-error-container flex items-center justify-center shrink-0 mt-0.5">
+              <span aria-hidden="true" class="material-symbols-outlined text-[18px]">shield</span>
+            </div>
+            <div class="flex flex-col gap-1">
+              <span class="font-label-md text-on-surface font-semibold">2. Safety Agent (Deterministic Rule Engine)</span>
+              <p class="font-body-sm text-xs text-on-surface-variant">Evaluates coercive patterns, financial pressure, urgency spikes, and gift-card flags against calibrated risk indices.</p>
+            </div>
+          </div>
+          <div class="p-4 rounded-xl bg-surface-container-lowest border border-outline-variant/30 flex items-start gap-3.5">
+            <div class="w-8 h-8 rounded-lg bg-secondary-container text-on-secondary-container flex items-center justify-center shrink-0 mt-0.5">
+              <span aria-hidden="true" class="material-symbols-outlined text-[18px]">sentiment_satisfied</span>
+            </div>
+            <div class="flex flex-col gap-1">
+              <span class="font-label-md text-on-surface font-semibold">3. Support Agent (Calm Tone &amp; Script Generation)</span>
+              <p class="font-body-sm text-xs text-on-surface-variant">Synthesizes actionable, one-tap reply scripts, boundary-setting advice, and sensory de-escalation guidance.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Key Differentiators -->
+      <section class="flex flex-col gap-4">
+        <div class="flex items-center gap-2">
+          <span aria-hidden="true" class="material-symbols-outlined text-tertiary text-[22px]">stars</span>
+          <h4 class="font-headline-sm text-headline-sm text-on-surface font-semibold m-0">Key Differentiators</h4>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+          <div class="p-3.5 rounded-xl bg-surface-container-low/70 border border-outline-variant/20 flex flex-col gap-1">
+            <span class="font-label-sm font-semibold text-primary uppercase text-[11px]">Whole-Conversation Analysis</span>
+            <p class="font-body-sm text-xs text-on-surface">Looks across conversational turns rather than isolating individual words to catch gradual grooming tactics.</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-surface-container-low/70 border border-outline-variant/20 flex flex-col gap-1">
+            <span class="font-label-sm font-semibold text-primary uppercase text-[11px]">Explains the Why</span>
+            <p class="font-body-sm text-xs text-on-surface">Doesn't just say 'DANGER' — explains exactly what psychological levers are being used and why they work.</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-surface-container-low/70 border border-outline-variant/20 flex flex-col gap-1">
+            <span class="font-label-sm font-semibold text-primary uppercase text-[11px]">Respects Friendships</span>
+            <p class="font-body-sm text-xs text-on-surface">Offers neutral boundary scripts that allow preserving genuine relationships while firmly declining risky favors.</p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-surface-container-low/70 border border-outline-variant/20 flex flex-col gap-1">
+            <span class="font-label-sm font-semibold text-primary uppercase text-[11px]">Avoids Over-Warning</span>
+            <p class="font-body-sm text-xs text-on-surface">Calibrated thresholds prevent false alarms that cause users to abandon protective tools altogether.</p>
+          </div>
+        </div>
+      </section>
+      <!-- Responsible Design & Governance -->
+      <section class="p-5 rounded-2xl bg-surface-container-low border border-outline-variant/30 flex flex-col gap-3">
+        <span class="font-label-md text-label-md text-on-surface font-semibold flex items-center gap-1.5">
+          <span aria-hidden="true" class="material-symbols-outlined text-secondary text-[20px]">policy</span>
+          Responsible Design &amp; MVP Scope
+        </span>
+        <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+          DIVERT1 is built in strict adherence to neuro-inclusive human-AI interaction guidelines. Conversations are never monetized, trained into public datasets, or used to build commercial profiles. All advice is educational and supportive, empowering individual agency without patronizing surveillance.
+        </p>
+      </section>
+    </div>
+    <!-- Modal footer -->
+    <footer class="flex items-center justify-between px-6 py-4 border-t border-outline-variant/30 bg-surface-container-low shrink-0">
+      <div class="flex items-center gap-2 text-on-surface-variant text-xs">
+        <span aria-hidden="true" class="material-symbols-outlined text-[16px] text-secondary">verified</span>
+        <span>WCAG 2.1 AA Compliant Sanctuary Design</span>
+      </div>
+      <button class="px-5 py-2.5 rounded-xl bg-primary text-on-primary hover:bg-primary-container font-medium text-label-md transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+        id="footerCloseAboutUsBtn" type="button">
+        Close
+      </button>
+    </footer>
+  </div>
+</div>
+
+<!-- CONTRIBUTORS MODAL -->
+<div aria-describedby="contributorsModalDesc" aria-labelledby="contributorsModalTitle" aria-modal="true"
+     class="fixed inset-0 z-[100] hidden items-center justify-center p-4 sm:p-6 lg:p-8"
+     id="contributorsModal" role="dialog">
+<!-- Semi-transparent Backdrop Overlay -->
+<div class="fixed inset-0 bg-inverse-surface/60 backdrop-blur-sm transition-opacity" id="contributorsBackdrop"></div>
+<!-- Modal Dialog Container Card -->
+<div class="relative w-full max-w-4xl max-h-[90vh] bg-surface rounded-2xl shadow-2xl border border-outline-variant/40 flex flex-col z-10 overflow-hidden">
+<!-- Sticky Header -->
+<header class="flex items-center justify-between px-6 py-4 border-b border-outline-variant/30 bg-surface-container-low shrink-0">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-xl bg-primary text-on-primary flex items-center justify-center shadow-sm">
+<span aria-hidden="true" class="material-symbols-outlined text-[20px]">groups</span>
+</div>
+<div>
+<h2 class="font-headline-sm text-[18px] sm:text-[20px] font-semibold text-on-surface m-0" id="contributorsModalTitle">Project Contributors</h2>
+<p class="font-label-sm text-[11px] text-on-surface-variant" id="contributorsModalDesc">The multidisciplinary team and specialists behind DIVERT1</p>
+</div>
+</div>
+<button aria-label="Close Contributors modal" class="w-10 h-10 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-on-surface-variant hover:text-on-surface flex items-center justify-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2" id="closeContributorsBtn" type="button">
+<span aria-hidden="true" class="material-symbols-outlined text-[22px]">close</span>
+</button>
+</header>
+<!-- Scrollable Inner Body -->
+<div class="max-h-[75vh] overflow-y-auto p-6 sm:p-8 flex flex-col gap-6 custom-scrollbar">
+<!-- Intro Banner -->
+<section class="flex flex-col gap-2.5 bg-surface-container-low rounded-2xl p-5 sm:p-6 border border-outline-variant/30">
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-1 rounded-full bg-primary/15 text-primary font-label-sm text-[11px] font-bold tracking-wider uppercase">Team &amp; Creators</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-[11px] font-semibold uppercase">5 Core Contributors</span>
+</div>
+<h3 class="font-headline-md text-[22px] text-on-surface font-semibold m-0">Dedicated to Neuro-Inclusive Digital Safety</h3>
+<p class="font-body-md text-[15px] text-on-surface-variant leading-relaxed m-0">
+          DIVERT1 is designed and engineered by an interdisciplinary cohort combining expertise in cognitive ergonomics, machine learning orchestration, cyber safety, and accessible user experience.
+        </p>
+</section>
+<!-- Contributors Grid / Cards -->
+<section aria-label="List of contributors" class="flex flex-col gap-4">
+<!-- Contributor 1: Bilikis Banire -->
+<article class="p-5 rounded-2xl bg-surface-container-lowest border border-outline-variant/30 shadow-sm flex flex-col sm:flex-row items-start gap-4 transition-all hover:border-primary/40">
+<div class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-primary/15 text-primary flex items-center justify-center shrink-0 shadow-inner font-headline-sm text-lg font-bold">
+            BB
+          </div>
+<div class="flex flex-col gap-1.5 flex-1">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+<h4 class="font-headline-sm text-[18px] font-semibold text-on-surface m-0">Bilikis Banire</h4>
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary/10 text-primary font-label-sm text-[11px] font-semibold self-start sm:self-auto">
+<span aria-hidden="true" class="material-symbols-outlined text-[14px]">psychology</span>
+              AI Safety &amp; Neuro-Inclusive UX
+            </span>
+</div>
+<p class="font-body-sm text-[13.5px] text-on-surface leading-relaxed m-0">
+            Spearheaded neuro-inclusive UX research and cognitive accessibility design, ensuring calm conversational pacing, low-pressure framing, and sensory-friendly interaction paradigms.
+          </p>
+<div class="flex flex-wrap items-center gap-2 pt-1">
+<span class="text-xs px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-medium">Cognitive Ergonomics</span>
+<span class="text-xs px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-medium">WCAG Accessibility</span>
+<span class="text-xs px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-medium">Empathetic UX</span>
+</div>
+</div>
+</article>
+<!-- Contributor 2: Naureen Sikder -->
+<article class="p-5 rounded-2xl bg-surface-container-lowest border border-outline-variant/30 shadow-sm flex flex-col sm:flex-row items-start gap-4 transition-all hover:border-secondary/40">
+<div class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-secondary-container text-secondary flex items-center justify-center shrink-0 shadow-inner font-headline-sm text-lg font-bold">
+            NS
+          </div>
+<div class="flex flex-col gap-1.5 flex-1">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+<h4 class="font-headline-sm text-[18px] font-semibold text-on-surface m-0">Naureen Sikder</h4>
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-secondary-container/60 text-secondary font-label-sm text-[11px] font-semibold self-start sm:self-auto">
+<span aria-hidden="true" class="material-symbols-outlined text-[14px]">schema</span>
+              Multi-Agent Architecture &amp; Orchestration
+            </span>
+</div>
+<p class="font-body-sm text-[13.5px] text-on-surface leading-relaxed m-0">
+            Architected the multi-agent decision pipelines using IBM watsonx Orchestrate, establishing contextual conversational memory, intent routing, and multi-turn safety guardrails.
+          </p>
+<div class="flex flex-wrap items-center gap-2 pt-1">
+<span class="text-xs px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-medium">watsonx Orchestrate</span>
+<span class="text-xs px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-medium">Agent Pipelines</span>
+<span class="text-xs px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-medium">Dialogue Management</span>
+</div>
+</div>
+</article>
+<!-- Contributor 3: Kevin Chen -->
+<article class="p-5 rounded-2xl bg-surface-container-lowest border border-outline-variant/30 shadow-sm flex flex-col sm:flex-row items-start gap-4 transition-all hover:border-tertiary/40">
+<div class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-tertiary-fixed text-tertiary flex items-center justify-center shrink-0 shadow-inner font-headline-sm text-lg font-bold">
+            KC
+          </div>
+<div class="flex flex-col gap-1.5 flex-1">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+<h4 class="font-headline-sm text-[18px] font-semibold text-on-surface m-0">Kevin Chen</h4>
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-tertiary-fixed/70 text-tertiary font-label-sm text-[11px] font-semibold self-start sm:self-auto">
+<span aria-hidden="true" class="material-symbols-outlined text-[14px]">security</span>
+              Threat Modeling &amp; Rule Engine
+            </span>
+</div>
+<p class="font-body-sm text-[13.5px] text-on-surface leading-relaxed m-0">
+            Engineered the deterministic threat-scoring engine, cataloging social engineering heuristics, false urgency patterns, and untraceable payment indicators to prevent AI hallucinations.
+          </p>
+<div class="flex flex-wrap items-center gap-2 pt-1">
+<span class="text-xs px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-medium">Deterministic Scoring</span>
+<span class="text-xs px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-medium">Fraud Detection</span>
+<span class="text-xs px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-medium">Social Engineering Analysis</span>
+</div>
+</div>
+</article>
+<!-- Contributor 4: Melbe Ponds-Johnson -->
+<article class="p-5 rounded-2xl bg-surface-container-lowest border border-outline-variant/30 shadow-sm flex flex-col sm:flex-row items-start gap-4 transition-all hover:border-primary/40">
+<div class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-surface-container-high text-primary flex items-center justify-center shrink-0 shadow-inner font-headline-sm text-lg font-bold">
+            MP
+          </div>
+<div class="flex flex-col gap-1.5 flex-1">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+<h4 class="font-headline-sm text-[18px] font-semibold text-on-surface m-0">Melbe Ponds-Johnson</h4>
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary/10 text-primary font-label-sm text-[11px] font-semibold self-start sm:self-auto">
+<span aria-hidden="true" class="material-symbols-outlined text-[14px]">shield_with_heart</span>
+              Trust &amp; Safety Engineering &amp; De-escalation
+            </span>
+</div>
+<p class="font-body-sm text-[13.5px] text-on-surface leading-relaxed m-0">
+            Designed one-tap actionable boundary scripts, guilt neutralization algorithms, and disengagement strategies that protect user autonomy without inducing shame or panic.
+          </p>
+<div class="flex flex-wrap items-center gap-2 pt-1">
+<span class="text-xs px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-medium">Boundary Scripts</span>
+<span class="text-xs px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-medium">De-escalation Logic</span>
+<span class="text-xs px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-medium">User Safeguarding</span>
+</div>
+</div>
+</article>
+<!-- Contributor 5: Babatope Adebiyi -->
+<article class="p-5 rounded-2xl bg-surface-container-lowest border border-outline-variant/30 shadow-sm flex flex-col sm:flex-row items-start gap-4 transition-all hover:border-secondary/40">
+<div class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-secondary-container/80 text-secondary flex items-center justify-center shrink-0 shadow-inner font-headline-sm text-lg font-bold">
+            BA
+          </div>
+<div class="flex flex-col gap-1.5 flex-1">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+<h4 class="font-headline-sm text-[18px] font-semibold text-on-surface m-0">Babatope Adebiyi</h4>
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-secondary-container/60 text-secondary font-label-sm text-[11px] font-semibold self-start sm:self-auto">
+<span aria-hidden="true" class="material-symbols-outlined text-[14px]">policy</span>
+              Ethics, Privacy &amp; Human-Centered Systems
+            </span>
+</div>
+<p class="font-body-sm text-[13.5px] text-on-surface leading-relaxed m-0">
+            Directed the privacy-preserving governance framework, zero-credential retention protocols, and ethical AI safeguards ensuring no personal data is monetized or leaked.
+          </p>
+<div class="flex flex-wrap items-center gap-2 pt-1">
+<span class="text-xs px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-medium">Zero-Retention Data</span>
+<span class="text-xs px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-medium">Ethical AI</span>
+<span class="text-xs px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-medium">System Integrity</span>
+</div>
+</div>
+</article>
+</section>
+</div>
+<!-- Modal Footer -->
+<footer class="flex items-center justify-between px-6 py-4 border-t border-outline-variant/30 bg-surface-container-low shrink-0">
+<div class="flex items-center gap-2 text-on-surface-variant text-xs">
+<span aria-hidden="true" class="material-symbols-outlined text-[16px] text-secondary">verified</span>
+<span>DIVERT1 Collaborative Engineering Initiative</span>
+</div>
+<button class="px-5 py-2.5 rounded-xl bg-primary text-on-primary hover:bg-primary-container font-medium text-label-md transition-all shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2" id="footerCloseContributorsBtn" type="button">
+        Close
+      </button>
+</footer>
+</div>
+</div>
+
+<script>
+// ─── Accessibility helper ────────────────────────────────────────────────────
+function announce(msg) {
+  const el = document.getElementById('a11y-announcer');
+  if (!el) return;
+  el.textContent = '';
+  setTimeout(() => { el.textContent = msg; }, 50);
+}
+
+// ─── State ───────────────────────────────────────────────────────────────────
+let threadId = null;
+
+// ─── DOM refs ────────────────────────────────────────────────────────────────
+const dialogueContainer = document.getElementById('dialogueContainer');
+const welcomeBlock      = document.getElementById('welcomeBlock');
+const companionInput    = document.getElementById('companionInput');
+const chatForm          = document.getElementById('chatForm');
+const newChatBtn        = document.getElementById('newChatBtn');
+
+// ─── Render helpers ───────────────────────────────────────────────────────────
+function escapeHtml(text) {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+// Risk level badge styles
+const RISK_BADGE = {
+  HIGH:    { bg: '#fef2f2', border: '#fca5a5', text: '#991b1b', dot: '#ef4444', label: 'HIGH'   },
+  MEDIUM:  { bg: '#fffbeb', border: '#fcd34d', text: '#92400e', dot: '#f59e0b', label: 'MEDIUM' },
+  LOW:     { bg: '#f0fdf4', border: '#86efac', text: '#14532d', dot: '#22c55e', label: 'LOW'    },
+};
+
+function formatReply(text) {
+  // Escape HTML first, then replace RISK_LEVEL tokens with styled badges
+  let safe = escapeHtml(text);
+  safe = safe.replace(/RISK_LEVEL:\s*(HIGH|MEDIUM|LOW)/gi, (_, level) => {
+    const key = level.toUpperCase();
+    const s   = RISK_BADGE[key] || RISK_BADGE['LOW'];
+    return `<span role="img" aria-label="Risk level ${s.label}"
+      style="display:inline-flex;align-items:center;gap:4px;padding:1px 8px 1px 6px;
+             border-radius:9999px;border:1.5px solid ${s.border};background:${s.bg};
+             color:${s.text};font-weight:700;font-size:0.75em;letter-spacing:0.04em;
+             vertical-align:middle;line-height:1.4;">
+      <span style="width:6px;height:6px;border-radius:50%;background:${s.dot};display:inline-block;flex-shrink:0;"></span>
+      RISK_LEVEL: ${s.label}
+    </span>`;
+  });
+  return safe;
+}
+
+function now() {
+  return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+
+function hideWelcome() {
+  if (welcomeBlock) welcomeBlock.style.display = 'none';
+}
+
+function appendUserBubble(text) {
+  hideWelcome();
+  const div = document.createElement('div');
+  div.setAttribute('aria-label', 'Your message');
+  div.setAttribute('data-role', 'user');
+  div.className = 'flex items-start justify-end gap-3.5 pl-6 sm:pl-16';
+  div.innerHTML = `
+    <div class="flex flex-col items-end gap-1.5 max-w-2xl">
+      <div class="flex items-center gap-2 px-1">
+        <span class="font-label text-label-sm text-on-surface font-medium text-[12px]">You</span>
+        <time class="text-on-surface-variant text-[11px]">${now()}</time>
+      </div>
+      <div class="p-5 rounded-[20px] rounded-br-sm text-white shadow-md font-body text-body-md text-[15px] leading-relaxed" style="background-color: rgb(192,98,47);">
+        ${escapeHtml(text)}
+      </div>
+    </div>
+    <div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center shrink-0 ring-2 ring-primary/20 mt-6 text-[18px]">👤</div>
+  `;
+  dialogueContainer.appendChild(div);
+  div.scrollIntoView({ behavior: 'smooth', block: 'end' });
+}
+
+function appendThinking() {
+  const div = document.createElement('div');
+  div.id = 'thinkingIndicator';
+  div.setAttribute('aria-label', 'Companion is thinking');
+  div.className = 'flex items-start gap-3.5 pr-2 sm:pr-8';
+  div.innerHTML = `
+    <div aria-hidden="true" class="w-10 h-10 rounded-xl bg-primary text-on-primary flex items-center justify-center shrink-0 shadow-sm mt-6 ring-2 ring-primary/20">
+      <span class="material-symbols-outlined text-[22px]">health_and_safety</span>
+    </div>
+    <div class="flex flex-col gap-2 flex-1 max-w-2xl mt-6">
+      <span class="font-label text-label-sm text-primary font-semibold text-[13px]">DIVERT1 Companion</span>
+      <div class="rounded-[20px] rounded-tl-sm px-6 py-4 shadow-md border flex items-center gap-3" style="background-color:#fff9f2;border-color:#e8d5bc;">
+        <span class="material-symbols-outlined text-primary text-[20px] animate-spin">progress_activity</span>
+        <span class="font-body text-body-sm text-on-surface-variant text-[14px]">Thinking&hellip;</span>
+      </div>
+    </div>
+  `;
+  dialogueContainer.appendChild(div);
+  div.scrollIntoView({ behavior: 'smooth', block: 'end' });
+}
+
+function removeThinking() {
+  const el = document.getElementById('thinkingIndicator');
+  if (el) el.remove();
+}
+
+function appendCompanionBubble(text) {
+  removeThinking();
+  const div = document.createElement('div');
+  div.setAttribute('aria-label', 'Companion safety intelligence response');
+  div.setAttribute('role', 'region');
+  div.setAttribute('data-role', 'assistant');
+  div.className = 'flex items-start gap-3.5 pr-2 sm:pr-8';
+  div.innerHTML = `
+    <div aria-hidden="true" class="w-10 h-10 rounded-xl bg-primary text-on-primary flex items-center justify-center shrink-0 shadow-sm mt-6 ring-2 ring-primary/20">
+      <span class="material-symbols-outlined text-[22px]">health_and_safety</span>
+    </div>
+    <div class="flex flex-col gap-2 flex-1 max-w-2xl">
+      <div class="flex items-center gap-2 px-1">
+        <span class="font-label text-label-sm text-primary font-semibold text-[13px]">DIVERT1 Companion</span>
+        <time class="text-on-surface-variant text-[11px]">${now()}</time>
+      </div>
+      <div class="rounded-[20px] rounded-tl-sm p-6 sm:p-7 flex flex-col gap-5 shadow-md border" style="background-color:#fff9f2;border-color:#e8d5bc;">
+        <p class="font-body text-body-md text-[15px] text-on-surface leading-relaxed whitespace-pre-wrap">${formatReply(text)}</p>
+      </div>
+    </div>
+  `;
+  dialogueContainer.appendChild(div);
+  div.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  announce('Companion replied: ' + text.slice(0, 80));
+}
+
+function appendError(msg) {
+  removeThinking();
+  const div = document.createElement('div');
+  div.className = 'flex items-start gap-3.5 pr-2 sm:pr-8';
+  div.innerHTML = `
+    <div aria-hidden="true" class="w-10 h-10 rounded-xl bg-error-container text-on-error-container flex items-center justify-center shrink-0 shadow-sm mt-6">
+      <span class="material-symbols-outlined text-[22px]">error</span>
+    </div>
+    <div class="flex flex-col gap-2 flex-1 max-w-2xl mt-6">
+      <div class="rounded-[20px] rounded-tl-sm px-6 py-4 shadow-md border border-error/30 bg-error-container text-on-error-container font-body text-body-sm text-[14px] leading-relaxed">
+        ${escapeHtml(msg)}
+      </div>
+    </div>
+  `;
+  dialogueContainer.appendChild(div);
+  div.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  announce('Error: ' + msg);
+}
+
+// ─── Send message ─────────────────────────────────────────────────────────────
+async function sendMessage(text) {
+  appendUserBubble(text);
+  appendThinking();
+  companionInput.disabled = true;
+
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: text, thread_id: threadId }),
+    });
+    const data = await res.json();
+    if (!res.ok || data.error) {
+      appendError(data.error || `Server error ${res.status}`);
+    } else {
+      threadId = data.thread_id;
+      appendCompanionBubble(data.reply);
+    }
+  } catch (err) {
+    appendError('Could not reach the companion. Is the server running?');
+  } finally {
+    companionInput.disabled = false;
+    companionInput.focus();
+  }
+}
+
+// ─── Form submit ──────────────────────────────────────────────────────────────
+chatForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const text = companionInput.value.trim();
+  if (!text) return;
+  companionInput.value = '';
+  sendMessage(text);
+});
+
+// ─── Prompt chips ─────────────────────────────────────────────────────────────
+document.querySelectorAll('.prompt-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    const title = chip.querySelector('.font-label.text-label-md')?.textContent?.trim() || '';
+    if (title) sendMessage(title);
+  });
+  chip.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); chip.click(); }
+  });
+});
+
+// ─── Chat History ─────────────────────────────────────────────────────────────
+let chatSessions = [];   // [ { label, snap: [{role,html}] } ]
+let userChatCount = 0;   // counts only user-started chats (Chat 1, Chat 2…)
+
+const chatHistorySection = document.getElementById('chatHistorySection');
+const chatHistoryList    = document.getElementById('chatHistoryList');
+
+// Pre-load the sample chat into history on page load
+(function seedSampleChat() {
+  const snap = [
+    {
+      role: 'user',
+      html: `<div aria-label="Your message" data-role="user" class="flex items-start justify-end gap-3.5 pl-6 sm:pl-16"><div class="flex flex-col items-end gap-1.5 max-w-2xl"><div class="flex items-center gap-2 px-1"><span class="font-label text-label-sm text-on-surface font-medium text-[12px]">You</span><time class="text-on-surface-variant text-[11px]">08:51 PM</time></div><div class="p-5 rounded-[20px] rounded-br-sm text-white shadow-md font-body text-body-md text-[15px] leading-relaxed" style="background-color: rgb(192,98,47);">Hi, I met a guy on Instagram and we talked for a few weeks. I sent him a private photo and now he says he will send it to my friends and my school if I don't pay him $200 tonight. I'm really scared and I don't know what to do. Please help.</div></div><div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center shrink-0 ring-2 ring-primary/20 mt-6 text-[18px]">👤</div></div>`
+    },
+    {
+      role: 'assistant',
+      html: `<div aria-label="Companion safety intelligence response" role="region" data-role="assistant" class="flex items-start gap-3.5 pr-2 sm:pr-8"><div aria-hidden="true" class="w-10 h-10 rounded-xl bg-primary text-on-primary flex items-center justify-center shrink-0 shadow-sm mt-6 ring-2 ring-primary/20"><span class="material-symbols-outlined text-[22px]">health_and_safety</span></div><div class="flex flex-col gap-2 flex-1 max-w-2xl"><div class="flex items-center gap-2 px-1"><span class="font-label text-label-sm text-primary font-semibold text-[13px]">DIVERT1 Companion</span><time class="text-on-surface-variant text-[11px]">08:51 PM</time></div><div class="rounded-[20px] rounded-tl-sm p-6 sm:p-7 flex flex-col gap-5 shadow-md border" style="background-color:#fff9f2;border-color:#e8d5bc;"><p class="font-body text-body-md text-[15px] text-on-surface leading-relaxed whitespace-pre-wrap">Can you share the exact message he sent you threatening you? This will help me check it for warning signs.</p></div></div></div>`
+    },
+    {
+      role: 'user',
+      html: `<div aria-label="Your message" data-role="user" class="flex items-start justify-end gap-3.5 pl-6 sm:pl-16"><div class="flex flex-col items-end gap-1.5 max-w-2xl"><div class="flex items-center gap-2 px-1"><span class="font-label text-label-sm text-on-surface font-medium text-[12px]">You</span><time class="text-on-surface-variant text-[11px]">08:51 PM</time></div><div class="p-5 rounded-[20px] rounded-br-sm text-white shadow-md font-body text-body-md text-[15px] leading-relaxed" style="background-color: rgb(192,98,47);">Account: Hey, so I have that photo you sent. I'm saving it. Aaliyah: What? Why are you saying that? Account: I have your followers list too. I can send it to your friends and your school page. Aaliyah: Please don't. I thought we were friends. Account: Send $200 tonight and I'll delete it. Cash app or gift cards, your choice. Aaliyah: I only have $60 right now. Account: Then send that now, the rest by tomorrow. You have until midnight.</div></div><div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center shrink-0 ring-2 ring-primary/20 mt-6 text-[18px]">👤</div></div>`
+    },
+    {
+      role: 'assistant',
+      html: `<div aria-label="Companion safety intelligence response" role="region" data-role="assistant" class="flex items-start gap-3.5 pr-2 sm:pr-8"><div aria-hidden="true" class="w-10 h-10 rounded-xl bg-primary text-on-primary flex items-center justify-center shrink-0 shadow-sm mt-6 ring-2 ring-primary/20"><span class="material-symbols-outlined text-[22px]">health_and_safety</span></div><div class="flex flex-col gap-2 flex-1 max-w-2xl"><div class="flex items-center gap-2 px-1"><span class="font-label text-label-sm text-primary font-semibold text-[13px]">DIVERT1 Companion</span><time class="text-on-surface-variant text-[11px]">08:52 PM</time></div><div class="rounded-[20px] rounded-tl-sm p-6 sm:p-7 flex flex-col gap-5 shadow-md border" style="background-color:#fff9f2;border-color:#e8d5bc;"><p class="font-body text-body-md text-[15px] text-on-surface leading-relaxed whitespace-pre-wrap"><span role="img" aria-label="Risk level HIGH" style="display:inline-flex;align-items:center;gap:4px;padding:1px 8px 1px 6px;border-radius:9999px;border:1.5px solid #fca5a5;background:#fef2f2;color:#991b1b;font-weight:700;font-size:0.75em;letter-spacing:0.04em;vertical-align:middle;line-height:1.4;"><span style="width:6px;height:6px;border-radius:50%;background:#ef4444;display:inline-block;flex-shrink:0;"></span> RISK_LEVEL: HIGH</span>\n\nWhat I noticed\n- "Send $200 tonight and I'll delete it. Cash app or gift cards, your choice." – a direct money demand with a threat, a classic extortion sign.\n- "I have your followers list too. I can send it to your friends and your school page." – they threaten to expose personal information, increasing pressure.\n- The threat escalated from mentioning a photo to demanding money with a deadline – shows the pressure is getting worse over time.\n\nWhat you can do next\n- Stop replying while you decide what to do.\n- Save screenshots of the messages as proof and block the account.\n- Report the account to Instagram and consider contacting the police or a national reporting service such as Cybertip.ca.\n- Tell a trusted adult, parent, counselor, or advisor right now.\n\nIf you need help writing a short message to a trusted adult, let me know.\n\nDo you want to check something else?</p></div></div></div>`
+    },
+    {
+      role: 'user',
+      html: `<div aria-label="Your message" data-role="user" class="flex items-start justify-end gap-3.5 pl-6 sm:pl-16"><div class="flex flex-col items-end gap-1.5 max-w-2xl"><div class="flex items-center gap-2 px-1"><span class="font-label text-label-sm text-on-surface font-medium text-[12px]">You</span><time class="text-on-surface-variant text-[11px]">08:53 PM</time></div><div class="p-5 rounded-[20px] rounded-br-sm text-white shadow-md font-body text-body-md text-[15px] leading-relaxed" style="background-color: rgb(192,98,47);">i sent the money.</div></div><div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center shrink-0 ring-2 ring-primary/20 mt-6 text-[18px]">👤</div></div>`
+    },
+    {
+      role: 'assistant',
+      html: `<div aria-label="Companion safety intelligence response" role="region" data-role="assistant" class="flex items-start gap-3.5 pr-2 sm:pr-8"><div aria-hidden="true" class="w-10 h-10 rounded-xl bg-primary text-on-primary flex items-center justify-center shrink-0 shadow-sm mt-6 ring-2 ring-primary/20"><span class="material-symbols-outlined text-[22px]">health_and_safety</span></div><div class="flex flex-col gap-2 flex-1 max-w-2xl"><div class="flex items-center gap-2 px-1"><span class="font-label text-label-sm text-primary font-semibold text-[13px]">DIVERT1 Companion</span><time class="text-on-surface-variant text-[11px]">08:53 PM</time></div><div class="rounded-[20px] rounded-tl-sm p-6 sm:p-7 flex flex-col gap-5 shadow-md border" style="background-color:#fff9f2;border-color:#e8d5bc;"><p class="font-body text-body-md text-[15px] text-on-surface leading-relaxed whitespace-pre-wrap"><span role="img" aria-label="Risk level HIGH" style="display:inline-flex;align-items:center;gap:4px;padding:1px 8px 1px 6px;border-radius:9999px;border:1.5px solid #fca5a5;background:#fef2f2;color:#991b1b;font-weight:700;font-size:0.75em;letter-spacing:0.04em;vertical-align:middle;line-height:1.4;"><span style="width:6px;height:6px;border-radius:50%;background:#ef4444;display:inline-block;flex-shrink:0;"></span> RISK_LEVEL: HIGH</span>\n\nI'm sorry you had to go through that. Here are steps you can take now:\n\n1. Do not send any more money.\n2. Save everything – take screenshots of all messages, payment confirmations, and any receipts.\n3. Contact your bank or payment service (Cash App, gift-card provider, etc.) right away and ask if they can freeze or reverse the payment.\n4. Report the incident – on Instagram, to local law enforcement, and to a national cyber-crime service (e.g., Cybertip.ca).\n5. Tell a trusted adult – parent, guardian, counselor, or another adult you trust.\n6. Consider changing your passwords and enable two-factor authentication.\n\nIf you need help writing a message to an adult or to the payment service, just let me know.\n\nDo you want to check anything else?</p></div></div></div>`
+    }
+  ];
+  chatSessions.push({ label: 'Sample Chat', snap });
+  renderHistoryList();
+})();
+
+function saveChatToHistory() {
+  const bubbles = Array.from(dialogueContainer.querySelectorAll('[data-role]'));
+  if (!bubbles.length) return;
+  userChatCount++;
+  const label = `Chat ${userChatCount}`;
+  const snap  = bubbles.map(b => ({ role: b.dataset.role, html: b.outerHTML }));
+  chatSessions.push({ label, snap });
+  renderHistoryList();
+}
+
+function renderHistoryList() {
+  chatHistoryList.innerHTML = '';
+  chatSessions.forEach((session, i) => {
+    const li = document.createElement('li');
+    li.setAttribute('role', 'listitem');
+    li.innerHTML = `
+      <button class="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-outline-variant hover:bg-surface-variant/20 hover:text-surface transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ffdbcc] min-h-[40px] text-left"
+              aria-label="Restore ${session.label}">
+        <span aria-hidden="true" class="material-symbols-outlined text-[16px] opacity-60">chat_bubble</span>
+        <span class="font-label text-label-sm truncate">${session.label}</span>
+      </button>`;
+    li.querySelector('button').addEventListener('click', () => restoreChat(i));
+    chatHistoryList.appendChild(li);
+  });
+}
+
+function restoreChat(idx) {
+  const session = chatSessions[idx];
+  if (!session) return;
+  dialogueContainer.innerHTML = '';
+  welcomeBlock.style.display = 'none';
+  session.snap.forEach(item => {
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = item.html;
+    dialogueContainer.appendChild(wrapper.firstElementChild);
+  });
+  announce(`Restored ${session.label}.`);
+}
+
+// ─── New Chat ─────────────────────────────────────────────────────────────────
+newChatBtn.addEventListener('click', async () => {
+  // Save current chat to history if it has messages
+  const hasMessages = dialogueContainer.querySelector('[data-role]');
+  if (hasMessages) saveChatToHistory();
+
+  await fetch('/api/reset', { method: 'POST' }).catch(() => {});
+  threadId = null;
+  // Clear messages, restore welcome block
+  dialogueContainer.innerHTML = '';
+  dialogueContainer.appendChild(welcomeBlock);
+  welcomeBlock.style.display = '';
+  announce('New chat started.');
+});
+
+
+// ─── ESC: close modal first, then clear input ────────────────────────────────
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    if (aboutUsModal && aboutUsModal.classList.contains('flex')) {
+      // handled by modal logic below
+      return;
+    }
+    if (contributorsModal && contributorsModal.classList.contains('flex')) {
+      // handled by contributors modal logic below
+      return;
+    }
+    if (companionInput && companionInput.value !== '') {
+      companionInput.value = '';
+      announce('Chat input cleared.');
+    }
+  }
+});
+
+// ─── About Us Modal ───────────────────────────────────────────────────────────
+const aboutUsModal         = document.getElementById('aboutUsModal');
+const aboutUsBackdrop      = document.getElementById('aboutUsBackdrop');
+const openAboutUsBtn       = document.getElementById('openAboutUsBtn');
+const closeAboutUsBtn      = document.getElementById('closeAboutUsBtn');
+const footerCloseAboutUsBtn= document.getElementById('footerCloseAboutUsBtn');
+
+// All focusable elements inside the modal for focus-trap
+function getFocusableInModal() {
+  return Array.from(aboutUsModal.querySelectorAll(
+    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+  )).filter(el => !el.disabled);
+}
+
+function openAboutModal() {
+  aboutUsModal.classList.remove('hidden');
+  aboutUsModal.classList.add('flex');
+  document.body.style.overflow = 'hidden';
+  openAboutUsBtn.setAttribute('aria-expanded', 'true');
+  announce('About DIVERT1 and Architecture panel opened. Press Escape to close.');
+  setTimeout(() => { closeAboutUsBtn && closeAboutUsBtn.focus(); }, 50);
+}
+
+function closeAboutModal() {
+  if (!aboutUsModal.classList.contains('flex')) return;
+  aboutUsModal.classList.remove('flex');
+  aboutUsModal.classList.add('hidden');
+  document.body.style.overflow = '';
+  openAboutUsBtn.setAttribute('aria-expanded', 'false');
+  announce('About DIVERT1 panel closed.');
+  openAboutUsBtn.focus();
+}
+
+// Focus trap inside modal
+aboutUsModal && aboutUsModal.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') { e.preventDefault(); closeAboutModal(); return; }
+  if (e.key !== 'Tab') return;
+  const focusable = getFocusableInModal();
+  if (!focusable.length) return;
+  const first = focusable[0];
+  const last  = focusable[focusable.length - 1];
+  if (e.shiftKey) {
+    if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+  } else {
+    if (document.activeElement === last)  { e.preventDefault(); first.focus(); }
+  }
+});
+
+openAboutUsBtn       && openAboutUsBtn.addEventListener('click', openAboutModal);
+closeAboutUsBtn      && closeAboutUsBtn.addEventListener('click', closeAboutModal);
+footerCloseAboutUsBtn && footerCloseAboutUsBtn.addEventListener('click', closeAboutModal);
+aboutUsBackdrop      && aboutUsBackdrop.addEventListener('click', closeAboutModal);
+
+// --- Contributors Modal ---
+const contributorsModal         = document.getElementById('contributorsModal');
+const contributorsBackdrop      = document.getElementById('contributorsBackdrop');
+const openContributorsBtn       = document.getElementById('openContributorsBtn');
+const closeContributorsBtn      = document.getElementById('closeContributorsBtn');
+const footerCloseContributorsBtn= document.getElementById('footerCloseContributorsBtn');
+
+function getFocusableInContributorsModal() {
+  return Array.from(contributorsModal.querySelectorAll(
+    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+  )).filter(el => !el.disabled);
+}
+
+function openContributorsModal() {
+  contributorsModal.classList.remove('hidden');
+  contributorsModal.classList.add('flex');
+  document.body.style.overflow = 'hidden';
+  openContributorsBtn.setAttribute('aria-expanded', 'true');
+  announce('Contributors panel opened. Press Escape to close.');
+  setTimeout(() => { closeContributorsBtn && closeContributorsBtn.focus(); }, 50);
+}
+
+function closeContributorsModal() {
+  if (!contributorsModal.classList.contains('flex')) return;
+  contributorsModal.classList.remove('flex');
+  contributorsModal.classList.add('hidden');
+  document.body.style.overflow = '';
+  openContributorsBtn.setAttribute('aria-expanded', 'false');
+  announce('Contributors panel closed.');
+  openContributorsBtn.focus();
+}
+
+contributorsModal && contributorsModal.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') { e.preventDefault(); closeContributorsModal(); return; }
+  if (e.key !== 'Tab') return;
+  const focusable = getFocusableInContributorsModal();
+  if (!focusable.length) return;
+  const first = focusable[0];
+  const last  = focusable[focusable.length - 1];
+  if (e.shiftKey) {
+    if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+  } else {
+    if (document.activeElement === last)  { e.preventDefault(); first.focus(); }
+  }
+});
+
+openContributorsBtn        && openContributorsBtn.addEventListener('click', openContributorsModal);
+closeContributorsBtn       && closeContributorsBtn.addEventListener('click', closeContributorsModal);
+footerCloseContributorsBtn && footerCloseContributorsBtn.addEventListener('click', closeContributorsModal);
+contributorsBackdrop       && contributorsBackdrop.addEventListener('click', closeContributorsModal);
+</script>
+</body>
+</html>

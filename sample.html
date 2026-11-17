@@ -1,0 +1,308 @@
+<div class="w-full mx-auto px-6 lg:px-8 py-8 flex flex-col gap-8 items-start max-w-4xl">
+
+    <!-- Active Conversation Context Header -->
+    <div class="flex items-center justify-between w-full px-2 pb-1 border-b border-outline-variant/30">
+        <div class="flex items-center gap-2.5">
+            <span aria-hidden="true" class="material-symbols-outlined text-primary text-[20px]">forum</span>
+            <h1 id="chatTitle" class="font-headline text-headline-sm text-[18px] text-on-surface font-semibold m-0">
+                Safety Companion</h1>
+            <span
+                class="px-2 py-0.5 rounded-full bg-primary/10 text-primary font-label text-label-sm text-[11px] font-semibold">Active
+                Session</span>
+        </div>
+    </div>
+
+    <!-- Chat stream -->
+    <div class="flex-1 w-full flex flex-col gap-6">
+
+        <!-- Dialogue log -->
+        <div aria-label="Safety Companion conversation history" aria-live="polite" class="flex flex-col gap-6"
+            id="dialogueContainer" role="log">
+            <div id="welcomeBlock" class="flex flex-col items-center text-center gap-6 py-6" style="display: none;">
+                <div
+                    class="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center ring-2 ring-primary/20 shadow-sm">
+                    <span class="material-symbols-outlined text-[36px] text-primary">health_and_safety</span>
+                </div>
+                <div class="flex flex-col gap-3 max-w-2xl">
+                    <h2
+                        class="text-[32px] md:text-[38px] font-display font-medium text-on-surface leading-tight tracking-tight">
+                        Hi! I'm your Online Safety Companion.<br>
+                        <span class="text-primary">How can I help you today?</span>
+                    </h2>
+                    <p
+                        class="text-on-surface-variant font-body text-body-md text-[16px] leading-relaxed max-w-xl mx-auto">
+                        I help you check people, messages, and requests online. You decide what to do — I only give
+                        information and options.
+                    </p>
+                </div>
+
+                <!-- Prompt chips -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 w-full max-w-2xl mx-auto pt-2">
+                    <button
+                        class="prompt-chip flex items-start gap-3.5 p-4 rounded-xl bg-surface-container-low hover:bg-surface-container border border-outline-variant/30 text-left transition-all group shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
+                        <div
+                            class="w-9 h-9 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-colors">
+                            <span
+                                class="material-symbols-outlined text-[20px] text-primary group-hover:text-white">mark_email_unread</span>
+                        </div>
+                        <div class="flex flex-col gap-0.5">
+                            <span
+                                class="font-label text-label-md text-on-surface font-semibold group-hover:text-primary transition-colors">Check
+                                a suspicious message or DM</span>
+                            <span class="font-label text-label-sm text-outline-variant">Screenshots, links, or awkward
+                                chats</span>
+                        </div>
+                    </button>
+                    <button
+                        class="prompt-chip flex items-start gap-3.5 p-4 rounded-xl bg-surface-container-low hover:bg-surface-container border border-outline-variant/30 text-left transition-all group shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
+                        <div
+                            class="w-9 h-9 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-colors">
+                            <span
+                                class="material-symbols-outlined text-[20px] text-primary group-hover:text-white">person_search</span>
+                        </div>
+                        <div class="flex flex-col gap-0.5">
+                            <span
+                                class="font-label text-label-md text-on-surface font-semibold group-hover:text-primary transition-colors">Check
+                                a person I met online</span>
+                            <span class="font-label text-label-sm text-outline-variant">New friends, gaming contacts,
+                                dates</span>
+                        </div>
+                    </button>
+                    <button
+                        class="prompt-chip flex items-start gap-3.5 p-4 rounded-xl bg-surface-container-low hover:bg-surface-container border border-outline-variant/30 text-left transition-all group shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
+                        <div
+                            class="w-9 h-9 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-colors">
+                            <span
+                                class="material-symbols-outlined text-[20px] text-primary group-hover:text-white">credit_card_off</span>
+                        </div>
+                        <div class="flex flex-col gap-0.5">
+                            <span
+                                class="font-label text-label-md text-on-surface font-semibold group-hover:text-primary transition-colors">Someone
+                                asked me for money</span>
+                            <span class="font-label text-label-sm text-outline-variant">Gift cards, crypto, urgent
+                                requests</span>
+                        </div>
+                    </button>
+                    <button
+                        class="prompt-chip flex items-start gap-3.5 p-4 rounded-xl bg-surface-container-low hover:bg-surface-container border border-outline-variant/30 text-left transition-all group shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
+                        <div
+                            class="w-9 h-9 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-colors">
+                            <span
+                                class="material-symbols-outlined text-[20px] text-primary group-hover:text-white">sentiment_worried</span>
+                        </div>
+                        <div class="flex flex-col gap-0.5">
+                            <span
+                                class="font-label text-label-md text-on-surface font-semibold group-hover:text-primary transition-colors">I
+                                think I was already scammed</span>
+                            <span class="font-label text-label-sm text-outline-variant">What to do next and who to
+                                tell</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+            <div aria-label="Your message" data-role="user" class="flex items-start justify-end gap-3.5 pl-6 sm:pl-16">
+                <div class="flex flex-col items-end gap-1.5 max-w-2xl">
+                    <div class="flex items-center gap-2 px-1">
+                        <span class="font-label text-label-sm text-on-surface font-medium text-[12px]">You</span>
+                        <time class="text-on-surface-variant text-[11px]">08:51 PM</time>
+                    </div>
+                    <div class="p-5 rounded-[20px] rounded-br-sm text-white shadow-md font-body text-body-md text-[15px] leading-relaxed"
+                        style="background-color: rgb(192,98,47);">
+                        Hi, I met a guy on Instagram and we talked for a few weeks. I sent him a private photo and now
+                        he says he will send it to my friends and my school if I don't pay him $200 tonight. I'm really
+                        scared and I don't know what to do. Please help.
+                    </div>
+                </div>
+                <div
+                    class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center shrink-0 ring-2 ring-primary/20 mt-6 text-[18px]">
+                    👤</div>
+            </div>
+            <div aria-label="Companion safety intelligence response" role="region" data-role="assistant"
+                class="flex items-start gap-3.5 pr-2 sm:pr-8">
+                <div aria-hidden="true"
+                    class="w-10 h-10 rounded-xl bg-primary text-on-primary flex items-center justify-center shrink-0 shadow-sm mt-6 ring-2 ring-primary/20">
+                    <span class="material-symbols-outlined text-[22px]">health_and_safety</span>
+                </div>
+                <div class="flex flex-col gap-2 flex-1 max-w-2xl">
+                    <div class="flex items-center gap-2 px-1">
+                        <span class="font-label text-label-sm text-primary font-semibold text-[13px]">DIVERT1
+                            Companion</span>
+                        <time class="text-on-surface-variant text-[11px]">08:51 PM</time>
+                    </div>
+                    <div class="rounded-[20px] rounded-tl-sm p-6 sm:p-7 flex flex-col gap-5 shadow-md border"
+                        style="background-color:#fff9f2;border-color:#e8d5bc;">
+                        <p
+                            class="font-body text-body-md text-[15px] text-on-surface leading-relaxed whitespace-pre-wrap">
+                            Can you share the exact message he sent you threatening you? This will help me check it for
+                            warning signs.</p>
+                    </div>
+                </div>
+            </div>
+            <div aria-label="Your message" data-role="user" class="flex items-start justify-end gap-3.5 pl-6 sm:pl-16">
+                <div class="flex flex-col items-end gap-1.5 max-w-2xl">
+                    <div class="flex items-center gap-2 px-1">
+                        <span class="font-label text-label-sm text-on-surface font-medium text-[12px]">You</span>
+                        <time class="text-on-surface-variant text-[11px]">08:51 PM</time>
+                    </div>
+                    <div class="p-5 rounded-[20px] rounded-br-sm text-white shadow-md font-body text-body-md text-[15px] leading-relaxed"
+                        style="background-color: rgb(192,98,47);">
+                        Account: Hey, so I have that photo you sent. I’m saving it. Aaliyah: What? Why are you saying
+                        that? Account: I have your followers list too. I can send it to your friends and your school
+                        page. Aaliyah: Please don’t. I thought we were friends. Account: Send $200 tonight and I’ll
+                        delete it. Cash app or gift cards, your choice. Aaliyah: I only have $60 right now. Account:
+                        Then send that now, the rest by tomorrow. You have until midnight.
+                    </div>
+                </div>
+                <div
+                    class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center shrink-0 ring-2 ring-primary/20 mt-6 text-[18px]">
+                    👤</div>
+            </div>
+            <div aria-label="Companion safety intelligence response" role="region" data-role="assistant"
+                class="flex items-start gap-3.5 pr-2 sm:pr-8">
+                <div aria-hidden="true"
+                    class="w-10 h-10 rounded-xl bg-primary text-on-primary flex items-center justify-center shrink-0 shadow-sm mt-6 ring-2 ring-primary/20">
+                    <span class="material-symbols-outlined text-[22px]">health_and_safety</span>
+                </div>
+                <div class="flex flex-col gap-2 flex-1 max-w-2xl">
+                    <div class="flex items-center gap-2 px-1">
+                        <span class="font-label text-label-sm text-primary font-semibold text-[13px]">DIVERT1
+                            Companion</span>
+                        <time class="text-on-surface-variant text-[11px]">08:52 PM</time>
+                    </div>
+                    <div class="rounded-[20px] rounded-tl-sm p-6 sm:p-7 flex flex-col gap-5 shadow-md border"
+                        style="background-color:#fff9f2;border-color:#e8d5bc;">
+                        <p
+                            class="font-body text-body-md text-[15px] text-on-surface leading-relaxed whitespace-pre-wrap">
+                            <span role="img" aria-label="Risk level HIGH" style="display:inline-flex;align-items:center;gap:4px;padding:1px 8px 1px 6px;
+             border-radius:9999px;border:1.5px solid #fca5a5;background:#fef2f2;
+             color:#991b1b;font-weight:700;font-size:0.75em;letter-spacing:0.04em;
+             vertical-align:middle;line-height:1.4;">
+                                <span
+                                    style="width:6px;height:6px;border-radius:50%;background:#ef4444;display:inline-block;flex-shrink:0;"></span>
+                                RISK_LEVEL: HIGH
+                            </span>
+
+                            What I noticed
+                            - “Send $200 tonight and I’ll delete it. Cash app or gift cards, your choice.” – a direct
+                            money demand with a threat, a classic extortion sign.
+                            - “I have your followers list too. I can send it to your friends and your school page.” –
+                            they threaten to expose personal information, increasing pressure.
+                            - The threat escalated from mentioning a photo to demanding money with a deadline – shows
+                            the pressure is getting worse over time.
+
+                            What you can do next
+                            - Stop replying while you decide what to do.
+                            - Save screenshots of the messages as proof and block the account.
+                            - Report the account to Instagram and consider contacting the police or a national reporting
+                            service such as Cybertip.ca.
+                            - Tell a trusted adult, parent, counselor, or advisor right now.
+
+                            If you need help writing a short message to a trusted adult, let me know.
+
+                            Do you want to check something else?</p>
+                    </div>
+                </div>
+            </div>
+            <div aria-label="Your message" data-role="user" class="flex items-start justify-end gap-3.5 pl-6 sm:pl-16">
+                <div class="flex flex-col items-end gap-1.5 max-w-2xl">
+                    <div class="flex items-center gap-2 px-1">
+                        <span class="font-label text-label-sm text-on-surface font-medium text-[12px]">You</span>
+                        <time class="text-on-surface-variant text-[11px]">08:53 PM</time>
+                    </div>
+                    <div class="p-5 rounded-[20px] rounded-br-sm text-white shadow-md font-body text-body-md text-[15px] leading-relaxed"
+                        style="background-color: rgb(192,98,47);">
+                        i sent the money.
+                    </div>
+                </div>
+                <div
+                    class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center shrink-0 ring-2 ring-primary/20 mt-6 text-[18px]">
+                    👤</div>
+            </div>
+            <div aria-label="Companion safety intelligence response" role="region" data-role="assistant"
+                class="flex items-start gap-3.5 pr-2 sm:pr-8">
+                <div aria-hidden="true"
+                    class="w-10 h-10 rounded-xl bg-primary text-on-primary flex items-center justify-center shrink-0 shadow-sm mt-6 ring-2 ring-primary/20">
+                    <span class="material-symbols-outlined text-[22px]">health_and_safety</span>
+                </div>
+                <div class="flex flex-col gap-2 flex-1 max-w-2xl">
+                    <div class="flex items-center gap-2 px-1">
+                        <span class="font-label text-label-sm text-primary font-semibold text-[13px]">DIVERT1
+                            Companion</span>
+                        <time class="text-on-surface-variant text-[11px]">08:53 PM</time>
+                    </div>
+                    <div class="rounded-[20px] rounded-tl-sm p-6 sm:p-7 flex flex-col gap-5 shadow-md border"
+                        style="background-color:#fff9f2;border-color:#e8d5bc;">
+                        <p
+                            class="font-body text-body-md text-[15px] text-on-surface leading-relaxed whitespace-pre-wrap">
+                            <span role="img" aria-label="Risk level HIGH" style="display:inline-flex;align-items:center;gap:4px;padding:1px 8px 1px 6px;
+             border-radius:9999px;border:1.5px solid #fca5a5;background:#fef2f2;
+             color:#991b1b;font-weight:700;font-size:0.75em;letter-spacing:0.04em;
+             vertical-align:middle;line-height:1.4;">
+                                <span
+                                    style="width:6px;height:6px;border-radius:50%;background:#ef4444;display:inline-block;flex-shrink:0;"></span>
+                                RISK_LEVEL: HIGH
+                            </span>
+
+                            I’m sorry you had to go through that. Here are steps you can take now:
+
+                            1. **Do not send any more money.**
+                            2. **Save everything** – take screenshots of all messages, payment confirmations, and any
+                            receipts. Keep them safe.
+
+                            3. **Contact your bank or payment service** (Cash App, gift‑card provider, etc.) right away.
+                            Explain the situation and ask if they can freeze or reverse the payment.
+
+                            4. **Report the incident** –
+                            * On Instagram: use the “Report” feature on the account and on the specific messages.
+                            * To local law enforcement: provide them with the screenshots and payment proof. Extortion
+                            is a crime.
+                            * To a national cyber‑crime service (e.g., Cybertip.ca, FBI Internet Crime Complaint Center)
+                            if you’re in another country.
+
+                            5. **Tell a trusted adult** – parent, guardian, counselor, or another adult you trust. They
+                            can help you navigate the next steps and provide emotional support.
+
+                            6. **Consider changing your passwords** on any accounts that might be linked to the
+                            extortionist and enable two‑factor authentication.
+
+                            If you need help writing a message to an adult or to the payment service, just let me know.
+
+                            Do you want to check anything else?</p>
+                    </div>
+                </div>
+            </div>
+        </div><!-- end dialogueContainer -->
+
+        <!-- Input bar -->
+        <div class="rounded-2xl bg-surface-container-low p-4 shadow-md flex flex-col gap-3 w-full mt-4">
+            <form id="chatForm"
+                class="flex items-center gap-3 bg-surface-container-lowest rounded-xl p-2 shadow-sm border border-outline-variant/30 focus-within:ring-2 focus-within:ring-[#974311] focus-within:border-transparent">
+                <label class="sr-only" for="companionInput">How can I help you?</label>
+                <input autocomplete="off"
+                    class="flex-1 bg-transparent py-2.5 px-2 text-on-surface placeholder:text-outline font-body text-body-md focus-visible:outline-none"
+                    id="companionInput" placeholder="How can I help you?" type="text">
+                <button aria-label="Send message to Safety Companion"
+                    class="w-11 h-11 rounded-xl bg-primary text-on-primary hover:bg-primary-container transition-all flex items-center justify-center shrink-0 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#974311] focus-visible:ring-offset-2"
+                    id="companionSendBtn" type="submit">
+                    <span aria-hidden="true" class="material-symbols-outlined text-[20px]">send</span>
+                </button>
+            </form>
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 px-2">
+                <div class="flex items-center gap-2 text-on-surface-variant font-label text-label-sm">
+                    <span aria-hidden="true" class="material-symbols-outlined text-[16px] text-secondary">lock</span>
+                    <span>DIVERT1 evaluates context respectfully. We never ask for passwords or private data.</span>
+                </div>
+                <div aria-label="Keyboard shortcuts"
+                    class="flex items-center gap-1.5 text-xs text-on-surface-variant font-medium shrink-0">
+                    <kbd
+                        class="px-1.5 py-0.5 rounded bg-surface-container-high border border-outline-variant font-mono text-[10px]">Enter</kbd>
+                    to send,
+                    <kbd
+                        class="px-1.5 py-0.5 rounded bg-surface-container-high border border-outline-variant font-mono text-[10px]">Esc</kbd>
+                    to clear
+                </div>
+            </div>
+        </div>
+
+    </div><!-- end chat stream -->
+</div>
